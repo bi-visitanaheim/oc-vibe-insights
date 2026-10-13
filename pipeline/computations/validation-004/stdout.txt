@@ -1,0 +1,43 @@
+42/42 passed
+PASS A. Recomputation | Impact model: 54 scenario outputs recomputed exactly | largest relative difference 3.65e-16
+PASS A. Recomputation | One more night (lodging) = $1,724M ÷ weighted stay | $793.85M; weighted stay 2.1717 days
+PASS A. Recomputation | Overnight visitors add a day (all spending) | $1.021B
+PASS A. Recomputation | Every visitor adds a day (upper bound) | $3.146B
+PASS A. Recomputation | Spending per visitor-day | $118.7142
+PASS A. Recomputation | Each 1% of visitors adding a day | $31.459M
+PASS A. Recomputation | Ten-year totals (2027–2036) | spending $873.5M; hotel tax $38.07M
+PASS A. Recomputation | Spending per visitor series 2019–2028 | 2025 $258, 2028 $279
+PASS A. Recomputation | STR Sunday–Monday vs Friday–Saturday occupancy | 70.59% vs 86.24%
+PASS B. Invariants | Spending parts add up; lodging ≤ stay spending; room nights ≤ capacity; tax < revenue | all three scenarios
+PASS B. Invariants | Every output rises from conservative to base to optimistic | 11 outputs
+PASS B. Invariants | Spending-mix shares sum to 100% | 100.000000%
+PASS C. Reconciliation | Tourism Economics categories sum to Anaheim total | $6,831M vs $6,832M (rounding)
+PASS C. Reconciliation | CoStar export (12-month, Aug. 2026) matches CoStar PDF tables for 5 submarkets | largest difference 0.050 (rounding)
+PASS C. Reconciliation | CoStar monthly: RevPAR = occupancy × ADR (40 submarket-months) | largest relative gap 7.17e-05
+PASS C. Reconciliation | STR: Anaheim+ plus Garden Grove+ equals the combined set every night (supply, demand) | largest nightly gap 0 rooms over 276 nights
+PASS C. Reconciliation | STR: transient + group + contract matches total demand (within 0.1%) | 828 of 828 geography-nights differ, by at most 4 rooms (0.084%) — STR source rounding; group share unaffected at one decimal
+PASS C. Reconciliation | STR: RevPAR = occupancy × ADR every night | largest relative gap 9.1e-12
+PASS C. Reconciliation | Visa: domestic + international = total | $464.5M vs $464.6M (rounding)
+PASS C. Reconciliation | Visa: international categories sum to international total | $17.96M vs $17.9M (rounding)
+PASS C. Reconciliation | Visa: top-15 origins ≤ total | $398.8M of $464.6M (85.8%)
+PASS C. Reconciliation | Metrolink: lines sum to systemwide weekday riders | 23,942 vs 23,945
+PASS C. Reconciliation | Amtrak: 2024 passenger detail matches the chart | 191,153 vs 191.2K
+PASS C. Reconciliation | OCTA GTFS recount (Wed. Oct. 14, 2026): bus trips stopping at ARTIC | 277 trips stop (227 depart, 50 end there); after 10 p.m.: 16 stop, 11 depart; routes 50, 53, 553; last departure 25:38:00
+PASS D. Statistics | Friday–Saturday vs Sunday–Monday occupancy gap is real (not noise) | gap 15.7 pts; 95% bootstrap CI 12.5–18.6 (10,000 resamples of 40 weeks); Welch p = 1.2e-22; Mann–Whitney p = 1.4e-18; effect size d = 1.9
+PASS D. Statistics | Value of one point of Sunday–Monday occupancy | $5.10M; 95% CI $4.93M–$5.25M (rate uncertainty)
+PASS D. Statistics | Resort-area hotel revenue growth is consistent month to month (sign test) | Disneyland: 8/8 months up (p = 0.004); Anaheim: 8/8 months up (p = 0.004); Newport Beach/Dana Point: 7/8 months up (p = 0.035); Santa Ana/Costa Mesa: 8/8 months up (p = 0.004); Orange County Northwest/Fullerton: 8/8 months up (p = 0.004)
+PASS D. Statistics | Tourism Economics' 2028 spending per visitor is consistent with the 2022–2025 trend | trend +$4.9/yr (R² 0.92); trend 2028 $273 (95% PI $250–$296); TE $279; only 4 points
+PASS E. Simulation | Monte Carlo is stable across random seeds (200,000 draws each) | P5/P50/P95 differ by at most 0.14% between seeds
+PASS E. Simulation | Base case sits inside the central simulation range | base $90.5M; simulation P5 $71.0M, median $94.8M, P95 $121.8M
+PASS F. Sensitivity | Global sensitivity identifies the main driver | Share of visitors who add a day explains 40% of explained variance (linear R² 0.99)
+PASS A. Recomputation | Three views: OC Vibe today, Anaheim with OC Vibe, OC Vibe when live | OC Vibe area today $355.3M associated spending; when live $445.7M; Anaheim $6.832B → $6.922B
+PASS B. Invariants | OC Vibe share of visitor days stays below 100% and rises when live | 5.2% → 6.44%
+PASS G. Benchmarks | Concert hall base attendance is below Honda Center's historical average | 673,560 a year (4,490 per show) vs Honda Center ~1,406,250 a year, ~10,000 per event (OCBJ: 45M guests, 4,500 events since 1993)
+PASS G. Benchmarks | Base-case new spending is a small share of the city's visitor economy | 1.32% of Anaheim's 2025 visitor spending
+PASS G. Benchmarks | Visitor-only estimate is below whole-district published estimates | $138M vs DTA's >$400M recurring (whole district, 2020)
+PASS G. Benchmarks | OC Vibe hotel occupancy assumption within observed market range | 74% base vs CoStar OC 74.0%, Disneyland 78.4%, STR Anaheim+ 77.9%
+PASS G. Benchmarks | Multiplier and jobs ratios are consistent across geographies | impact per $1: Anaheim 1.53, Garden Grove 1.41, Orange County 1.70; jobs per $1M: Anaheim 9.9, Garden Grove 8.7, Orange County 9.9
+PASS H. Role views | Every number in the role views traces to a section, table or data note | 146 figures traced; 0 not found
+PASS H. Role views | Concert hall capacity check: base estimate at 5,000 seats stays inside the 90% simulation range | $85.7M at 5,000 seats vs $90.5M at 5,613 seats
+PASS C. Reconciliation | Transit snapshots: rows sum to totals and files reconcile (staff, expenses, revenues, passengers, vehicles) | staff: operator rows sum to the total in all 15 years; expenses: operator rows sum to the total in all 15 years; revenues: operator rows sum to the total in all 15 years; passengers by operator: operator rows sum to the total in all 15 years; passengers by mode: operator rows sum to the total in all 15 years; vehicles: operator rows sum to the total in all 15 years; operator revenue and expense totals match the county Revenues and Expenses rows; revenues less expenses recomputes exactly; passenger totals by operator and by mode match in all years
+PASS C. Reconciliation | Transit snapshots: revenues less expenses recomputes in every year | largest difference $0.00 over 15 years

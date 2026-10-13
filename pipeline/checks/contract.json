@@ -1,0 +1,101 @@
+{
+  "claim_id": "OCVIBE_CALCS_2026-10-12",
+  "mathematics": {
+    "assertion_tested": "Every OC Vibe Insights model output equals an independent exact-rational recomputation; stated invariants and cross-source totals hold; empirical gaps pass stated statistical tests; Monte Carlo ranges are seed-stable; every number in the report text traces to the report's tables and data notes; transit data snapshots reconcile across files",
+    "coefficient_domain": "Exact rationals (fractions.Fraction) for recomputation; IEEE-754 double for production model, statistics and simulation",
+    "conventions": "2025 dollars; visitors = 50+ miles or overnight (Tourism Economics); triangular distributions with min/mode/max = conservative/base/optimistic; 95% intervals",
+    "inputs": [
+      "checks/validate_ocvibe.py",
+      "data.py",
+      "impact.py",
+      "newdata.py",
+      "content.py",
+      "ocv_content.py",
+      "new_content.py",
+      "views_valid.py",
+      "logic_content.py",
+      "roles_content.py",
+      "files/STR_Daily_Data_8.xlsx",
+      "files/CoStar_DataExport_17.xlsx",
+      "files/ca_transit_fin_orange.csv",
+      "files/ca_transit_fleet_orange.csv",
+      "files/ca_transit_fte_orange.csv",
+      "files/ca_transit_pax_mode_orange.csv",
+      "files/ca_transit_pax_orange.csv",
+      "files/ca_transit_rev_orange.csv",
+      "files/ca_transit_types_orange.csv",
+      "ocv_whole.py",
+      "calcs.py",
+      "feature.py",
+      "facts_only.py"
+    ],
+    "bounds": {
+      "monte_carlo_draws_per_seed": 200000,
+      "seeds": [
+        20261012,
+        20261013
+      ],
+      "bootstrap_resamples": 10000,
+      "str_nights": 276,
+      "gtfs_service_day": "2026-10-14"
+    },
+    "non_claims": [
+      "Does not validate the scenario assumptions themselves; it measures their effect",
+      "Does not establish causality of OC Vibe on visitation",
+      "Third-party source figures are checked for internal consistency, not audited at source"
+    ]
+  },
+  "execution_artifacts": [
+    "checks/validate_ocvibe.py",
+    "data.py",
+    "impact.py",
+    "newdata.py",
+    "content.py",
+    "ocv_content.py",
+    "new_content.py",
+    "views_valid.py",
+    "logic_content.py",
+    "roles_content.py",
+    "files/licensed/STR_Daily_Data_8.xlsx",
+    "files/licensed/CoStar_DataExport_17.xlsx",
+    "files/ca_transit_fin_orange.csv",
+    "files/ca_transit_fleet_orange.csv",
+    "files/ca_transit_fte_orange.csv",
+    "files/ca_transit_pax_mode_orange.csv",
+    "files/ca_transit_pax_orange.csv",
+    "files/ca_transit_rev_orange.csv",
+    "files/ca_transit_types_orange.csv",
+    "ocv_whole.py",
+    "calcs.py",
+    "feature.py",
+    "facts_only.py",
+    "files/gtfs/stops.txt",
+    "files/gtfs/calendar.txt",
+    "files/gtfs/calendar_dates.txt",
+    "files/gtfs/trips.txt",
+    "files/gtfs/stop_times.txt.gz"
+  ],
+  "software": [
+    {
+      "name": "Python",
+      "version": "3.13"
+    },
+    {
+      "name": "numpy",
+      "version": "see stdout"
+    },
+    {
+      "name": "scipy",
+      "version": "see stdout"
+    },
+    {
+      "name": "pandas",
+      "version": "see stdout"
+    }
+  ],
+  "randomness": {
+    "used": true,
+    "generator": "numpy.random.default_rng (PCG64)",
+    "seed": 20261012
+  }
+}

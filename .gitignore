@@ -1,0 +1,13 @@
+# Licensed raw exports (CoStar, STR): kept on Visit Anaheim storage only, never pushed
+pipeline/files/licensed/*
+!pipeline/files/licensed/README.md
+
+# Generated during the build
+pipeline/deck.js
+__pycache__/
+*.pyc
+node_modules/
+.vercel/
+
+# OS files
+.DS_Store

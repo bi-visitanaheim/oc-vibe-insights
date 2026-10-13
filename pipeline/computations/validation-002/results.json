@@ -1,0 +1,421 @@
+{
+ "str_gap": {
+  "gap": 15.65248092161309,
+  "ci95": [
+   12.526502005937946,
+   18.608292005749927
+  ],
+  "welch_t": 11.74936180966723,
+  "welch_p": 1.2068252920645138e-22,
+  "mw_p": 1.4282421366526004e-18,
+  "cohen_d": 1.8731957941137274,
+  "n_fs": 80,
+  "n_sm": 78,
+  "weeks": 40
+ },
+ "sunmon_point": {
+  "value": 5.097004326719067,
+  "ci95": [
+   4.927177186470788,
+   5.248623055052237
+  ]
+ },
+ "sign_test": {
+  "Disneyland": [
+   8,
+   0.00390625
+  ],
+  "Anaheim": [
+   8,
+   0.00390625
+  ],
+  "Newport Beach/Dana Point": [
+   7,
+   0.03515625
+  ],
+  "Santa Ana/Costa Mesa": [
+   8,
+   0.00390625
+  ],
+  "Orange County Northwest/Fullerton": [
+   8,
+   0.00390625
+  ]
+ },
+ "pv_trend": {
+  "slope": 4.9,
+  "r2": 0.9181644359464627,
+  "pred2028": 272.7999999999993,
+  "pi95": [
+   249.88862671856924,
+   295.7113732814293
+  ],
+  "te2028": 279.0
+ },
+ "ratios": {
+  "mult": {
+   "Anaheim": 1.5254683840749415,
+   "Garden Grove": 1.4144027037566618,
+   "Orange County": 1.7047185016395265
+  },
+  "jobs": {
+   "Anaheim": 9.92637587822014,
+   "Garden Grove": 8.701416872481477,
+   "Orange County": 9.901850719724337
+  }
+ },
+ "monte_carlo": {
+  "spend": {
+   "p5": 70962632.33678684,
+   "p50": 94792147.52220649,
+   "p95": 121775819.90493701,
+   "mean": 95350897.38604894
+  },
+  "impact": {
+   "p5": 109120851.19468853,
+   "p50": 146530873.90730822,
+   "p95": 190010167.54561028,
+   "mean": 147622561.8079033
+  },
+  "jobs": {
+   "p5": 655.8271739336169,
+   "p50": 881.8219158676445,
+   "p95": 1143.1795336515577,
+   "mean": 888.1655350178203
+  },
+  "tax": {
+   "p5": 10075198.092313118,
+   "p50": 13458486.98719852,
+   "p95": 17289599.72303702,
+   "mean": 13537817.690934937
+  },
+  "ca": {
+   "p5": 31223558.228186205,
+   "p50": 41708544.909770854,
+   "p95": 53581360.75817229,
+   "mean": 41954394.84986154
+  },
+  "rn": {
+   "p5": 143130.41016765116,
+   "p50": 148753.16593406652,
+   "p95": 154682.74812441753,
+   "mean": 148822.82181262973
+  },
+  "tot": {
+   "p5": 4804402.40410745,
+   "p50": 5118052.618780287,
+   "p95": 5552327.799677103,
+   "mean": 5141635.699169512
+  },
+  "ana_live_spend": {
+   "p5": 6902962632.336787,
+   "p50": 6926792147.522206,
+   "p95": 6953775819.904937
+  },
+  "ocv_live_spend": {
+   "p5": 409962395.4977777,
+   "p50": 450505967.9200908,
+   "p95": 491924477.26972365
+  },
+  "ocv_today_spend": {
+   "p5": 322622720.51576334,
+   "p50": 355276374.2072906,
+   "p95": 388050873.83476716
+  },
+  "p_spend_gt_50M": 0.999925,
+  "p_spend_gt_100M": 0.373,
+  "p_spend_gt_base": 0.60716
+ },
+ "sensitivity": {
+  "tornado": [
+   [
+    "Share of attendees who are net-new visitors",
+    66.87207482363164,
+    114.08917082363163
+   ],
+   [
+    "Share of visitors who add a day",
+    74.7509964118158,
+    121.93987564726326
+   ],
+   [
+    "Concert hall events a year",
+    75.99908282363162,
+    104.96216282363163
+   ],
+   [
+    "Concert hall seats filled",
+    85.05004532363164,
+    95.91120032363163
+   ],
+   [
+    "Spending per visitor",
+    84.57848582363162,
+    95.28468782363163
+   ],
+   [
+    "Theater and club events",
+    85.28837282363163,
+    95.67287282363164
+   ],
+   [
+    "Theater and club seats filled",
+    88.25537282363163,
+    92.70587282363162
+   ]
+  ],
+  "spearman": {
+   "Concert hall events a year": 0.36807584085427747,
+   "Concert hall seats filled": 0.13626467891580912,
+   "Theater and club events": 0.13094909146827974,
+   "Theater and club seats filled": 0.055571645135994295,
+   "Share of attendees who are net-new visitors": 0.6079769825993414,
+   "Share of visitors who add a day": 0.6218600248423879,
+   "Spending per visitor": 0.1366637430285701
+  },
+  "src_share": {
+   "Concert hall events a year": 0.14576526255687502,
+   "Concert hall seats filled": 0.020388488929739764,
+   "Theater and club events": 0.018586688830125687,
+   "Theater and club seats filled": 0.003445537436524309,
+   "Share of attendees who are net-new visitors": 0.3872819297422066,
+   "Share of visitors who add a day": 0.4043504935021288,
+   "Spending per visitor": 0.02018159900239991
+  },
+  "linear_r2": 0.9937349971153061
+ },
+ "checks": [
+  {
+   "group": "A. Recomputation",
+   "name": "Impact model: 54 scenario outputs recomputed exactly",
+   "ok": true,
+   "detail": "largest relative difference 3.65e-16"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "One more night (lodging) = $1,724M \u00f7 weighted stay",
+   "ok": true,
+   "detail": "$793.85M; weighted stay 2.1717 days"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Overnight visitors add a day (all spending)",
+   "ok": true,
+   "detail": "$1.021B"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Every visitor adds a day (upper bound)",
+   "ok": true,
+   "detail": "$3.146B"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Spending per visitor-day",
+   "ok": true,
+   "detail": "$118.7142"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Each 1% of visitors adding a day",
+   "ok": true,
+   "detail": "$31.459M"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Ten-year totals (2027\u20132036)",
+   "ok": true,
+   "detail": "spending $873.5M; hotel tax $38.07M"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Spending per visitor series 2019\u20132028",
+   "ok": true,
+   "detail": "2025 $258, 2028 $279"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "STR Sunday\u2013Monday vs Friday\u2013Saturday occupancy",
+   "ok": true,
+   "detail": "70.59% vs 86.24%"
+  },
+  {
+   "group": "B. Invariants",
+   "name": "Spending parts add up; lodging \u2264 stay spending; room nights \u2264 capacity; tax < revenue",
+   "ok": true,
+   "detail": "all three scenarios"
+  },
+  {
+   "group": "B. Invariants",
+   "name": "Every output rises from conservative to base to optimistic",
+   "ok": true,
+   "detail": "11 outputs"
+  },
+  {
+   "group": "B. Invariants",
+   "name": "Spending-mix shares sum to 100%",
+   "ok": true,
+   "detail": "100.000000%"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "Tourism Economics categories sum to Anaheim total",
+   "ok": true,
+   "detail": "$6,831M vs $6,832M (rounding)"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "CoStar export (12-month, Aug. 2026) matches CoStar PDF tables for 5 submarkets",
+   "ok": true,
+   "detail": "largest difference 0.050 (rounding)"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "CoStar monthly: RevPAR = occupancy \u00d7 ADR (40 submarket-months)",
+   "ok": true,
+   "detail": "largest relative gap 7.17e-05"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "STR: Anaheim+ plus Garden Grove+ equals the combined set every night (supply, demand)",
+   "ok": true,
+   "detail": "largest nightly gap 0 rooms over 276 nights"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "STR: transient + group + contract matches total demand (within 0.1%)",
+   "ok": true,
+   "detail": "828 of 828 geography-nights differ, by at most 4 rooms (0.084%) \u2014 STR source rounding; group share unaffected at one decimal"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "STR: RevPAR = occupancy \u00d7 ADR every night",
+   "ok": true,
+   "detail": "largest relative gap 9.1e-12"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "Visa: domestic + international = total",
+   "ok": true,
+   "detail": "$464.5M vs $464.6M (rounding)"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "Visa: international categories sum to international total",
+   "ok": true,
+   "detail": "$17.96M vs $17.9M (rounding)"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "Visa: top-15 origins \u2264 total",
+   "ok": true,
+   "detail": "$398.8M of $464.6M (85.8%)"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "Metrolink: lines sum to systemwide weekday riders",
+   "ok": true,
+   "detail": "23,942 vs 23,945"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "Amtrak: 2024 passenger detail matches the chart",
+   "ok": true,
+   "detail": "191,153 vs 191.2K"
+  },
+  {
+   "group": "C. Reconciliation",
+   "name": "OCTA GTFS recount (Wed. Oct. 14, 2026): bus trips stopping at ARTIC",
+   "ok": true,
+   "detail": "277 trips stop (227 depart, 50 end there); after 10 p.m.: 16 stop, 11 depart; routes 50, 53, 553; last departure 25:38:00"
+  },
+  {
+   "group": "D. Statistics",
+   "name": "Friday\u2013Saturday vs Sunday\u2013Monday occupancy gap is real (not noise)",
+   "ok": true,
+   "detail": "gap 15.7 pts; 95% bootstrap CI 12.5\u201318.6 (10,000 resamples of 40 weeks); Welch p = 1.2e-22; Mann\u2013Whitney p = 1.4e-18; effect size d = 1.9"
+  },
+  {
+   "group": "D. Statistics",
+   "name": "Value of one point of Sunday\u2013Monday occupancy",
+   "ok": true,
+   "detail": "$5.10M; 95% CI $4.93M\u2013$5.25M (rate uncertainty)"
+  },
+  {
+   "group": "D. Statistics",
+   "name": "Resort-area hotel revenue growth is consistent month to month (sign test)",
+   "ok": true,
+   "detail": "Disneyland: 8/8 months up (p = 0.004); Anaheim: 8/8 months up (p = 0.004); Newport Beach/Dana Point: 7/8 months up (p = 0.035); Santa Ana/Costa Mesa: 8/8 months up (p = 0.004); Orange County Northwest/Fullerton: 8/8 months up (p = 0.004)"
+  },
+  {
+   "group": "D. Statistics",
+   "name": "Tourism Economics' 2028 spending per visitor is consistent with the 2022\u20132025 trend",
+   "ok": true,
+   "detail": "trend +$4.9/yr (R\u00b2 0.92); trend 2028 $273 (95% PI $250\u2013$296); TE $279; only 4 points"
+  },
+  {
+   "group": "E. Simulation",
+   "name": "Monte Carlo is stable across random seeds (200,000 draws each)",
+   "ok": true,
+   "detail": "P5/P50/P95 differ by at most 0.14% between seeds"
+  },
+  {
+   "group": "E. Simulation",
+   "name": "Base case sits inside the central simulation range",
+   "ok": true,
+   "detail": "base $90.5M; simulation P5 $71.0M, median $94.8M, P95 $121.8M"
+  },
+  {
+   "group": "F. Sensitivity",
+   "name": "Global sensitivity identifies the main driver",
+   "ok": true,
+   "detail": "Share of visitors who add a day explains 40% of explained variance (linear R\u00b2 0.99)"
+  },
+  {
+   "group": "A. Recomputation",
+   "name": "Three views: OC Vibe today, Anaheim with OC Vibe, OC Vibe when live",
+   "ok": true,
+   "detail": "OC Vibe area today $355.3M associated spending; when live $445.7M; Anaheim $6.832B \u2192 $6.922B"
+  },
+  {
+   "group": "B. Invariants",
+   "name": "OC Vibe share of visitor days stays below 100% and rises when live",
+   "ok": true,
+   "detail": "5.2% \u2192 6.44%"
+  },
+  {
+   "group": "G. Benchmarks",
+   "name": "Concert hall base attendance is below Honda Center's historical average",
+   "ok": true,
+   "detail": "673,560 a year (4,490 per show) vs Honda Center ~1,406,250 a year, ~10,000 per event (OCBJ: 45M guests, 4,500 events since 1993)"
+  },
+  {
+   "group": "G. Benchmarks",
+   "name": "Base-case new spending is a small share of the city's visitor economy",
+   "ok": true,
+   "detail": "1.32% of Anaheim's 2025 visitor spending"
+  },
+  {
+   "group": "G. Benchmarks",
+   "name": "Visitor-only estimate is below whole-district published estimates",
+   "ok": true,
+   "detail": "$138M vs DTA's >$400M recurring (whole district, 2020)"
+  },
+  {
+   "group": "G. Benchmarks",
+   "name": "OC Vibe hotel occupancy assumption within observed market range",
+   "ok": true,
+   "detail": "74% base vs CoStar OC 74.0%, Disneyland 78.4%, STR Anaheim+ 77.9%"
+  },
+  {
+   "group": "G. Benchmarks",
+   "name": "Multiplier and jobs ratios are consistent across geographies",
+   "ok": true,
+   "detail": "impact per $1: Anaheim 1.53, Garden Grove 1.41, Orange County 1.70; jobs per $1M: Anaheim 9.9, Garden Grove 8.7, Orange County 9.9"
+  }
+ ],
+ "passed": 38,
+ "total": 38,
+ "seed": 20261012,
+ "generated": "2026-10-12T22:00:44Z"
+}

@@ -453,7 +453,17 @@ function csvFor(ids) {
     const btn = $('exportPdf'); btn.disabled = true; const label = btn.textContent;
     const all = ids.length===PAGES.length, suffix = all ? '' : '-' + (ids.length===1 ? ids[0].replace('p-','') : 'selected');
     try {
-      if (fmt==='csv') {
+      if (fmt==='pptx') {
+        btn.textContent = 'Preparing PowerPoint…';
+        const deck = b64Blob(ATTACH.deck, 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
+        if (all) { await saveBlob(deck, 'OC_Vibe_Insights.pptx'); toast('PowerPoint ready.'); return; }
+        const content = S.filter(x => x.id !== 'p-appx');
+        const names = ids.map(id => id==='p-summary' ? 'Introduction' : id==='p-notes' ? 'Next steps' : id==='p-appx' ? 'Appendix' : (S.find(x => x.id===id)||{}).tab).filter(Boolean);
+        if (content.every(x => ids.includes(x.id))) names.push('Compare and contrast');
+        if (typeof JSZip === 'undefined' || typeof pptxSubset === 'undefined') throw Object.assign(new Error('unavailable'), {code:'unavailable'});
+        const blob = await pptxSubset(JSZip, await deck.arrayBuffer(), names);
+        await saveBlob(blob, `OC_Vibe_Insights${suffix}.pptx`); toast('PowerPoint ready: the title slide plus the chosen sections.');
+      } else if (fmt==='csv') {
         const lines = csvFor(ids);
         if (!lines.length) { toast('The selected sections have no data tables. Choose a content section or export a PDF.'); return; }
         btn.textContent = 'Preparing CSV…';

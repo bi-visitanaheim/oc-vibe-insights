@@ -6,7 +6,7 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 18 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 19 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
 | **Deck** | `OC_Vibe_Insights.pptx`, 94 slides, VA Branded; each section opens with a news report slide, a details slide and an "At a glance" infographic slide |
@@ -75,7 +75,7 @@ Each section reads like a newspaper story, in this order:
 - **Data infographics ("At a glance").** Built only from figures already in each section, each with its source, date and calculations: an economy chain (visitors, spending, impact, jobs, taxes), waffles (of every 100 District 5 visitors), an itemized visitor receipt with an "every $1" bar, a jobs pictogram, hotel occupancy towers by night, share bars (new hotel supply; day vs. overnight visitors), an ARTIC departures board, an impressions-to-visits funnel, and Anaheim vs. U.S. bars. On screen, numbers count up and bars grow once on entrance; off under reduced motion and in print or PDF.
 - **Full-width layout.** Headlines and deks run the full page width; blocks stack full width with no side columns; stat rows stretch to fill; the overview release flows in three newspaper columns. Checked at 1920, 1440, 1024, 768 and 390 px.
 - **Value tooltips.** Hover over or tab to any bar, column, line point, heatmap cell or overview bar to see its value. The selected mark is highlighted.
-- **Export.** Choose sections, then export as PDF or CSV. The deck can also be downloaded from the page.
+- **Export.** Choose sections, then export as PDF, CSV or PowerPoint. PowerPoint gives the title slide plus the slides for the chosen sections (all sections gives the full deck); it is assembled in the browser from the full deck (`pipeline/pptx_subset.js`, with JSZip 3.10.1, MIT), so slides stay editable. The deck can also be downloaded from the page.
 - **Views and navigation:**
   - one page at a time or all pages; links, tabs and "Up next" land each section just below the sticky section bar;
   - full screen;
@@ -121,6 +121,7 @@ The source register on the Sources page lists each source's document, period cov
 | `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
 | `pipeline/infographics.py` | The "At a glance" infographic data for each section (attached after newsroom) |
 | `pipeline/newsroom.py` | News report structure: nut graphs, detail cards, reading order, bridges and the em-dash rule (attached last) |
+| `pipeline/pptx_subset.js` | PowerPoint export: keeps the chosen deck sections and removes the rest cleanly |
 | `scripts/make_public.py` | Copies the built page and deck into `public/` |
 | `docs/activity-log.md` | Build notes and the change log |
 | `docs/quarterly-refresh.md` | Runbook for the quarterly data refresh |
@@ -174,7 +175,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 | Feature | claude.ai artifact | Vercel website |
 |---|---|---|
 | Who can open it | People it is shared with | Anyone with the link to oc-vibe-insights.vercel.app |
-| PDF, CSV and deck downloads | Yes | Yes |
+| PDF, CSV and PowerPoint exports | Yes | Yes |
 
 ---
 

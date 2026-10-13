@@ -550,6 +550,7 @@ BODY = f"""<title>OC Vibe Insights</title>
   <p class="exp-sub">Choose the sections to include and the format.</p>
   <fieldset class="exp-fmt"><legend>Format</legend>
     <label><input type="radio" name="expFmt" value="pdf" checked> PDF (pages as shown)</label>
+    <label><input type="radio" name="expFmt" value="pptx"> PowerPoint (.pptx, slides for the chosen sections)</label>
     <label><input type="radio" name="expFmt" value="csv"> CSV (data tables only)</label>
   </fieldset>
   <fieldset><legend>Sections</legend>
@@ -567,6 +568,13 @@ const ATTACH = {json.dumps({'deck': base64.b64encode(open(BASE + '/OC_Vibe_Insig
 const IMGS = {json.dumps({'adt_ocvibe.jpg': 'data:image/jpeg;base64,' + base64.b64encode(open(BASE + '/assets/adt_ocvibe.jpg','rb').read()).decode()})};
 const RECS = {json.dumps(C.RECS, ensure_ascii=False)};
 const RECS_T = {json.dumps(__import__('logic_content').RECS_T, ensure_ascii=False)};
+</script>
+<script>
+/* JSZip v3.10.1 (MIT), used only to assemble PowerPoint exports */
+{open(__import__('os').path.join(__import__('os').path.dirname(__import__('subprocess').check_output(['node','-p',"require.resolve('jszip',{paths:[require.resolve('pptxgenjs')]})"]).decode().strip()),'..','dist','jszip.min.js')).read()}
+</script>
+<script>
+{open(BASE + '/pptx_subset.js').read()}
 </script>
 <script>
 {open(BASE + '/app.js').read()}

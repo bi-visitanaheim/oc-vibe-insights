@@ -6,10 +6,10 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 16 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 17 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
-| **Deck** | `OC_Vibe_Insights.pptx`, 70 slides, VA Branded |
+| **Deck** | `OC_Vibe_Insights.pptx`, 85 slides, VA Branded; each section opens with a news report slide and a details slide |
 | **Data through** | Sept. 2026 (STR through Oct. 3, 2026; CoStar and Visa through Aug. 2026) |
 | **Last updated** | Oct. 13, 2026 |
 
@@ -22,11 +22,13 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 3. **Years are labeled.** Calendar 2025 results (published 2026) appear beside Tourism Economics' 2026 forecast, and each is labeled.
 4. **Every calculated number shows its breakdown,** for example $6.832B ÷ 26.5M visitors = $258.
 5. **Every major point carries its source and date.**
-6. **Every section explains the who, what, when, where, why and how.**
+6. **Every section is written as a broadsheet news report, then analysis.** The news report follows the inverted pyramid: dateline and lede, a nut graph ("Why it matters"), and six announcement-style detail cards (who, what, when, where, why and how). Attribution on every fact, no first person, AP style. No editorial or opinion content.
 7. **Compare and contrast is covered for each section:** growth, opportunity, quick win, early hurdle, pitfall and explanation. Every hurdle and pitfall comes with a solution.
 8. **The appendix has the glossary, methods and formulas.**
 9. **Internal checks stay internal.** Validation results are not shown in the report.
 10. **New customer-facing sections are confirmed with John Picou before publishing.**
+11. **House writing style:** no em dashes; PhD-level analysis and research rigor, written so the audience can digest and defend it.
+12. **Anaheim as a whole.** The report looks holistically at Anaheim; it has no calculator for individual events or for OC Vibe's own figures.
 
 ---
 
@@ -37,41 +39,42 @@ The **Overview** is the main announcement, a facts-only BI Pulse release that ca
 | Tab | Question it answers | Main sources |
 |---|---|---|
 | Anaheim and OC Vibe today | Where do Anaheim's visitor economy and the OC Vibe area stand today? | Tourism Economics (2025; 2026 forecast), Datafy, Azira |
+| Who visits | Who visits District 5 and the OC Vibe area? | Azira, Datafy, Visa |
 | Visitor spending | How much does each visitor spend, and how is that changing? | Tourism Economics, Visa |
 | Jobs and economy | What does the visitor economy support? | Tourism Economics |
+| Hotel market | How are hotels performing, and when is there room? | CoStar, STR |
 | One more night | What is one more night per visitor worth? | Visit Anaheim Extra Night study (TE, Azira) |
 | Getting here | How do people reach OC Vibe? | OCTA, Amtrak, Metrolink, BTS, California transit snapshots |
-| Who visits | Who visits District 5 and the OC Vibe area? | Azira, Datafy, Visa |
 | Marketing reach | Does Visit Anaheim's marketing bring visitors? | Azira media attribution |
-| Hotel market | How are hotels performing, and when is there room? | CoStar, STR |
 | Market outlook | What in the market will affect OC Vibe? | LARC, public OC Vibe sources |
 | Appendix | What do the terms, methods and formulas mean? | Visit Anaheim BI |
 | Sources | Where does every number come from? | Source register (29 entries), data notes, recommendations |
 
-Each section reads like an article, in this order:
+Sections run in reading order; each answers the question the previous one raises, and ends with an "Up next" link that explains why the next topic follows.
 
-1. Headline.
-2. Key insight with key number, source and date.
-3. How the key insight is calculated.
-4. The details (who, what, when, where, why and how).
+Each section reads like a newspaper story, in this order:
+
+**News report** (objective, inverted pyramid)
+1. Kicker ("News report"), headline, dek and byline.
+2. The lede: dateline (ANAHEIM, Calif. (Oct. 13, 2026):), the key insight, its key number and source.
+3. Why it matters: the nut graph.
+4. How the key insight is calculated.
 5. By the numbers (KPI cards).
-6. Featured charts.
-7. Main table.
-8. What it means for OC Vibe:
-   - two columns, "What it enhances" and "What OC Vibe needs";
-   - items tagged by topic, not by role.
+6. The details: six announcement-style data cards (who, what, when, where, why and how), each with a figure, its label or calculation, the detail and the source with its date.
+
+**Analysis** (feature)
+7. The question, featured charts and the main table.
+8. What it means for OC Vibe: "What it enhances" and "What OC Vibe needs", tagged by topic, not by role.
 9. Compare and contrast.
 10. A collapsed panel, "More data and notes".
+11. Up next.
 
 ### Features
 
 - **Value tooltips.** Hover over or tab to any bar, column, line point, heatmap cell or overview bar to see its value. The selected mark is highlighted.
-- **Staff calculator** ("Anaheim and OC Vibe today" tab):
-  - It starts blank and uses only the figures OC Vibe staff enter, converted with Tourism Economics 2025 ratios for Anaheim.
-  - Saves go to the artifact's shared database when the viewer has edit access. Otherwise use Download (.csv).
 - **Export.** Choose sections, then export as PDF or CSV. The deck can also be downloaded from the page.
 - **Views and navigation:**
-  - one page at a time or all pages;
+  - one page at a time or all pages; links, tabs and "Up next" land each section just below the sticky section bar;
   - full screen;
   - light and dark themes;
   - mobile layout;
@@ -113,6 +116,7 @@ The source register on the Sources page lists each source's document, period cov
 | `pipeline/assets/` | VA Branded CSS and logo, ADT image |
 | `pipeline/checks/`, `pipeline/computations/` | Internal validation script, contract and results (not shown in the report) |
 | `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
+| `pipeline/newsroom.py` | News report structure: nut graphs, detail cards, reading order, bridges and the em-dash rule (attached last) |
 | `scripts/make_public.py` | Copies the built page and deck into `public/` |
 | `docs/activity-log.md` | Build notes and the change log |
 | `vercel.json` | Static site settings: no build on Vercel, serve `public/`, no search indexing |
@@ -131,7 +135,8 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
    6. `ocv_whole.py` ("What it means for OC Vibe", main announcement, hotel calendar, public facts)
    7. `calcs.py` (calculation breakdowns)
    8. `feature.py` (featured charts)
-   9. `facts_only.py` (last step: removes estimates and rebuilds the "Anaheim and OC Vibe today" section)
+   9. `facts_only.py` (removes estimates and rebuilds the "Anaheim and OC Vibe today" section)
+   10. `newsroom.py` (last step: news report structure, reading order, house style)
 3. **Deck:** run `npm run deck`.
    - This writes `pipeline/deck_data.json`, then `pipeline/OC_Vibe_Insights.pptx`.
    - The VA theme step uses the pptx skill's `apply_theme.js`, which is not stored in this repository. Set `PPTX_THEME_SCRIPT` to its path to apply it. Without it, the deck is written unthemed and a warning is shown.
@@ -141,16 +146,19 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 5. **Check:** run `npm run shots` for screenshots and the overflow check, and `npm run validate` for the internal validation.
 6. **Publish:**
    - **Website:** commit and push to `main`. Vercel deploys `public/` automatically.
-   - **claude.ai artifact:** republish `pipeline/oc-vibe-insights.html` to the same artifact. The artifact keeps its capabilities: db, downloads and user.
+   - **claude.ai artifact:** republish `pipeline/oc-vibe-insights.html` to the same artifact. The artifact keeps its declared capabilities (db, downloads and user); db is no longer used now that the calculator is removed.
 
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-010`: 43 of 43 checks passed. The suite was re-run from this repository on Oct. 13, 2026 with the same result.
+- The latest recorded run is `pipeline/computations/validation-011` (Oct. 13, 2026): 48 of 48 checks passed, including the newsroom checks. The suite was re-run from this repository with the same result.
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
-  - the transit files reconcile.
+  - the transit files reconcile;
+  - every section is a complete news report (dateline, lede, nut graph, six sourced detail cards);
+  - no em dashes, AP-style dates and no first person in news reports;
+  - the reading order links each section to the next.
 
 `impact.py` still holds the earlier scenario model for reference. `facts_only.py` keeps all of its output out of the report.
 
@@ -159,7 +167,6 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 | Feature | claude.ai artifact | Vercel website |
 |---|---|---|
 | Who can open it | People it is shared with | Anyone with the link to oc-vibe-insights.vercel.app |
-| Calculator "Save" | Saves to the shared database | Not available; use Download (.csv) |
 | PDF, CSV and deck downloads | Yes | Yes |
 
 ---
@@ -185,7 +192,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 - **LARC reports:** consent is required.
 - **CoStar, STR and Visa:** licensed data. Share summaries, not raw exports.
 - **The website and repository are public** (decision by John Picou, Oct. 13, 2026). Licensed raw exports (CoStar, STR) are excluded by `.gitignore` and are never pushed.
-- **The dashboard:** private until shared. OC Vibe staff need an email invitation as Editors to save calculator figures. With link sharing, they can use Download instead.
+- **The dashboard:** private until shared.
 
 ---
 

@@ -249,6 +249,37 @@ tr.hirow td,tr.hirow th{background:var(--surface-fill)!important;color:var(--on-
 .dq{margin:0;padding-left:18px;display:grid;gap:6px}
 .dq li{font-size:14px;font-weight:350;line-height:1.45}
 .qa-row.warnrow .qa-q::after{content:" · partial";font-weight:600;font-size:12px;color:var(--unfav)}
+
+/* Newsroom structure (Oct. 13, 2026): news report, details cards, analysis band, up next */
+.page,.page [id]{scroll-margin-top:var(--navh,120px)}
+.kind{display:inline-block;font-weight:800;color:#fff;background:var(--heading);border-radius:3px;padding:1px 7px;margin-right:2px;letter-spacing:.1em}
+.art-lede .dline{font-weight:800;color:var(--heading);letter-spacing:.02em}
+.nut{margin:14px 0 0;padding:12px 16px;border:1px solid var(--border);border-top:3px solid var(--heading);background:var(--surface-card);border-radius:var(--r-md)}
+.nut-l{display:block;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--heading);margin-bottom:4px}
+.nut p{margin:0;font-size:16px;line-height:1.55}
+.art-w5h{max-width:none;margin:20px 0 0}
+.d-sub{margin:-4px 0 12px;font-size:13.5px;color:var(--muted)}
+.dgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:1000px){.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.dcard{display:flex;flex-direction:column;gap:4px;background:var(--surface-card);border:1px solid var(--border);border-top:4px solid #43A3A3;border-radius:var(--r-md);padding:14px 16px;min-width:0}
+.dcard .dk{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--heading)}
+.dcard .dfig{font-size:clamp(24px,2.6vw,32px);line-height:1.08;font-weight:900;font-style:italic;color:var(--heading);overflow-wrap:anywhere}
+.dcard .dfl{font-size:13.5px;font-weight:700;line-height:1.35}
+.dcard p{margin:6px 0 2px;font-size:14px;line-height:1.5;border-top:1px solid var(--border-subtle);padding-top:8px}
+.dcard .src-inline{margin-top:auto}
+.an-band{margin:28px 0 4px;padding:14px 0 10px;border-top:3px double var(--heading);border-bottom:1px solid var(--border)}
+.an-band .kind{font-size:11.5px;text-transform:uppercase}
+.an-band h3{margin:8px 0 4px;font-size:22px;font-weight:900;font-style:italic;color:var(--heading)}
+.an-band p{margin:0;font-size:14.5px;color:var(--muted)}
+.upnext{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--border);border-top:4px solid #43A3A3;border-radius:var(--r-md);background:var(--surface-card);display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center}
+.upnext .un-k{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.upnext .un-b{justify-self:start;font:inherit;font-size:19px;font-weight:900;font-style:italic;color:var(--heading);background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.upnext .un-b:hover,.upnext .un-b:focus-visible{text-decoration:underline}
+.upnext p{grid-column:1/-1;margin:2px 0 0;font-size:14.5px;line-height:1.5}
+@media print{.upnext{display:none}}
+@media (max-width:640px){.calc-steps .scroll{overflow-x:auto}.calc-steps table{min-width:540px}}
+.art-body .calc-steps{margin-top:14px}
 """
 
 BODY = f"""<title>OC Vibe Insights</title>
@@ -381,7 +412,6 @@ const ATTACH = {json.dumps({'deck': base64.b64encode(open(BASE + '/OC_Vibe_Insig
 const IMGS = {json.dumps({'adt_ocvibe.jpg': 'data:image/jpeg;base64,' + base64.b64encode(open(BASE + '/assets/adt_ocvibe.jpg','rb').read()).decode()})};
 const RECS = {json.dumps(C.RECS, ensure_ascii=False)};
 const RECS_T = {json.dumps(__import__('logic_content').RECS_T, ensure_ascii=False)};
-const MODEL = {json.dumps(__import__('impact').JS_MODEL)};
 </script>
 <script>
 {open(BASE + '/app.js').read()}

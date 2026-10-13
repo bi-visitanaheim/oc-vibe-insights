@@ -1,4 +1,4 @@
-/* OC Vibe Insights — built on the BI Pulse dashboard template (nav, sidebar, BI Pulse Summary, full screen, PDF export). */
+/* OC Vibe Insights: built on the BI Pulse dashboard template (nav, sidebar, BI Pulse Summary, full screen, PDF export). */
 const store = { get(k){ try { return JSON.parse(localStorage.getItem('va-ocvibe-'+k)); } catch(_) { return null; } }, set(k,v){ try { localStorage.setItem('va-ocvibe-'+k, JSON.stringify(v)); } catch(_) {} } };
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -113,38 +113,42 @@ function renderSection(s) {
   const stats = s.cards.map(([k,l,v,sub,src], i) => `<div class="art-stat reveal"><span class="as-k">${esc(k)}</span><b class="as-v">${esc(v)}</b><span class="as-l">${esc(l)}</span><span class="as-p">${emph(sub)}</span>${calcLine((s.card_calc||[])[i])}<span class="src-inline">Source: ${esc(src)}</span></div>`).join('');
   const steps = s.calc_steps ? `<div class="calc-steps reveal" id="${s.id}-calc"><h3>How the key insight is calculated</h3><div class="scroll" tabindex="0" aria-label="How the key insight is calculated"><table><thead><tr><th scope="col">Step</th><th scope="col">Calculation</th><th scope="col" class="n">Result</th><th scope="col">Source</th></tr></thead><tbody>${s.calc_steps.map(([a,b,c2,d]) => `<tr${/^\d+\. New visitor spending|^7\./.test(a) ? ' class="hi"' : ''}><th scope="row">${esc(a)}</th><td>${b === 'Reported' ? '<span class="muted">Reported by source</span>' : esc(b)}</td><td class="n"><b>${esc(c2)}</b></td><td class="src-cell">${esc(d)}</td></tr>`).join('')}</tbody></table></div></div>` : '';
   const feat = (s.feature || []).length ? `<div class="feat${s.feature.length === 1 ? ' one' : ''}" id="${s.id}-charts">${s.feature.map(c => `<div class="reveal">${chartHtml(c)}</div>`).join('')}</div>` : '';
-  const W = s.w5h ? ['who','what','when','where','why','how'].map(k => `<p class="w5h-p"><b class="w5h-k">${k[0].toUpperCase()+k.slice(1)}.</b> ${emph(s.w5h[k])}</p>`).join('') + `<p class="src-inline">Sources: ${esc(s.w5h.src)}</p>` : '';
+  const W = (s.details || []).length ? `<div class="dgrid">${s.details.map(d => `<article class="dcard reveal"><span class="dk">${esc(d.k)}</span><b class="dfig">${esc(d.fig)}</b><span class="dfl">${esc(d.fig_l)}</span><p>${emph(d.text)}</p><span class="src-inline">Source: ${esc(d.src)}</span></article>`).join('')}</div>`
+    : s.w5h ? ['who','what','when','where','why','how'].map(k => `<p class="w5h-p"><b class="w5h-k">${k[0].toUpperCase()+k.slice(1)}.</b> ${emph(s.w5h[k])}</p>`).join('') + `<p class="src-inline">Sources: ${esc(s.w5h.src)}</p>` : '';
+  const NX = s.next ? `<nav class="upnext reveal" aria-label="Next section"><span class="un-k">Up next</span><button type="button" class="un-b" data-go="${s.next.id}">${esc(s.next.tab)} <span aria-hidden="true">→</span></button>${s.next.bridge ? `<p>${emph(s.next.bridge)}</p>` : ''}</nav>` : '';
+  const isNews = s.kind === 'News report';
   const item = x => `<li><span class="otag">${esc(x.tag)}</span> ${emph(x.text)}${calcLine(x.calc)}<span class="src-inline">Source: ${esc(x.src)}</span></li>`;
   const F = s.for_ocv ? `<div class="ocv-whole reveal" id="${s.id}-ocv"><h3>What it means for OC Vibe</h3><div class="ow-grid">
       <div class="ow-col"><h4>What it enhances</h4><ul>${s.for_ocv.enhance.map(item).join('')}</ul></div>
       <div class="ow-col"><h4>What OC Vibe needs</h4><ul>${s.for_ocv.need.map(item).join('')}</ul></div></div></div>` : '';
-  const CC = s.cc ? `<div class="cc-box reveal" id="${s.id}-cc"><h3>Compare and contrast</h3><div class="scroll" tabindex="0" aria-label="Compare and contrast"><table class="cc-t2"><thead><tr><th scope="col">Type</th><th scope="col">Point</th><th scope="col">Solution</th><th scope="col">Source and date</th></tr></thead><tbody>${s.cc.map(c => `<tr class="cc-${c.type.toLowerCase().replace(/\s+/g,'-')}"><th scope="row"><span class="cc-t">${esc(c.type)}</span></th><td>${emph(c.point)}${calcLine(c.calc)}</td><td>${c.solution ? emph(c.solution) : '<span class="muted">—</span>'}</td><td class="src-cell">${esc(c.src)}</td></tr>`).join('')}</tbody></table></div></div>` : '';
+  const CC = s.cc ? `<div class="cc-box reveal" id="${s.id}-cc"><h3>Compare and contrast</h3><div class="scroll" tabindex="0" aria-label="Compare and contrast"><table class="cc-t2"><thead><tr><th scope="col">Type</th><th scope="col">Point</th><th scope="col">Solution</th><th scope="col">Source and date</th></tr></thead><tbody>${s.cc.map(c => `<tr class="cc-${c.type.toLowerCase().replace(/\s+/g,'-')}"><th scope="row"><span class="cc-t">${esc(c.type)}</span></th><td>${emph(c.point)}${calcLine(c.calc)}</td><td>${c.solution ? emph(c.solution) : '<span class="muted">None needed</span>'}</td><td class="src-cell">${esc(c.src)}</td></tr>`).join('')}</tbody></table></div></div>` : '';
   const nMore = more.length + 1;
-  return `<section class="page art" id="${s.id}" data-title="${esc(s.tab)}">
+  return `<section class="page art${isNews ? ' news' : ''}" id="${s.id}" data-title="${esc(s.tab)}">
     <header class="art-h reveal">
-      <span class="art-kick">${esc(s.tab)}</span>
+      <span class="art-kick">${isNews ? '<span class="kind">News report</span> · ' : (s.kind ? `<span class="kind">${esc(s.kind)}</span> · ` : '')}${esc(s.tab)}</span>
       <h2 class="art-head">${esc(s.head || s.q)}</h2>
       ${s.dek ? `<p class="art-dek">${esc(s.dek)}</p>` : ''}
-      <p class="art-q"><b>The question:</b> ${esc(s.q)}</p>
-      <p class="art-by">Visit Anaheim Business Intelligence · ${esc(DATA.prepared)} · <span class="badge">${esc(s.period)}</span></p>
+      <p class="art-by">By Visit Anaheim Business Intelligence · ${esc(DATA.prepared)} · <span class="badge">${esc(s.period)}</span></p>
     </header>
     <div class="art-grid">
       <div class="art-body">
-        <div class="answer art-lede reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">Key insight</span><p>${emph(s.ans)}</p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
+        <div class="answer art-lede reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">${isNews ? 'The lede' : 'Key insight'}</span><p>${s.dateline ? `<span class="dline">${esc(s.dateline)}</span> ` : ''}${emph(s.ans)}</p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
+        ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p>${emph(s.nut)}</p></div>` : ''}
         ${steps}
-        ${W ? `<div class="art-w5h reveal" id="${s.id}-w5h"><h3>The details</h3>${W}</div>` : ''}
       </div>
       <aside class="art-side" aria-label="By the numbers"><h3>By the numbers</h3>${stats}</aside>
     </div>
+    ${W ? `<div class="art-w5h reveal" id="${s.id}-w5h"><h3>The details</h3><p class="d-sub">Who, what, when, where, why and how, each with its figure, source and date.</p>${W}</div>` : ''}
+    ${isNews ? `<div class="an-band reveal" id="${s.id}-analysis"><span class="kind">Analysis</span><h3>What the data shows</h3><p><b>The question:</b> ${esc(s.q)}</p></div>` : `<p class="art-q"><b>The question:</b> ${esc(s.q)}</p>`}
     ${feat}
     <figure class="art-fig tbl reveal" id="${s.id}-t0">${tableHtml(t0, s.id+'-t0')}</figure>
     ${F}
     ${CC}
-    ${s.id==='p-ocv' ? '<div class="calc-box" id="ocvCalc"></div>' : ''}
     <details class="more-d" id="${s.id}-more"><summary>More data and notes <span class="muted">(${nMore} items)</span></summary>
       <div class="sec-more">${more.join('')}</div>
       <div class="notes-box" id="${s.id}-notes"><h3>Notes and data quality</h3><ul>${s.notes.map(n => `<li>${emph(n)}</li>`).join('')}</ul></div>
     </details>
+    ${NX}
   </section>`;
 }
 function wireMore(root) {
@@ -258,7 +262,7 @@ document.addEventListener('keydown', e => { if (e.key==='Escape' && $('app').cla
 
 /* ---------- pages, sidebar, section tabs ---------- */
 const PAGES = ['p-summary', ...S.map(s => s.id), 'p-notes'];
-const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id,'Key insight'],[s.id+'-calc','How it is calculated'],[s.id+'-charts','Charts'],[s.id+'-w5h','The details'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
+const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id, s.kind === 'News report' ? 'The lede' : 'Key insight'],[s.id+'-nut','Why it matters'],[s.id+'-calc','How it is calculated'],[s.id+'-w5h','The details'],[s.id+'-analysis','Analysis'],[s.id+'-charts','Charts'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-nut') ? s.nut : id.endsWith('-analysis') ? s.kind === 'News report' : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
 $('sideList').innerHTML = SIDE.map(([id,t,subs]) => `<li><button type="button" class="top" data-go="${id}">${esc(t)}</button><div class="subs">${subs.map(([sid,st]) => `<button type="button" class="sub" data-go="${id}" data-target="${sid}">${esc(st)}</button>`).join('')}</div></li>`).join('');
 $('secPills').innerHTML = [...SIDE, ['p-notes','Sources']].map(([id,t]) => `<button type="button" class="tab" data-go="${id}">${esc(t)}</button>`).join('');
 document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { goPage(PAGES.indexOf(b.dataset.go), b.dataset.target); if (matchMedia('(max-width:900px)').matches && b.closest('.side')) setSide(false); });
@@ -278,6 +282,7 @@ function updateNav() {
   document.querySelectorAll('.side .top, #secPills .tab').forEach(b => b.setAttribute('aria-current', b.dataset.go===PAGES[i]));
   const pc = $('secPills'), cp = pc.querySelector('[aria-current="true"]'); if (cp && pc.scrollWidth > pc.clientWidth) pc.scrollLeft = cp.offsetLeft - (pc.clientWidth - cp.offsetWidth)/2;
 }
+window.addEventListener('hashchange', () => { const i = PAGES.indexOf('p-' + (location.hash||'').slice(1)); if (i >= 0 && i !== CUR) goPage(i); });
 $('prevBtn').onclick = () => goPage(CUR-1);
 $('nextBtn').onclick = () => goPage(CUR+1);
 function setView(long) { LONG = long; store.set('long', long); $('pages').classList.toggle('single', !long); $('vsOne').setAttribute('aria-pressed', !long); $('vsLong').setAttribute('aria-pressed', long); }
@@ -286,6 +291,8 @@ $('vsLong').onclick = () => { setView(true); goPage(CUR); };
 const io = new IntersectionObserver(es => { if (!LONG) return; es.forEach(en => { if (en.isIntersecting) { CUR = PAGES.indexOf(en.target.id); updateNav(); } }); }, {rootMargin:'-30% 0px -65% 0px'});
 PAGES.forEach(id => io.observe($(id)));
 $('toTop').onclick = () => window.scrollTo({top:0});
+function setNavH() { const n = document.querySelector('.secnav'); document.documentElement.style.setProperty('--navh', ((n ? n.offsetHeight : 0) + 14) + 'px'); }
+setNavH(); window.addEventListener('resize', setNavH, {passive:true});
 window.addEventListener('scroll', () => { $('toTop').hidden = window.scrollY < 700; }, {passive:true});
 function setSide(open) {
   $('layout').classList.toggle('closed', !open); $('sideToggle').textContent = open ? '‹' : '›';
@@ -410,91 +417,6 @@ function csvFor(ids) {
       }
     } catch (err) { dlError(err, 'Export'); }
     finally { btn.disabled = false; btn.textContent = label; }
-  };
-})();
-
-/* ---------- OC Vibe staff inputs: live impact calculator (saved to the artifact's shared db when allowed) ---------- */
-(function initCalc(){
-  const host = $('ocvCalc'); if (!host) return;
-  const MD = MODEL, F = [
-    ['hall_cap','Concert hall seats','', 1, ''],
-    ['hall_events','Concert hall events a year','', 1, ''],
-    ['hall_fill','Concert hall seats filled','%', 1, ''],
-    ['small_cap','Theater and club seats','', 1, ''],
-    ['small_events','Theater and club events a year','', 1, ''],
-    ['small_fill','Theater and club seats filled','%', 1, ''],
-    ['other_att','Other new attendance a year (market hall, plazas, festivals)','', 1000, ''],
-    ['net_new','Attendees who are net-new visitors to Anaheim','%', 1, ''],
-    ['add_day','Anaheim visitors who add a day because of OC Vibe','%', 0.1, ''],
-    ['rooms','Hotel rooms open','', 10, ''],
-    ['occ','Hotel occupancy','%', 1, ''],
-    ['adr','Hotel average nightly rate','$', 1, ''],
-  ];
-  const BASE = Object.fromEntries(F.map(f => [f[0], f[4]]));
-  const ok = v => Number.isFinite(v), fmtM = v => ok(v) ? '$' + (v/1e6).toFixed(1) + 'M' : '—', fmtN = v => ok(v) ? Math.round(v).toLocaleString('en-US') : '—';
-  function calc(x) {
-    const part = (a, b, c) => [a, b, c].every(Number.isFinite) ? a*b*c/100 : 0, anyVenue = [x.hall_cap, x.small_cap, x.other_att].some(Number.isFinite);
-    const attend = anyVenue ? part(x.hall_cap, x.hall_events, x.hall_fill) + part(x.small_cap, x.small_events, x.small_fill) + (Number.isFinite(x.other_att) ? x.other_att : 0) : NaN;
-    const nv = attend*x.net_new/100, days = MD.visitors*x.add_day/100, sp1 = Number.isFinite(nv) ? nv*MD.pv : NaN, sp2 = Number.isFinite(days) ? days*MD.per_day : NaN;
-    const spend = (Number.isFinite(sp1) || Number.isFinite(sp2)) ? (Number.isFinite(sp1) ? sp1 : 0) + (Number.isFinite(sp2) ? sp2 : 0) : NaN, rn = x.rooms*365*x.occ/100, rev = rn*x.adr;
-    return [
-      ['Attendance a year', fmtN(attend)], ['Net-new visitors', fmtN(nv)], ['Extra visitor days', fmtN(days)],
-      ['New visitor spending', fmtM(spend)], ['Anaheim total economic impact', fmtM(spend*MD.mult_ana)], ['Anaheim jobs supported', fmtN(Math.round(spend/1e6*MD.jobs_ana/10)*10)],
-      ['Anaheim state and local taxes', fmtM(spend*MD.tax_ana)], ['Orange County total economic impact', fmtM(spend*MD.mult_oc)],
-      ['OC Vibe hotel room nights', fmtN(rn)],
-      ['OC Vibe hotel room revenue', fmtM(rev)], ['Anaheim hotel tax (15%)', fmtM(rev*MD.tot)],
-    ];
-  }
-  host.innerHTML = `<h3>Enter OC Vibe's own figures</h3>
-    <p class="calc-sub">For OC Vibe staff: enter OC Vibe's own plans or results. Visit Anaheim supplies no assumptions here; results appear only from the figures you enter, converted with Tourism Economics 2025 ratios for Anaheim (jobs, impact, taxes). Saved figures are shared with everyone who can open this page.</p>
-    <div class="calc-grid"><form class="calc-in" id="calcForm" autocomplete="off">${F.map(([k,l,u,st]) => `<label class="calc-f"><span>${esc(l)}</span><span class="calc-w">${u==='$'?'<i>$</i>':''}<input type="number" inputmode="decimal" min="0" step="${st}" name="${k}" id="cin-${k}">${u==='%'?'<i>%</i>':''}</span></label>`).join('')}
-      <label class="calc-f calc-note"><span>Where these figures come from (optional)</span><input type="text" maxlength="300" name="note" id="cin-note" placeholder="For example: 2027 booking plan, Oct. 2026"></label>
-      <div class="calc-acts"><button type="button" class="ctl accent" id="calcSave">Save for Visit Anaheim</button><button type="button" class="ctl" id="calcReset">Clear</button><button type="button" class="ctl" id="calcDl">Download (.csv)</button></div>
-      <p class="calc-status" id="calcStatus" aria-live="polite"></p></form>
-      <div class="calc-out"><div class="scroll" tabindex="0" aria-label="Calculated impact"><table><thead><tr><th scope="col">Measure</th><th scope="col" class="n">From OC Vibe's figures</th></tr></thead><tbody id="calcBody"></tbody></table></div>
-      <p class="src">Method and ratios as in the scenario table above (Tourism Economics 2025 ratios; 2025 dollars; visitors only). Estimates, not forecasts.</p>
-      <div id="calcHist"></div></div></div>`;
-  const form = $('calcForm');
-  const read = () => Object.fromEntries(F.map(([k]) => { const t = form.elements[k].value; return [k, t === '' ? NaN : Math.max(0, parseFloat(t))]; }));
-  const fill = v => F.forEach(([k]) => form.elements[k].value = v[k] ?? BASE[k]);
-  function render() { const o = calc(read()); $('calcBody').innerHTML = o.map(([l,v],i) => `<tr class="${i===3?'hirow':''}"><th scope="row">${esc(l)}</th><td class="n">${esc(v)}</td></tr>`).join(''); }
-  fill(BASE); render();
-  form.addEventListener('input', render);
-  $('calcReset').onclick = () => { fill(BASE); form.elements.note.value = ''; render(); setStatus('Cleared. Nothing is saved until you choose Save.'); };
-  $('calcDl').onclick = async () => {
-    const v = read(), o = calc(v), q = s => '"' + String(s).replace(/"/g,'""') + '"';
-    const lines = ['"OC Vibe impact: figures entered by OC Vibe staff"', '"Input","Value"', ...F.map(([k,l,u]) => [q(l + (u ? ' ('+u+')' : '')), q(v[k])].join(',')), [q('Note'), q(form.elements.note.value)].join(','), '', '"Measure","From OC Vibe\'s figures"', ...o.map(([l,x]) => [q(l), q(x)].join(',')), '', q('Prepared with the Visit Anaheim BI OC Vibe impact method, ' + apDate(new Date()) + '. Results come only from the figures entered above.')];
-    try { await saveBlob(new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv'}), 'OC_Vibe_impact_inputs.csv'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); }
-  };
-  function setStatus(t) { $('calcStatus').textContent = t; }
-  let DB = null, U = null, canWrite = null, saving = false;
-  async function names(ids) { try { return U ? await U.profiles(ids) : {}; } catch(_) { return {}; } }
-  (async () => {
-    const CL = (window.claude && typeof window.claude.use === 'function') ? window.claude : null;
-    DB = CL ? await CL.use('db') : null; U = CL ? await CL.use('user') : null;
-    if (!DB) { $('calcSave').hidden = true; setStatus('Saving is not available in this view. Use Download to send your figures to Visit Anaheim.'); return; }
-    canWrite = U ? await U.can('data.write') : null;
-    if (canWrite === false) { $('calcSave').hidden = true; setStatus('You can try figures here. To save them for Visit Anaheim, ask for edit access, or use Download.'); }
-    DB.doc('ocvibe/inputs').onSnapshot(async snap => {
-      if (!snap.exists) { setStatus(canWrite === false ? $('calcStatus').textContent : 'No OC Vibe figures saved yet. Enter figures to see results.'); return; }
-      const d = snap.data(); if (snap.metadata.hasPendingWrites) return;
-      fill(d.values || BASE); form.elements.note.value = d.note || ''; render();
-      const ps = d.by ? await names([d.by]) : {}; const who = (ps[d.by] && ps[d.by].name) || 'Someone';
-      setStatus(`Showing figures saved by ${who} on ${d.at ? apDate(new Date(d.at)) : 'an earlier date'}.`);
-    }, () => setStatus('Saved figures could not be loaded. You can still enter and download figures.'));
-    DB.collection('ocvibe_history').orderBy('at','desc').limit(8).onSnapshot(async qs => {
-      if (qs.empty) { $('calcHist').innerHTML = ''; return; }
-      const ids = [...new Set(qs.docs.map(d => d.data().by).filter(Boolean))], ps = await names(ids);
-      $('calcHist').innerHTML = `<h4>Save history</h4><ul class="calc-hl">${qs.docs.map(d => { const x = d.data(); return `<li><b>${esc(apDate(new Date(x.at)))}</b> · <span data-n></span>${x.note ? ' · ' + esc(x.note) : ''}</li>`; }).join('')}</ul>`;
-      [...$('calcHist').querySelectorAll('[data-n]')].forEach((el,i) => { const by = qs.docs[i].data().by; el.textContent = (ps[by] && ps[by].name) || 'Someone'; });
-    }, () => {});
-  })();
-  $('calcSave').onclick = async () => {
-    if (!DB || saving) return; saving = true; $('calcSave').disabled = true;
-    const rec = { values: read(), note: form.elements.note.value.slice(0, 300), at: new Date().toISOString(), by: U ? await U.id() : null };
-    try { await DB.doc('ocvibe/inputs').set(rec); await DB.collection('ocvibe_history').add(rec); setStatus('Saved. Visit Anaheim BI can now see these figures.'); toast('Figures saved.'); }
-    catch (e) { if (e && e.code === 'invalid_argument') { $('calcSave').hidden = true; setStatus('Your access level cannot save figures here. Use Download and send the file to Visit Anaheim BI.'); } else setStatus('The figures could not be saved. Try again, or use Download.'); }
-    finally { saving = false; $('calcSave').disabled = false; }
   };
 })();
 

@@ -274,12 +274,13 @@ import re as _re, copy as _cp, roles_content as RC, content as CT, ocv_whole as 
 _base = []
 for _x in CT.SECTIONS:
     _y = _cp.deepcopy(_x)
-    for _k in ("for_ocv", "ans", "ans_src", "head", "dek", "w5h"): _y.pop(_k, None)
+    for _k in ("for_ocv", "ans", "ans_src", "head", "dek", "w5h", "nut", "details", "next", "dateline"): _y.pop(_k, None)
     _base.append(_y)
 _other = json.dumps(_base, ensure_ascii=False) + json.dumps(CT.DQ, ensure_ascii=False) + json.dumps(CT.STORIES, ensure_ascii=False)
 _tok = _re.compile(r"\$?\d[\d,]*(?:\.\d+)?(?:%|[MBK]\b)?")
 _texts = [x["ans"] for x in CT.SECTIONS if x.get("ans")] + [i["text"] for x in CT.SECTIONS if x.get("for_ocv") for k in x["for_ocv"].values() for i in k] \
-         + [c["point"] for x in CT.SECTIONS for c in (x.get("cc") or []) if c["type"] == "Explanation"] + [CT.DATA_EXTRA["main"]["head"], CT.DATA_EXTRA["main"]["dek"], CT.DATA_EXTRA["main"]["lede"]] + CT.DATA_EXTRA["main"]["paras"]
+         + [c["point"] for x in CT.SECTIONS for c in (x.get("cc") or []) if c["type"] == "Explanation"] + [CT.DATA_EXTRA["main"]["head"], CT.DATA_EXTRA["main"]["dek"], CT.DATA_EXTRA["main"]["lede"]] + CT.DATA_EXTRA["main"]["paras"] \
+         + [x["nut"] for x in CT.SECTIONS if x.get("nut")] + [d[f] for x in CT.SECTIONS for d in (x.get("details") or []) for f in ("fig", "fig_l", "text")] + [x["next"]["bridge"] for x in CT.SECTIONS if x.get("next")]
 _n, _miss = 0, []
 for _t in _texts:
     for _k in _tok.findall(_t):
@@ -288,6 +289,18 @@ for _t in _texts:
         _n += 1
         if _k not in _other: _miss.append(_k)
 check("H. Report text", "Every number in key insights, OC Vibe sections and the main announcement traces to a table, card, note or data note", not _miss and _n > 150, f"{_n} figures traced; {len(_miss)} not found" + (f": {_miss[:5]}" if _miss else ""))
+# Newsroom structure and house style (added Oct. 13, 2026)
+_news = [x for x in CT.SECTIONS if x.get("kind") == "News report"]
+_bad = [x["id"] for x in _news if not (x.get("dateline") and x.get("ans") and x.get("nut") and len(x.get("details") or []) == 6 and all(d.get("fig") and d.get("src") for d in x["details"]))]
+check("H. Report text", "Every section is a news report (dateline, lede, nut graph, six sourced detail cards) followed by analysis", len(_news) == 9 and not _bad, f"{len(_news)} news reports; incomplete: {_bad or 'none'}")
+_all = json.dumps([CT.SECTIONS, CT.TAKEAWAYS, CT.DQ, CT.RECS, CT.DATA_EXTRA], ensure_ascii=False, default=str)
+check("H. Report text", "House style: no em dashes anywhere in the report content", "\u2014" not in _all, f"{_all.count(chr(0x2014))} em dashes")
+_ap = _re.findall(r"\b(?:January|February|August|September|October|November|December|Sep|Sept(?!\.)|Aug(?!\.)|Oct(?!\.)|Nov(?!\.)|Dec(?!\.)|Jan(?!\.)|Feb(?!\.)) \d{1,2}, 20\d\d", _all)
+check("H. Report text", "AP style: months with a specific date are abbreviated (Jan., Feb., Aug., Sept., Oct., Nov., Dec.)", not _ap, f"{len(_ap)} exceptions" + (f": {_ap[:3]}" if _ap else ""))
+_fp = [t for x in _news for t in [x["nut"]] + [d["fig_l"] for d in x["details"]] if _re.search(r"\b(I|we|our|us)\b", t)]
+check("H. Report text", "Attribution and objectivity: no first person in news-report nut graphs or detail cards", not _fp, f"{len(_fp)} exceptions" + (f": {_fp[0][:80]}" if _fp else ""))
+_order = [x["id"] for x in CT.SECTIONS]
+check("H. Report text", "Reading order: each section links to the next with a bridge", _order[:3] == ["p-ocv", "p-d5", "p-spend"] and all(x.get("next", {}).get("bridge") for x in CT.SECTIONS), " → ".join(_order))
 _rx = __import__("facts_only").EST_RX
 _left = [t for t in _texts + CT.TAKEAWAYS + CT.DQ if _rx.search(t)]
 check("H. Report text", "No scenario-model estimate remains in the report text", not _left, f"{len(_left)} statements with estimate wording" + (f": {_left[0][:80]}" if _left else ""))

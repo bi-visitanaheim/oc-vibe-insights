@@ -33,9 +33,11 @@ pres.defineSlideMaster({ title: 'VA Content', background: { color: H.white },
   slideNumber: { x: W - M - 0.6, y: 7.02, w: 0.6, h: 0.3, fontSize: 9, color: H.dark, align: 'right' } });
 
 const ft = (o) => Object.assign({ isTextBox: true, margin: 0, fontFace: 'Proxima Nova' }, o);
+let KIND = '';   // 'Analysis' after a section's news-report slides; '' elsewhere
 function content(section, title, kicker, notes) {
   const s = pres.addSlide({ masterName: 'VA Content', sectionTitle: section });
   s.addText(title, { placeholder: 'title' });
+  if (KIND) kicker = KIND + (kicker ? ' · ' + kicker : '');
   if (kicker) s.addText(kicker, { placeholder: 'kicker' });
   if (notes) s.addNotes(notes);
   return s;

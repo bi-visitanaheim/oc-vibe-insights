@@ -465,3 +465,6 @@ import feature as _ft
 _ft.attach(SECTIONS)
 import facts_only as _fo
 _fo.attach(SECTIONS, TAKEAWAYS, DQ, STORIES, DATA_EXTRA['main'], SOURCES, _ocv.REGISTER)
+import newsroom as _nr   # Oct. 13, 2026: broadsheet news report + analysis structure (facts only; no opinion)
+_nr.attach(SECTIONS, "Oct. 13, 2026")
+for _o in (TAKEAWAYS, DQ, RECS, SOURCES, DATA_EXTRA, STORIES): _nr.no_em(_o)

@@ -7,8 +7,8 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
 | **Dashboard** | claude.ai artifact, version 16 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
-| **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (private) |
-| **Website** | Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects", limited to Visit Anaheim Vercel team members |
+| **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
+| **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
 | **Deck** | `OC_Vibe_Insights.pptx`, 70 slides, VA Branded |
 | **Data through** | Sept. 2026 (STR through Oct. 3, 2026; CoStar and Visa through Aug. 2026) |
 | **Last updated** | Oct. 13, 2026 |
@@ -109,7 +109,7 @@ The source register on the Sources page lists each source's document, period cov
 | `pipeline/` | Content modules (Python), deck builder (`deck_head.js`, `deck_body.js`), page assembler (`build.py`, `app.js`) |
 | `pipeline/files/` | California transit snapshot CSVs (public) |
 | `pipeline/files/gtfs/` | OCTA GTFS schedule files used by the ARTIC bus recount (public; `stop_times` is gzipped) |
-| `pipeline/files/licensed/` | CoStar and STR raw exports. **Not in Git**; copy them from the BI OneDrive folder before rebuilding |
+| `pipeline/files/licensed/` | CoStar and STR raw exports. **Not in Git** (the repository is public); copy them from the BI OneDrive folder before rebuilding |
 | `pipeline/assets/` | VA Branded CSS and logo, ADT image |
 | `pipeline/checks/`, `pipeline/computations/` | Internal validation script, contract and results (not shown in the report) |
 | `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
@@ -158,7 +158,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 
 | Feature | claude.ai artifact | Vercel website |
 |---|---|---|
-| Who can open it | People it is shared with | Visit Anaheim Vercel team members (Vercel Authentication) |
+| Who can open it | People it is shared with | Anyone with the link to oc-vibe-insights.vercel.app |
 | Calculator "Save" | Saves to the shared database | Not available; use Download (.csv) |
 | PDF, CSV and deck downloads | Yes | Yes |
 
@@ -184,8 +184,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 - **Tourism Economics 2025 Economic Impact:** confirm it is cleared for distribution.
 - **LARC reports:** consent is required.
 - **CoStar, STR and Visa:** licensed data. Share summaries, not raw exports.
-- **The website:** limited to Visit Anaheim Vercel team members. Do not turn off Vercel Authentication or add a public share link until the approvals above are confirmed.
-- **The repository:** private. Licensed raw exports are excluded by `.gitignore`.
+- **The website and repository are public** (decision by John Picou, Oct. 13, 2026). Licensed raw exports (CoStar, STR) are excluded by `.gitignore` and are never pushed.
 - **The dashboard:** private until shared. OC Vibe staff need an email invitation as Editors to save calculator figures. With link sharing, they can use Download instead.
 
 ---

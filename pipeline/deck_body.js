@@ -67,7 +67,147 @@ function newsSlides(id) {
     t.addText('Source: ' + d.src, ft({ x: px + 0.15, y: py + ch - 0.33, w: gw - 0.3, h: 0.28, fontSize: 7, color: H.dark, valign: 'bottom', fit: 'shrink' }));
   });
   source(t, x.w5h.src);
+  infoSlide(id);
   KIND = 'Analysis';
+}
+
+/* Data infographics (Oct. 13, 2026): one "At a glance" slide per section, drawn with native shapes (editable, no images) */
+function igDraw(t, g, X, Y, Wd, Hd) {
+  t.addText(g.title, ft({ x: X, y: Y, w: Wd, h: 0.36, fontSize: 15, bold: true, italic: true, color: H.e3, fit: 'shrink' }));
+  if (g.sub) t.addText(g.sub, ft({ x: X, y: Y + 0.36, w: Wd, h: 0.26, fontSize: 9.5, color: H.dark, fit: 'shrink' }));
+  const y0 = Y + 0.72, h0 = Hd - 0.72;
+  const R = pres.shapes.RECTANGLE;
+  if (g.kind === 'chain') {
+    const n = g.steps.length, lw = 0.95, bw = (Wd - lw * (n - 1)) / n;
+    g.steps.forEach((st, i) => {
+      const bx = X + i * (bw + lw);
+      t.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: bx, y: y0, w: bw, h: 2.2, fill: { color: H.light }, line: { color: H.e4, width: 1 }, rectRadius: 0.06 });
+      t.addShape(R, { x: bx, y: y0, w: bw, h: 0.07, fill: { color: H.e3 }, line: { color: H.e3, width: 0 } });
+      t.addText(st.v, ft({ x: bx + 0.12, y: y0 + 0.3, w: bw - 0.24, h: 0.75, fontSize: 25, bold: true, italic: true, color: H.e3, fit: 'shrink' }));
+      t.addText(st.l, ft({ x: bx + 0.12, y: y0 + 1.1, w: bw - 0.24, h: 1.0, fontSize: 12, bold: true, color: H.dark, valign: 'top', fit: 'shrink' }));
+      if (i < n - 1) {
+        t.addShape(pres.shapes.LINE, { x: bx + bw + 0.08, y: y0 + 0.75, w: lw - 0.16, h: 0, line: { color: H.e1, width: 3, endArrowType: 'triangle' } });
+        t.addText(g.links[i], ft({ x: bx + bw + 0.02, y: y0 + 0.88, w: lw - 0.04, h: 1.2, fontSize: 8.5, color: H.dark, align: 'center', valign: 'top', fit: 'shrink' }));
+      }
+    });
+  } else if (g.kind === 'waffle') {
+    const n = g.items.length, cw = Wd / n, cell = Math.min(0.24, (cw - 0.6) / 10), gap = cell * 0.14;
+    g.items.forEach((it, j) => {
+      const gx = X + j * cw, k0 = Math.round(it.pct);
+      for (let k = 0; k < 100; k++) t.addShape(R, { x: gx + (k % 10) * (cell + gap), y: y0 + Math.floor(k / 10) * (cell + gap), w: cell, h: cell, fill: { color: k < k0 ? H.e1 : 'E3E2DA' }, line: { color: k < k0 ? H.e1 : 'E3E2DA', width: 0 } });
+      const ty = y0 + 10 * (cell + gap) + 0.08;
+      t.addText(it.pct.toFixed(1) + '%', ft({ x: gx, y: ty, w: cw - 0.2, h: 0.4, fontSize: 20, bold: true, italic: true, color: H.e3 }));
+      t.addText(it.l + ' (' + k0 + ' of every 100)', ft({ x: gx, y: ty + 0.4, w: cw - 0.3, h: 0.5, fontSize: 10, bold: true, color: H.dark, valign: 'top', fit: 'shrink' }));
+    });
+  } else if (g.kind === 'receipt') {
+    const rw = Wd * 0.56, lh = 0.6;
+    t.addShape(R, { x: X, y: y0, w: rw, h: lh * g.lines.length + 0.85, fill: { color: H.white }, line: { color: H.e4, width: 1 } });
+    g.lines.forEach((ln, i) => {
+      const ly = y0 + 0.1 + i * lh;
+      t.addText(ln.l, ft({ x: X + 0.15, y: ly, w: rw - 1.4, h: 0.26, fontSize: 11, bold: true, color: H.dark }));
+      t.addText(ln.v, ft({ x: X + rw - 1.25, y: ly, w: 1.1, h: 0.26, fontSize: 12.5, bold: true, color: H.e3, align: 'right' }));
+      t.addShape(R, { x: X + 0.15, y: ly + 0.3, w: (rw - 0.3) * ln.pct / 100, h: 0.07, fill: { color: H.e1 }, line: { color: H.e1, width: 0 } });
+      t.addText(ln.calc + ' · ' + ln.pct + '% of spending', ft({ x: X + 0.15, y: ly + 0.38, w: rw - 0.3, h: 0.2, fontSize: 7.5, color: H.dark }));
+    });
+    const ty = y0 + 0.1 + g.lines.length * lh;
+    t.addShape(pres.shapes.LINE, { x: X + 0.15, y: ty, w: rw - 0.3, h: 0, line: { color: H.dark, width: 1.5 } });
+    t.addText(g.total.l.toUpperCase(), ft({ x: X + 0.15, y: ty + 0.08, w: rw - 1.6, h: 0.3, fontSize: 11, bold: true, color: H.dark }));
+    t.addText(g.total.v, ft({ x: X + rw - 1.45, y: ty + 0.05, w: 1.3, h: 0.36, fontSize: 18, bold: true, italic: true, color: H.e3, align: 'right' }));
+    t.addText(g.total.calc, ft({ x: X + 0.15, y: ty + 0.42, w: rw - 0.3, h: 0.3, fontSize: 7.5, color: H.dark, fit: 'shrink' }));
+    const mx = X + rw + 0.4, mw = Wd - rw - 0.4, cols = ['125C60', '43A3A3', '77C7C9', 'B4D9E3', 'C9C6B8'];
+    t.addText('Every $1 of visitor spending', ft({ x: mx, y: y0, w: mw, h: 0.3, fontSize: 12, bold: true, color: H.e3 }));
+    let sx = mx; g.lines.forEach((ln, i) => { const sw = mw * ln.pct / 100; t.addShape(R, { x: sx, y: y0 + 0.4, w: sw, h: 0.45, fill: { color: cols[i] }, line: { color: H.white, width: 0.5 } }); sx += sw; });
+    g.lines.forEach((ln, i) => {
+      const ly = y0 + 1.05 + i * 0.42;
+      t.addShape(R, { x: mx, y: ly + 0.08, w: 0.16, h: 0.16, fill: { color: cols[i] }, line: { color: cols[i], width: 0 } });
+      t.addText([{ text: Math.round(ln.pct) + '¢  ', options: { bold: true, italic: true, color: H.e3, fontSize: 14 } }, { text: ln.l + ' (' + ln.pct + '%)', options: { color: H.dark, fontSize: 10.5 } }], ft({ x: mx + 0.25, y: ly, w: mw - 0.25, h: 0.34 }));
+    });
+  } else if (g.kind === 'people') {
+    const full = Math.floor(g.pct / 10), part = (g.pct % 10) / 10, iw = 0.62;
+    for (let k = 0; k < 10; k++) {
+      const px = X + k * (iw + 0.18), on = k < full, f = k === full ? part : (on ? 1 : 0);
+      t.addShape(pres.shapes.OVAL, { x: px + iw * 0.25, y: y0, w: iw * 0.5, h: iw * 0.5, fill: { color: on || f >= 0.5 ? H.e1 : H.e4 }, line: { color: H.white, width: 0 } });
+      t.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: px, y: y0 + iw * 0.58, w: iw, h: iw * 1.6, fill: { color: H.e4 }, line: { color: H.white, width: 0 }, rectRadius: 0.12 });
+      if (f > 0) t.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: px, y: y0 + iw * 0.58, w: iw * f, h: iw * 1.6, fill: { color: H.e1 }, line: { color: H.white, width: 0 }, rectRadius: f < 1 ? 0.02 : 0.12 });
+    }
+    t.addText(g.v, ft({ x: X + 8.2, y: y0, w: Wd - 8.2, h: 0.7, fontSize: 36, bold: true, italic: true, color: H.e3 }));
+    t.addText(g.l, ft({ x: X + 8.2, y: y0 + 0.75, w: Wd - 8.2, h: 0.8, fontSize: 12, bold: true, color: H.dark, valign: 'top' }));
+  } else if (g.kind === 'towers') {
+    const n = g.nights.length, cw = Wd / n, th = Math.min(2.4, h0 - 0.8);
+    g.nights.forEach((nt, i) => {
+      const cx = X + i * cw + cw * 0.15, w = cw * 0.7;
+      t.addShape(R, { x: cx, y: y0, w, h: th, fill: { color: H.light }, line: { color: H.e4, width: 1 } });
+      const fh = th * nt.v / 100; t.addShape(R, { x: cx, y: y0 + th - fh, w, h: fh, fill: { color: nt.hi ? H.e1 : H.e4 }, line: { color: nt.hi ? H.e1 : H.e4, width: 0 } });
+      t.addText(nt.v + '%', ft({ x: X + i * cw, y: y0 + th + 0.05, w: cw, h: 0.3, fontSize: 11, bold: true, color: H.dark, align: 'center' }));
+      t.addText(nt.l.toUpperCase(), ft({ x: X + i * cw, y: y0 + th + 0.33, w: cw, h: 0.25, fontSize: 9, bold: true, color: H.dark, align: 'center' }));
+    });
+  } else if (g.kind === 'share') {
+    t.addShape(R, { x: X, y: y0 + 0.1, w: Wd, h: 0.8, fill: { color: H.e4 }, line: { color: H.e4, width: 0 } });
+    t.addShape(R, { x: X, y: y0 + 0.1, w: Math.max(0.04, Wd * g.pct / 100), h: 0.8, fill: { color: H.e3 }, line: { color: H.e3, width: 0 } });
+    t.addText([{ text: g.part.v + ' ', options: { bold: true, italic: true, fontSize: 18, color: H.e3 } }, { text: g.part.l + ' (' + g.pct + '%)', options: { fontSize: 11, color: H.dark } }], ft({ x: X, y: y0 + 1.05, w: Wd / 2, h: 0.5 }));
+    t.addText([{ text: g.whole.v + ' ', options: { bold: true, italic: true, fontSize: 18, color: H.e3 } }, { text: g.whole.l, options: { fontSize: 11, color: H.dark } }], ft({ x: X + Wd / 2, y: y0 + 1.05, w: Wd / 2, h: 0.5, align: 'right' }));
+    t.addText('Calculation: ' + g.calc, ft({ x: X, y: y0 + 1.6, w: Wd, h: 0.3, fontSize: 9.5, color: H.dark }));
+  } else if (g.kind === 'board') {
+    const bh = 0.45 * (g.rows.length + 2) + 0.1, mxn = Math.max(...g.rows.map(r => r.n));
+    t.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: X, y: y0, w: Wd, h: bh, fill: { color: H.e3 }, line: { color: H.e3, width: 0 }, rectRadius: 0.06 });
+    ['ROUTE', 'CORRIDOR', 'WEEKDAY TRIPS'].forEach((hh, i) => t.addText(hh, ft({ x: X + [0.2, 1.2, Wd * 0.62][i], y: y0 + 0.1, w: 3, h: 0.3, fontSize: 9, bold: true, color: H.white, charSpacing: 1 })));
+    [...g.rows, { r: 'All', d: g.total.l + ' (' + g.total.calc + ')', n: g.total.n, tot: true }].forEach((r, i) => {
+      const ry = y0 + 0.5 + i * 0.45;
+      t.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: X + 0.2, y: ry, w: 0.75, h: 0.34, fill: { color: r.tot ? H.white : H.e1 }, line: { color: H.white, width: 0 }, rectRadius: 0.04 });
+      t.addText(r.r, ft({ x: X + 0.2, y: ry, w: 0.75, h: 0.34, fontSize: 13, bold: true, color: r.tot ? H.e3 : H.white, align: 'center', valign: 'middle' }));
+      t.addText(r.d, ft({ x: X + 1.2, y: ry, w: Wd * 0.62 - 1.3, h: 0.34, fontSize: 11, color: H.white, valign: 'middle', fit: 'shrink' }));
+      if (!r.tot) { t.addShape(R, { x: X + Wd * 0.62, y: ry + 0.12, w: (Wd * 0.3) * r.n / mxn, h: 0.1, fill: { color: H.e4 }, line: { color: H.e4, width: 0 } }); }
+      t.addText(String(r.n), ft({ x: X + Wd - 0.9, y: ry, w: 0.75, h: 0.34, fontSize: 14, bold: true, color: H.white, align: 'right', valign: 'middle' }));
+    });
+    const ew = (Wd - 0.4) / g.extra.length;
+    g.extra.forEach((e, i) => {
+      const ex = X + i * (ew + 0.2), ey = y0 + bh + 0.15;
+      t.addShape(R, { x: ex, y: ey, w: ew, h: 0.85, fill: { color: H.white }, line: { color: H.e4, width: 1 } });
+      t.addText(e.v, ft({ x: ex + 0.12, y: ey + 0.05, w: ew - 0.24, h: 0.4, fontSize: 18, bold: true, italic: true, color: H.e3 }));
+      t.addText(e.l, ft({ x: ex + 0.12, y: ey + 0.45, w: ew - 0.24, h: 0.35, fontSize: 9.5, color: H.dark, fit: 'shrink' }));
+    });
+  } else if (g.kind === 'funnel') {
+    g.stages.forEach((st, i) => {
+      const w = i ? Wd * 0.5 : Wd * 0.9, fx = X + (Wd - w) / 2, fy = y0 + i * 1.0;
+      t.addShape(pres.shapes.TRAPEZOID, { x: fx, y: fy, w, h: 0.9, fill: { color: i ? H.e1 : H.e4 }, line: { color: H.white, width: 0 }, flipV: true });
+      t.addText(st.v, ft({ x: fx, y: fy + 0.08, w, h: 0.45, fontSize: 22, bold: true, italic: true, color: H.dark, align: 'center' }));
+      t.addText(st.l, ft({ x: fx, y: fy + 0.52, w, h: 0.3, fontSize: 10, bold: true, color: H.dark, align: 'center' }));
+    });
+    const rw = (Wd - 0.3) / g.rates.length;
+    g.rates.forEach((r, i) => {
+      const rx = X + i * (rw + 0.3), ry = y0 + 2.15;
+      t.addShape(R, { x: rx, y: ry, w: rw, h: 0.05, fill: { color: H.e3 }, line: { color: H.e3, width: 0 } });
+      t.addText(r.v, ft({ x: rx, y: ry + 0.1, w: rw, h: 0.42, fontSize: 20, bold: true, italic: true, color: H.e3 }));
+      t.addText(r.l, ft({ x: rx, y: ry + 0.52, w: rw, h: 0.28, fontSize: 10.5, bold: true, color: H.dark }));
+      t.addText(r.calc, ft({ x: rx, y: ry + 0.8, w: rw, h: 0.26, fontSize: 9, color: H.dark }));
+    });
+  } else if (g.kind === 'versus') {
+    const mxv = Math.max(...g.rows.flatMap(r => [r.a, r.b])), lw = 3.0, bwid = Wd - lw - 0.2;
+    g.rows.forEach((r, i) => {
+      const ry = y0 + i * 1.15;
+      t.addText(r.l, ft({ x: X, y: ry, w: lw, h: 0.9, fontSize: 12, bold: true, color: H.dark, valign: 'middle' }));
+      [[r.la, r.a, H.e1], [r.lb, r.b, H.e4]].forEach(([lab, v, col], j) => {
+        const by = ry + 0.05 + j * 0.42;
+        t.addShape(R, { x: X + lw + 0.2, y: by, w: bwid, h: 0.36, fill: { color: H.light }, line: { color: H.light, width: 0 } });
+        t.addShape(R, { x: X + lw + 0.2, y: by, w: bwid * v / mxv, h: 0.36, fill: { color: col }, line: { color: col, width: 0 } });
+        t.addText([{ text: lab + ' ', options: { color: H.dark, fontSize: 10.5 } }, { text: '+' + v + '%', options: { color: H.dark, fontSize: 11, bold: true } }], ft({ x: X + lw + 0.3, y: by, w: bwid - 0.2, h: 0.36, valign: 'middle' }));
+      });
+    });
+  }
+}
+function infoSlide(id) {
+  const x = sec(id); if (!x || !(x.info || []).length) return;
+  const t = content(x.tab, 'At a glance: ' + x.tab, 'News report · data infographic' + (x.info.length > 1 ? 's' : '') + ' · every figure from this section, with its source and date', '');
+  const n = x.info.length, gw = (W - 2 * M - 0.4 * (n - 1)) / n;
+  x.info.forEach((g, i) => igDraw(t, g, M + i * (gw + 0.4), 1.55, gw, 4.9));
+  const used = { chain: 3.0, people: 2.0, share: 2.6, towers: 3.6, waffle: 4.2, receipt: 4.9, board: 4.3, funnel: 4.15, versus: 3.9 };
+  const top = 1.55 + Math.max(...x.info.map(g => used[g.kind] || 4.9)) + 0.25;
+  if (x.nut && 6.45 - top > 0.9) {
+    t.addShape(pres.shapes.RECTANGLE, { x: M, y: top, w: W - 2 * M, h: 0.05, fill: { color: H.e3 }, line: { color: H.e3, width: 0 } });
+    t.addText('WHY IT MATTERS', ft({ x: M, y: top + 0.1, w: 3, h: 0.25, fontSize: 10, bold: true, color: H.e3, charSpacing: 1 }));
+    rich(t, x.nut, { x: M, y: top + 0.38, w: W - 2 * M, h: Math.min(1.6, 6.45 - top - 0.4), fontSize: 12.5 });
+  }
+  source(t, [...new Set(x.info.map(g => g.src))].join('; '));
 }
 
 /* How the key insight is calculated: step table per section (calculated steps and reported inputs) */

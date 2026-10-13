@@ -104,6 +104,59 @@ function chartHtml(c) {
   }
   return `<figure class="chartf" role="img" aria-label="${esc(aria)}"><h3>${esc(c.title)}</h3><p class="csub2">${esc(c.sub)}</p>${body}<p class="src">Source: ${esc(c.src)}</p></figure>`;
 }
+
+/* ---------- data infographics (Oct. 13, 2026): count-up numbers, growing bars, filling waffles; final values in markup ---------- */
+function cnt(o, txt) {   // number that counts up on entrance; markup holds the final text
+  if (!o || o.n == null) return esc(txt);
+  return `<span class="cu" data-n="${o.n}" data-pre="${esc(o.pre||'')}" data-suf="${esc(o.suf||'')}" data-dec="${o.dec != null ? o.dec : (String(o.n).includes('.') ? String(o.n).split('.')[1].length : 0)}">${esc(txt)}</span>`;
+}
+function infoHtml(g, sid, i) {
+  const head = `<header class="ig-h"><h4>${esc(g.title)}</h4>${g.sub ? `<p>${esc(g.sub)}</p>` : ''}</header>`;
+  const foot = `<p class="ig-src">Source: ${esc(g.src)}</p>`;
+  let body = '', label = g.title;
+  if (g.kind === 'chain') {
+    body = `<ol class="ig-chain">${g.steps.map((st, k) => `<li class="ch-step" style="--i:${k}"><b class="ch-v">${cnt(st, st.v)}</b><span class="ch-l">${esc(st.l)}</span></li>${k < g.links.length ? `<li class="ch-link" style="--i:${k}"><span class="ch-arrow" aria-hidden="true"></span><span class="ch-t">${esc(g.links[k])}</span></li>` : ''}`).join('')}</ol>`;
+    label += ': ' + g.steps.map(st => st.v + ' ' + st.l).join(', ');
+  } else if (g.kind === 'waffle') {
+    body = `<div class="ig-waffles">${g.items.map(it => { const n = Math.round(it.pct); return `<figure class="wf"><div class="wf-grid" role="img" aria-label="${n} of 100 (${it.pct}%) ${esc(it.l)}">${Array.from({length:100}, (_, k) => `<span class="${k < n ? 'on' : ''}" style="--i:${k}"></span>`).join('')}</div><figcaption><b>${cnt({n:it.pct, suf:'%', dec:1}, it.pct.toFixed(1)+'%')}</b> ${esc(it.l)}<small>${n} of every 100 · Source: ${esc(it.src)}</small></figcaption></figure>`; }).join('')}</div>`;
+  } else if (g.kind === 'receipt') {
+    body = `<div class="ig-receipt"><div class="rc-paper"><p class="rc-h">Anaheim · average visitor · 2025</p>${g.lines.map((ln, k) => `<div class="rc-ln" style="--i:${k}" data-tip="${esc(ln.l)}: ${esc(ln.v)} (${esc(ln.calc)}; ${ln.pct}% of spending)" tabindex="0"><span class="rc-l">${esc(ln.l)}</span><span class="rc-dots" aria-hidden="true"></span><b>${cnt(ln, ln.v)}</b><span class="rc-bar" aria-hidden="true"><span class="grow" style="width:${ln.pct}%"></span></span><small>${esc(ln.calc)} · ${ln.pct}% of spending</small></div>`).join('')}<div class="rc-tot"><span>${esc(g.total.l)}</span><b>${esc(g.total.v)}</b><small>${esc(g.total.calc)}</small></div></div>
+      <div class="rc-mix"><p class="rc-mh">Every $1 of visitor spending</p><div class="rc-stack" role="img" aria-label="${esc(g.lines.map(ln => ln.l + ' ' + ln.pct + '%').join(', '))}">${g.lines.map((ln, k) => `<span class="rc-seg s${k}" style="width:${ln.pct}%;--i:${k}" data-tip="${esc(ln.l)}: ${ln.pct}% (${(ln.pct).toFixed(1)} cents of each $1)" tabindex="0"></span>`).join('')}</div>
+      <ul class="rc-leg">${g.lines.map((ln, k) => `<li><span class="sw s${k}" aria-hidden="true"></span><b>${Math.round(ln.pct)}¢</b> ${esc(ln.l)} <small>(${ln.pct}%)</small></li>`).join('')}</ul></div></div>`;
+    label += ': ' + g.lines.map(ln => ln.l + ' ' + ln.v).join(', ') + '; ' + g.total.l + ' ' + g.total.v;
+  } else if (g.kind === 'people') {
+    const full = Math.floor(g.pct / 10), part = (g.pct % 10) / 10;
+    const icon = f => `<span class="pp" style="--f:${f}"><svg viewBox="0 0 24 48" aria-hidden="true"><circle cx="12" cy="7" r="6"/><path d="M3 18a9 9 0 0 1 18 0v14h-4v15h-10V32H3z"/></svg></span>`;
+    body = `<div class="ig-people"><div class="pp-row" role="img" aria-label="${esc(g.v)} ${esc(g.l)}">${Array.from({length:10}, (_, k) => icon(k < full ? 1 : k === full ? part : 0)).join('')}</div><p class="pp-cap"><b>${cnt({n:g.pct, suf:'%', dec:1}, g.v)}</b> ${esc(g.l)}</p></div>`;
+  } else if (g.kind === 'towers') {
+    body = `<div class="ig-towers">${g.nights.map((nt, k) => `<div class="tw${nt.hi ? ' hi' : ''}" style="--i:${k}" data-tip="${esc(nt.l)}: ${nt.v}% occupied" tabindex="0"><div class="tw-b"><span class="grow-y" style="height:${nt.v}%"></span></div><b>${nt.v}%</b><span>${esc(nt.l)}</span></div>`).join('')}</div>`;
+    label += ': ' + g.nights.map(nt => nt.l + ' ' + nt.v + '%').join(', ');
+  } else if (g.kind === 'share') {
+    body = `<div class="ig-share"><div class="sh-bar" data-tip="${esc(g.part.v)} ${esc(g.part.l)} of ${esc(g.whole.v)}: ${g.pct}%" tabindex="0"><span class="grow" style="width:${Math.max(g.pct, 0.8)}%"></span></div><div class="sh-leg"><span><b>${cnt(g.part, g.part.v)}</b> ${esc(g.part.l)} (${g.pct}%)</span><span><b>${cnt(g.whole, g.whole.v)}</b> ${esc(g.whole.l)}</span></div><p class="ig-calc">Calculation: ${esc(g.calc)}</p></div>`;
+    label += `: ${g.part.v} ${g.part.l} of ${g.whole.v} ${g.whole.l}, ${g.pct}%`;
+  } else if (g.kind === 'board') {
+    const mx = Math.max(...g.rows.map(r => r.n));
+    body = `<div class="ig-board"><div class="bd-h"><span>Route</span><span>Corridor</span><span>Weekday trips</span></div>${g.rows.map((r, k) => `<div class="bd-r" style="--i:${k}"><span class="bd-route">${esc(r.r)}</span><span class="bd-d">${esc(r.d)}</span><span class="bd-n"><span class="bd-bar"><span class="grow" style="width:${r.n / mx * 100}%"></span></span><b>${cnt({n:r.n}, String(r.n))}</b></span></div>`).join('')}<div class="bd-r bd-t"><span class="bd-route">All</span><span class="bd-d">${esc(g.total.l)} (${esc(g.total.calc)})</span><span class="bd-n"><b>${cnt({n:g.total.n}, String(g.total.n))}</b></span></div></div><div class="ig-extra">${g.extra.map(x => `<div><b>${esc(x.v)}</b><span>${esc(x.l)}</span></div>`).join('')}</div>`;
+    label += ': ' + g.rows.map(r => 'Route ' + r.r + ' ' + r.n).join(', ') + ', total ' + g.total.n;
+  } else if (g.kind === 'funnel') {
+    body = `<div class="ig-funnel">${g.stages.map((st, k) => `<div class="fn-s" style="--w:${k ? 46 : 100}%;--i:${k}"><b>${cnt(st, st.v)}</b><span>${esc(st.l)}</span></div>`).join('')}<div class="fn-rates">${g.rates.map(r => `<div><b>${esc(r.v)}</b><span>${esc(r.l)}</span><small>${esc(r.calc)}</small></div>`).join('')}</div></div>`;
+    label += ': ' + g.stages.map(st => st.v + ' ' + st.l).join(' to ');
+  } else if (g.kind === 'versus') {
+    const mx = Math.max(...g.rows.flatMap(r => [r.a, r.b]));
+    body = `<div class="ig-vs">${g.rows.map((r, k) => `<div class="vs-r" style="--i:${k}"><span class="vs-l">${esc(r.l)}</span><div class="vs-bars"><div class="vs-b a" data-tip="${esc(r.la)}: +${r.a}%" tabindex="0"><span class="grow" style="width:${r.a / mx * 100}%"></span><em>${esc(r.la)} <b>+${r.a}%</b></em></div><div class="vs-b b" data-tip="${esc(r.lb)}: +${r.b}%" tabindex="0"><span class="grow" style="width:${r.b / mx * 100}%"></span><em>${esc(r.lb)} <b>+${r.b}%</b></em></div></div></div>`).join('')}</div>`;
+    label += ': ' + g.rows.map(r => `${r.l}: ${r.la} +${r.a}%, ${r.lb} +${r.b}%`).join('; ');
+  }
+  return `<figure class="ig igk-${g.kind} reveal" id="${sid}-ig${i}" aria-label="${esc(label)}">${head}${body}${foot}</figure>`;
+}
+function countUp(root) {
+  root.querySelectorAll('.cu').forEach(el => {
+    const n = +el.dataset.n, dec = +el.dataset.dec || 0, pre = el.dataset.pre || '', suf = el.dataset.suf || '', final = el.textContent, t0 = performance.now(), D = 1100;
+    const fmt = v => pre + v.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec}) + suf;
+    const step = t => { const p = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - p, 3); el.textContent = p < 1 ? fmt(n * e) : final; if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+
 function renderSection(s) {
   const [t0, ...tRest] = s.tables;
   const more = [...(s.more_charts || s.charts).map(c => `<div>${chartHtml(c)}</div>`), ...tRest.map((t,i) => `<div class="tbl${t.wide?' wide':''}" id="${s.id}-t${i+1}">${tableHtml(t, s.id+'-t'+(i+1))}</div>`)];
@@ -130,14 +183,13 @@ function renderSection(s) {
       ${s.dek ? `<p class="art-dek">${esc(s.dek)}</p>` : ''}
       <p class="art-by">By Visit Anaheim Business Intelligence · ${esc(DATA.prepared)} · <span class="badge">${esc(s.period)}</span></p>
     </header>
-    <div class="art-grid">
-      <div class="art-body">
-        <div class="answer art-lede reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">${isNews ? 'The lede' : 'Key insight'}</span><p>${s.dateline ? `<span class="dline">${esc(s.dateline)}</span> ` : ''}${emph(s.ans)}</p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
-        ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p>${emph(s.nut)}</p></div>` : ''}
-        ${steps}
-      </div>
-      <aside class="art-side" aria-label="By the numbers"><h3>By the numbers</h3>${stats}</aside>
+    <div class="art-lede-wrap">
+      <div class="answer art-lede reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">${isNews ? 'The lede' : 'Key insight'}</span><p>${s.dateline ? `<span class="dline">${esc(s.dateline)}</span> ` : ''}${emph(s.ans)}</p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
+      ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p>${emph(s.nut)}</p></div>` : ''}
     </div>
+    ${(s.info || []).length ? `<div class="ig-wrap${s.info.length > 1 ? ' two' : ''}" id="${s.id}-ig"><h3 class="ig-k">At a glance</h3>${s.info.map((g, i) => infoHtml(g, s.id, i)).join('')}</div>` : ''}
+    <section class="art-nums reveal" aria-label="By the numbers"><h3>By the numbers</h3><div class="nums">${stats}</div></section>
+    ${steps}
     ${W ? `<div class="art-w5h reveal" id="${s.id}-w5h"><h3>The details</h3><p class="d-sub">Who, what, when, where, why and how, each with its figure, source and date.</p>${W}</div>` : ''}
     ${isNews ? `<div class="an-band reveal" id="${s.id}-analysis"><span class="kind">Analysis</span><h3>What the data shows</h3><p><b>The question:</b> ${esc(s.q)}</p></div>` : `<p class="art-q"><b>The question:</b> ${esc(s.q)}</p>`}
     ${feat}
@@ -187,15 +239,11 @@ function renderAnn() {
     <p class="ann-kick">Highlight: <b>${esc(ANN.hl)}</b></p>
     <h2 class="ann-h" id="annHead">${esc(st.head)}</h2>
     <p class="ann-dek">${esc(st.dek)}</p>
-    <div class="ann-grid">
-      <div class="ann-cols"><p class="lede"><span class="ann-dl">${ANN.dateline}</span> ${emph(st.lede)}</p>${st.paras.map(p => `<p>${emph(p)}</p>`).join('')}</div>
-      <aside class="ann-side" aria-label="By the numbers">
-        <div class="ann-box"><h3>By the numbers</h3>${st.stats.map(([v,l,src], i) => `<div class="ann-stat"><b>${esc(v)}</b><span>${esc(l)}</span>${(st.stat_calc||[])[i] ? `<small>Calculation: ${esc(st.stat_calc[i])}</small>` : ''}<small>Source: ${esc(src)}</small></div>`).join('')}</div>
-        <figure class="ann-box ann-fig" style="margin:0" role="img" aria-label="${esc(st.chart.title)}: ${esc(st.chart.rows.map(r => r[0]+' '+r[2]).join(', '))}">
-          <figcaption>${esc(st.chart.title)}</figcaption><div class="ann-bars">${bars}</div><p class="src">Source: ${esc(st.chart.src)}.</p>
-        </figure>
-      </aside>
-    </div>
+    <section class="ann-nums" aria-label="By the numbers"><h3>By the numbers</h3><div class="ann-strip">${st.stats.map(([v,l,src], i) => `<div class="ann-stat"><b>${esc(v)}</b><span>${esc(l)}</span>${(st.stat_calc||[])[i] ? `<small>Calculation: ${esc(st.stat_calc[i])}</small>` : ''}<small>Source: ${esc(src)}</small></div>`).join('')}</div></section>
+    <div class="ann-cols"><p class="lede"><span class="ann-dl">${ANN.dateline}</span> ${emph(st.lede)}</p>${st.paras.map(p => `<p>${emph(p)}</p>`).join('')}</div>
+    <figure class="ann-box ann-fig ann-wide" role="img" aria-label="${esc(st.chart.title)}: ${esc(st.chart.rows.map(r => r[0]+' '+r[2]).join(', '))}">
+      <figcaption>${esc(st.chart.title)}</figcaption><div class="ann-bars">${bars}</div><p class="src">Source: ${esc(st.chart.src)}.</p>
+    </figure>
     <div class="ann-foot"><p><b>About the data:</b> ${esc(st.srcs.join('; '))}. ${esc(prepared)}</p><p class="ann-end">###</p></div>`;
 }
 function annText() {
@@ -262,7 +310,7 @@ document.addEventListener('keydown', e => { if (e.key==='Escape' && $('app').cla
 
 /* ---------- pages, sidebar, section tabs ---------- */
 const PAGES = ['p-summary', ...S.map(s => s.id), 'p-notes'];
-const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id, s.kind === 'News report' ? 'The lede' : 'Key insight'],[s.id+'-nut','Why it matters'],[s.id+'-calc','How it is calculated'],[s.id+'-w5h','The details'],[s.id+'-analysis','Analysis'],[s.id+'-charts','Charts'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-nut') ? s.nut : id.endsWith('-analysis') ? s.kind === 'News report' : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
+const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id, s.kind === 'News report' ? 'The lede' : 'Key insight'],[s.id+'-nut','Why it matters'],[s.id+'-ig','At a glance'],[s.id+'-calc','How it is calculated'],[s.id+'-w5h','The details'],[s.id+'-analysis','Analysis'],[s.id+'-charts','Charts'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-nut') ? s.nut : id.endsWith('-ig') ? (s.info||[]).length : id.endsWith('-analysis') ? s.kind === 'News report' : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
 $('sideList').innerHTML = SIDE.map(([id,t,subs]) => `<li><button type="button" class="top" data-go="${id}">${esc(t)}</button><div class="subs">${subs.map(([sid,st]) => `<button type="button" class="sub" data-go="${id}" data-target="${sid}">${esc(st)}</button>`).join('')}</div></li>`).join('');
 $('secPills').innerHTML = [...SIDE, ['p-notes','Sources']].map(([id,t]) => `<button type="button" class="tab" data-go="${id}">${esc(t)}</button>`).join('');
 document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { goPage(PAGES.indexOf(b.dataset.go), b.dataset.target); if (matchMedia('(max-width:900px)').matches && b.closest('.side')) setSide(false); });
@@ -434,7 +482,7 @@ window.addEventListener('afterprint', () => { _closed.forEach(d => d.open = fals
 (function(){
   if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('js-anim');
-  const io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io2.unobserve(e.target); } }), {rootMargin:'0px 0px -6% 0px'});
+  const io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); if (e.target.classList.contains('ig')) countUp(e.target); io2.unobserve(e.target); } }), {rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.reveal').forEach(el => io2.observe(el));
   window.addEventListener('beforeprint', () => document.querySelectorAll('.reveal').forEach(el => el.classList.add('in')));
 })();

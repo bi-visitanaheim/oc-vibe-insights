@@ -468,3 +468,5 @@ _fo.attach(SECTIONS, TAKEAWAYS, DQ, STORIES, DATA_EXTRA['main'], SOURCES, _ocv.R
 import newsroom as _nr   # Oct. 13, 2026: broadsheet news report + analysis structure (facts only; no opinion)
 _nr.attach(SECTIONS, "Oct. 13, 2026")
 for _o in (TAKEAWAYS, DQ, RECS, SOURCES, DATA_EXTRA, STORIES): _nr.no_em(_o)
+import infographics as _ig   # Oct. 13, 2026: data infographics per section
+_ig.attach(SECTIONS); _nr.no_em(SECTIONS)

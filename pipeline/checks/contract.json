@@ -74,7 +74,8 @@
     "files/gtfs/calendar_dates.txt",
     "files/gtfs/trips.txt",
     "files/gtfs/stop_times.txt.gz",
-    "newsroom.py"
+    "newsroom.py",
+    "infographics.py"
   ],
   "software": [
     {

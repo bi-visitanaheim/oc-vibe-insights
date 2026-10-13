@@ -301,6 +301,12 @@ _fp = [t for x in _news for t in [x["nut"]] + [d["fig_l"] for d in x["details"]]
 check("H. Report text", "Attribution and objectivity: no first person in news-report nut graphs or detail cards", not _fp, f"{len(_fp)} exceptions" + (f": {_fp[0][:80]}" if _fp else ""))
 _order = [x["id"] for x in CT.SECTIONS]
 check("H. Report text", "Reading order: each section links to the next with a bridge", _order[:3] == ["p-ocv", "p-d5", "p-spend"] and all(x.get("next", {}).get("bridge") for x in CT.SECTIONS), " → ".join(_order))
+_ig = [(x["id"], g) for x in CT.SECTIONS for g in (x.get("info") or [])]
+_igbad = [f"{sid}:{g['kind']}" for sid, g in _ig if not (g.get("title") and g.get("src") and _re.search(r"20\d\d", g["src"]))]
+_igcalc = [f"{sid}:{g['kind']}" for sid, g in _ig if g["kind"] in ("receipt", "share", "chain") and not (g.get("lines") and all(l.get("calc") for l in g["lines"]) or g.get("calc") or g.get("links"))]
+check("H. Report text", "Every infographic has a title and a dated source; derived values show their calculation", len(_ig) >= 9 and not _igbad and not _igcalc, f"{len(_ig)} infographics; missing source/date: {_igbad or 'none'}; missing calculation: {_igcalc or 'none'}")
+_recv = [g for _, g in _ig if g["kind"] == "receipt"]
+check("H. Report text", "Receipt infographic: per-visitor lines add up to the stated total", all(abs(sum(l["n"] for l in g["lines"]) - float(g["total"]["v"].strip("$"))) < 0.05 for g in _recv), "; ".join(f"sum {sum(l['n'] for l in g['lines']):.2f} vs {g['total']['v']}" for g in _recv))
 _rx = __import__("facts_only").EST_RX
 _left = [t for t in _texts + CT.TAKEAWAYS + CT.DQ if _rx.search(t)]
 check("H. Report text", "No scenario-model estimate remains in the report text", not _left, f"{len(_left)} statements with estimate wording" + (f": {_left[0][:80]}" if _left else ""))

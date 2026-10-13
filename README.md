@@ -6,10 +6,10 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 17 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 18 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
-| **Deck** | `OC_Vibe_Insights.pptx`, 85 slides, VA Branded; each section opens with a news report slide and a details slide |
+| **Deck** | `OC_Vibe_Insights.pptx`, 94 slides, VA Branded; each section opens with a news report slide, a details slide and an "At a glance" infographic slide |
 | **Data through** | Sept. 2026 (STR through Oct. 3, 2026; CoStar and Visa through Aug. 2026) |
 | **Last updated** | Oct. 13, 2026 |
 
@@ -58,19 +58,22 @@ Each section reads like a newspaper story, in this order:
 1. Kicker ("News report"), headline, dek and byline.
 2. The lede: dateline (ANAHEIM, Calif. (Oct. 13, 2026):), the key insight, its key number and source.
 3. Why it matters: the nut graph.
-4. How the key insight is calculated.
+4. At a glance: one or two data infographics (see Features).
 5. By the numbers (KPI cards).
-6. The details: six announcement-style data cards (who, what, when, where, why and how), each with a figure, its label or calculation, the detail and the source with its date.
+6. How the key insight is calculated.
+7. The details: six announcement-style data cards (who, what, when, where, why and how), each with a figure, its label or calculation, the detail and the source with its date.
 
 **Analysis** (feature)
-7. The question, featured charts and the main table.
-8. What it means for OC Vibe: "What it enhances" and "What OC Vibe needs", tagged by topic, not by role.
-9. Compare and contrast.
-10. A collapsed panel, "More data and notes".
-11. Up next.
+8. The question, featured charts and the main table.
+9. What it means for OC Vibe: "What it enhances" and "What OC Vibe needs", tagged by topic, not by role.
+10. Compare and contrast.
+11. A collapsed panel, "More data and notes".
+12. Up next.
 
 ### Features
 
+- **Data infographics ("At a glance").** Built only from figures already in each section, each with its source, date and calculations: an economy chain (visitors, spending, impact, jobs, taxes), waffles (of every 100 District 5 visitors), an itemized visitor receipt with an "every $1" bar, a jobs pictogram, hotel occupancy towers by night, share bars (new hotel supply; day vs. overnight visitors), an ARTIC departures board, an impressions-to-visits funnel, and Anaheim vs. U.S. bars. On screen, numbers count up and bars grow once on entrance; off under reduced motion and in print or PDF.
+- **Full-width layout.** Headlines and deks run the full page width; blocks stack full width with no side columns; stat rows stretch to fill; the overview release flows in three newspaper columns. Checked at 1920, 1440, 1024, 768 and 390 px.
 - **Value tooltips.** Hover over or tab to any bar, column, line point, heatmap cell or overview bar to see its value. The selected mark is highlighted.
 - **Export.** Choose sections, then export as PDF or CSV. The deck can also be downloaded from the page.
 - **Views and navigation:**
@@ -116,9 +119,11 @@ The source register on the Sources page lists each source's document, period cov
 | `pipeline/assets/` | VA Branded CSS and logo, ADT image |
 | `pipeline/checks/`, `pipeline/computations/` | Internal validation script, contract and results (not shown in the report) |
 | `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
+| `pipeline/infographics.py` | The "At a glance" infographic data for each section (attached after newsroom) |
 | `pipeline/newsroom.py` | News report structure: nut graphs, detail cards, reading order, bridges and the em-dash rule (attached last) |
 | `scripts/make_public.py` | Copies the built page and deck into `public/` |
 | `docs/activity-log.md` | Build notes and the change log |
+| `docs/quarterly-refresh.md` | Runbook for the quarterly data refresh |
 | `vercel.json` | Static site settings: no build on Vercel, serve `public/`, no search indexing |
 
 ## 5. How to rebuild
@@ -136,7 +141,8 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
    7. `calcs.py` (calculation breakdowns)
    8. `feature.py` (featured charts)
    9. `facts_only.py` (removes estimates and rebuilds the "Anaheim and OC Vibe today" section)
-   10. `newsroom.py` (last step: news report structure, reading order, house style)
+   10. `newsroom.py` (news report structure, reading order, house style)
+   11. `infographics.py` (last step: "At a glance" infographics)
 3. **Deck:** run `npm run deck`.
    - This writes `pipeline/deck_data.json`, then `pipeline/OC_Vibe_Insights.pptx`.
    - The VA theme step uses the pptx skill's `apply_theme.js`, which is not stored in this repository. Set `PPTX_THEME_SCRIPT` to its path to apply it. Without it, the deck is written unthemed and a warning is shown.
@@ -151,14 +157,15 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-011` (Oct. 13, 2026): 48 of 48 checks passed, including the newsroom checks. The suite was re-run from this repository with the same result.
+- The latest recorded run is `pipeline/computations/validation-012` (Oct. 13, 2026): 50 of 50 checks passed, including the newsroom and infographic checks. The suite was re-run from this repository with the same result.
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
   - the transit files reconcile;
   - every section is a complete news report (dateline, lede, nut graph, six sourced detail cards);
   - no em dashes, AP-style dates and no first person in news reports;
-  - the reading order links each section to the next.
+  - the reading order links each section to the next;
+  - every infographic has a dated source and shows its calculations, and the visitor receipt adds up.
 
 `impact.py` still holds the earlier scenario model for reference. `facts_only.py` keeps all of its output out of the report.
 
@@ -170,6 +177,10 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 | PDF, CSV and deck downloads | Yes | Yes |
 
 ---
+
+### Quarterly refresh
+
+A scheduled task, "OC Vibe Insights quarterly refresh," runs on the 15th of January, April, July and October at about 9 a.m. Pacific, after Tourism Economics' quarterly forecast arrives. It looks for new TE, LARC, STR, CoStar, Azira and Visa files, updates only figures with a new published value, rebuilds the dashboard and deck, runs the checks, republishes the artifact, commits on the OneDrive copy and sends John a summary. John then runs `git push` so Vercel redeploys. Steps: `docs/quarterly-refresh.md`.
 
 ## 6. Data notes to keep in mind
 

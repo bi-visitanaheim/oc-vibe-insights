@@ -504,7 +504,8 @@ footer a{color:inherit;font-weight:800}
 .upd-box .tbl-cap{margin-top:14px}
 """
 
-BODY = f"""<title>OC Vibe Insights</title>
+BODY = f"""<meta charset="utf-8">
+<title>OC Vibe Insights</title>
 <meta name="robots" content="noindex, nofollow">
 <style>
 {css}
@@ -576,7 +577,7 @@ BODY = f"""<title>OC Vibe Insights</title>
               <div id="recList"></div>
             </div>
             <div class="box"><h3>Downloads</h3>
-              <div class="src-acts"><button type="button" class="dl" id="dlDeck">Download the OC Vibe Insights deck (.pptx)</button><button type="button" class="dl" id="dlCsv">Download the data tables (.csv)</button></div>
+              <div class="src-acts"><button type="button" class="dl" id="dlPdf">Download the OC Vibe Insights report (.pdf)</button><button type="button" class="dl" id="dlDeck">Download the OC Vibe Insights deck (.pptx)</button><button type="button" class="dl" id="dlCsv">Download the data tables (.csv)</button></div>
             </div>
             <div class="box"><h3>Source register</h3>
               <p class="csub" style="font-weight:350;margin:0 0 12px">Every source used, with the period it covers, when it was published or pulled, how it is used and how Visit Anaheim BI checked it. Prepared Oct. 12, 2026.</p>
@@ -627,7 +628,7 @@ BODY = f"""<title>OC Vibe Insights</title>
   <h3 id="expTitle">Export</h3>
   <p class="exp-sub">Choose the sections to include and the format.</p>
   <fieldset class="exp-fmt"><legend>Format</legend>
-    <label><input type="radio" name="expFmt" value="pdf" checked> PDF (pages as shown)</label>
+    <label><input type="radio" name="expFmt" value="pdf" checked> PDF (report pages for the chosen sections, same layout as the deck)</label>
     <label><input type="radio" name="expFmt" value="pptx"> PowerPoint (.pptx, slides for the chosen sections)</label>
     <label><input type="radio" name="expFmt" value="xlsx"> Excel (.xlsx, one sheet per section with every table and its source)</label>
     <label><input type="radio" name="expFmt" value="csv"> CSV (data tables only)</label>
@@ -647,7 +648,8 @@ BODY = f"""<title>OC Vibe Insights</title>
 <script>
 const DATA = {json.dumps(DATA, ensure_ascii=False)};
 const DQ = {json.dumps(C.DQ if hasattr(C,'DQ') else [], ensure_ascii=False)};
-const ATTACH = {json.dumps({'deck': base64.b64encode(open(BASE + '/OC_Vibe_Insights.pptx','rb').read()).decode()})};
+const ATTACH = {json.dumps({'deck': base64.b64encode(open(BASE + '/OC_Vibe_Insights.pptx','rb').read()).decode(), 'pdf': base64.b64encode(open(BASE + '/OC_Vibe_Insights.pdf','rb').read()).decode()})};
+const PDFMAP = {open(BASE + '/deck_pages.json').read()};
 const IMGS = {json.dumps({'adt_ocvibe.jpg': 'data:image/jpeg;base64,' + base64.b64encode(open(BASE + '/assets/adt_ocvibe.jpg','rb').read()).decode()})};
 const RECS = {json.dumps(C.RECS, ensure_ascii=False)};
 const RECS_T = {json.dumps(__import__('logic_content').RECS_T, ensure_ascii=False)};
@@ -658,6 +660,13 @@ const RECS_T = {json.dumps(__import__('logic_content').RECS_T, ensure_ascii=Fals
 </script>
 <script>
 {open(BASE + '/pptx_subset.js').read()}
+</script>
+<script>
+/* pdf-lib v1.17.1 (MIT), used only to cut PDF exports to the chosen sections */
+{open(__import__('os').path.join(__import__('os').path.dirname(__import__('subprocess').check_output(['node','-p',"require.resolve('pdf-lib/package.json')"]).decode().strip()),'dist','pdf-lib.min.js'), encoding='utf-8').read().replace(chr(0xFFFD), chr(92) + 'ufffd')}
+</script>
+<script>
+{open(BASE + '/pdf_subset.js').read()}
 </script>
 <script>
 const MAPGEO = {open(BASE + '/maps_geo.json').read()};

@@ -631,17 +631,21 @@ const ap = sec('p-appx');
 s = content('Appendix', 'Formulas, with the 2025 inputs worked through', 'Each formula with its 2025 inputs · Visit Anaheim BI, Oct. 13, 2026', '');
 table(s, ap.tables[0].cols, ap.tables[0].rows.slice(0, 10), M, 1.5, W - 2 * M, { colW: [2.6, 4.6, 4.93], rowH: 0.45, fs: 9.5, hi: 7 });
 source(s, ap.tables[0].src);
-s = content('Appendix', 'Formulas (continued)', 'Each formula with its 2025 inputs · Visit Anaheim BI, Oct. 13, 2026', '');
-table(s, ap.tables[0].cols, ap.tables[0].rows.slice(10), M, 1.5, W - 2 * M, { colW: [2.6, 4.6, 4.93], rowH: 0.45, fs: 9.5, hi: -1 });
-source(s, ap.tables[0].src);
+if (ap.tables[0].rows.length > 10) {   // only when there are more than 10 formulas (Oct. 14, 2026: no empty continuation slide)
+  s = content('Appendix', 'Formulas (continued)', 'Each formula with its 2025 inputs · Visit Anaheim BI, Oct. 13, 2026', '');
+  table(s, ap.tables[0].cols, ap.tables[0].rows.slice(10), M, 1.5, W - 2 * M, { colW: [2.6, 4.6, 4.93], rowH: 0.45, fs: 9.5, hi: -1 });
+  source(s, ap.tables[0].src);
+}
 for (let i = 0; i < ap.tables[1].rows.length; i += 15) {
   s = content('Appendix', 'Glossary' + (i ? ' (continued)' : ''), 'Terms used in this report', '');
   table(s, ap.tables[1].cols, ap.tables[1].rows.slice(i, i + 15), M, 1.5, W - 2 * M, { colW: [3.0, 9.13], rowH: 0.31, fs: 9.5, hi: -1 });
   source(s, ap.tables[1].src);
 }
-s = content('Appendix', 'Methods', 'How each type of number was produced', '');
-table(s, ap.tables[2].cols, ap.tables[2].rows, M, 1.5, W - 2 * M, { colW: [2.4, 6.6, 3.13], rowH: 0.44, fs: 9.5, hi: -1 });
-source(s, ap.tables[2].src);
+for (let i = 0; i < ap.tables[2].rows.length; i += 8) {   // 8 methods per slide so long rows never run into the footer
+  s = content('Appendix', 'Methods' + (i ? ' (continued)' : ''), 'How each type of number was produced', '');
+  table(s, ap.tables[2].cols, ap.tables[2].rows.slice(i, i + 8), M, 1.5, W - 2 * M, { colW: [2.4, 6.6, 3.13], rowH: 0.5, fs: 9.5, hi: -1 });
+  source(s, ap.tables[2].src);
+}
 
 (async () => {
   await pres.writeFile({ fileName: 'OC_Vibe_Insights.pptx' });

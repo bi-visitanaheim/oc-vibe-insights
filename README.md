@@ -6,7 +6,7 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 21 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 24 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
 | **Deck** | `OC_Vibe_Insights.pptx`, 101 slides, VA Branded; key takeaways and "How this report is updated" slides up front, and each section opens with a news report slide, a details slide and an "At a glance" infographic slide; three map slides |
@@ -78,7 +78,7 @@ Each section reads like a newspaper story, in this order:
 - **Key takeaways and bold statistics.** The overview's takeaway cards and a matching deck slide; key numbers are bold in the text.
 - **Full-width layout.** Headlines and deks run the full page width; blocks stack full width with no side columns; stat rows stretch to fill; the overview release flows in three newspaper columns. Checked at 1920, 1440, 1024, 768 and 390 px.
 - **Value tooltips.** Hover over or tab to any bar, column, line point, heatmap cell or overview bar to see its value. The selected mark is highlighted.
-- **Export.** Choose sections, then export as PDF, PowerPoint, Excel, CSV or a share link. Excel gives a real .xlsx with an About sheet and one sheet per section (numbers stored as numbers, percents and dollars formatted, a source row under every table). The share link copies https://oc-vibe-insights.vercel.app/ (with the section anchor when one section is chosen) and opens the device share sheet where available. PowerPoint gives the title slide plus the slides for the chosen sections (all sections gives the full deck); it is assembled in the browser from the full deck (`pipeline/pptx_subset.js`, with JSZip 3.10.1, MIT), so slides stay editable. The deck can also be downloaded from the page.
+- **Export.** Choose sections, then export as PDF, PowerPoint, Excel, CSV or a share link. PDF and PowerPoint use the same cut: the title page plus the deck pages for the chosen sections (all sections gives the full 101-page report). The PDF is the deck rendered at build time (`pipeline/deck_pdf.py`, LibreOffice), cut in the browser with `pipeline/pdf_subset.js` (pdf-lib 1.17.1, MIT, inlined) and renumbered "n of N"; it needs no network, so it works on the claude.ai dashboard as well as the website. Excel gives a real .xlsx with an About sheet and one sheet per section (numbers stored as numbers, percents and dollars formatted, columns fitted to each table, long text wrapped, a source row under every table). The share link copies https://oc-vibe-insights.vercel.app/ (with the section anchor when one section is chosen) and opens the device share sheet where available. PowerPoint gives the title slide plus the slides for the chosen sections (all sections gives the full deck); it is assembled in the browser from the full deck (`pipeline/pptx_subset.js`, with JSZip 3.10.1, MIT), so slides stay editable. The deck can also be downloaded from the page.
 - **Views and navigation:**
   - one page at a time or all pages; links, tabs and "Up next" land each section just below the sticky section bar;
   - full screen;
@@ -122,13 +122,14 @@ The source register on the Sources page lists each source's document, period cov
 | `pipeline/files/licensed/` | CoStar and STR raw exports. **Not in Git** (the repository is public); copy them from the BI OneDrive folder before rebuilding |
 | `pipeline/assets/` | VA Branded CSS and logo, ADT image |
 | `pipeline/checks/`, `pipeline/computations/` | Internal validation script, contract and results (not shown in the report) |
-| `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
+| `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `OC_Vibe_Insights.pdf`, `robots.txt` |
 | `pipeline/infographics.py` | The "At a glance" infographic data for each section (attached after newsroom) |
 | `pipeline/newsroom.py` | News report structure: nut graphs, detail cards, reading order, bridges and the em-dash rule (attached last) |
 | `pipeline/schedule.py` | Update schedule: last and next update dates, the who/what/when/where/why/how cards, the source cadence table and planned sources |
 | `pipeline/maps.py` | Map specs for geographic data, built from the section tables (attached after infographics) |
 | `pipeline/maps_geo.js`, `maps_geo.json` | Map geometry and point positions (U.S. states, world countries, metro and country points) |
 | `pipeline/map_svg.js`, `maps_render.js` | Map drawing shared by the page and Node; PNG rendering for the deck |
+| `pipeline/deck_pdf.py`, `pdf_subset.js` | Report PDF: renders the deck to PDF and maps sections to pages; cuts the PDF to the chosen sections in the browser |
 | `pipeline/pptx_subset.js` | PowerPoint export: keeps the chosen deck sections and removes the rest cleanly |
 | `scripts/make_public.py` | Copies the built page and deck into `public/` |
 | `docs/activity-log.md` | Build notes and the change log |
@@ -137,7 +138,7 @@ The source register on the Sources page lists each source's document, period cov
 
 ## 5. How to rebuild
 
-Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`npm install`).
+Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm install`), and LibreOffice (`soffice`) plus poppler (`pdfinfo`) for the report PDF.
 
 1. Copy `STR_Daily_Data_8.xlsx` and `CoStar_DataExport_17.xlsx` into `pipeline/files/licensed/`.
 2. **Content:** `content.py` builds the sections and attaches these modules in order:
@@ -154,7 +155,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
    11. `infographics.py` ("At a glance" infographics)
    12. `maps.py` (last step: maps for geographic data)
 3. **Deck:** run `npm run deck`.
-   - This writes `pipeline/deck_data.json`, renders the map PNGs (`pipeline/map_*.png`), then writes `pipeline/OC_Vibe_Insights.pptx`.
+   - This writes `pipeline/deck_data.json`, renders the map PNGs (`pipeline/map_*.png`), writes `pipeline/OC_Vibe_Insights.pptx`, then renders it to `pipeline/OC_Vibe_Insights.pdf` with the section page map `pipeline/deck_pages.json`.
    - The VA theme step uses the pptx skill's `apply_theme.js`, which is not stored in this repository. Set `PPTX_THEME_SCRIPT` to its path to apply it. Without it, the deck is written unthemed and a warning is shown.
 4. **Page:** run `npm run page`.
    - This writes `pipeline/oc-vibe-insights.html` (deck embedded) and copies the page and deck into `public/`.
@@ -167,7 +168,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-014` (Oct. 14, 2026): 52 of 52 checks passed, including the newsroom, infographic, map and update-schedule checks. The suite was re-run from this repository with the same result.
+- The latest recorded run is `pipeline/computations/validation-015` (Oct. 14, 2026): 53 of 53 checks passed, including the newsroom, infographic, map, update-schedule and PDF checks. The suite was re-run from this repository with the same result.
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
@@ -177,7 +178,8 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
   - the reading order links each section to the next;
   - every infographic has a dated source and shows its calculations, and the visitor receipt adds up;
   - every mapped value traces to a report table, has a map position, and each map has a dated source;
-  - the next update date is the first 15th of January, April, July or October after the last update and is shown on the page, and planned sources show no figures.
+  - the next update date is the first 15th of January, April, July or October after the last update and is shown on the page, and planned sources show no figures;
+  - the report PDF has one page per deck slide and every page belongs to exactly one deck section.
 
 `impact.py` still holds the earlier scenario model for reference. `facts_only.py` keeps all of its output out of the report.
 

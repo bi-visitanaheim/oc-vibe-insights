@@ -384,58 +384,23 @@ $('dlCsv').onclick = async () => { const b=$('dlCsv'); b.disabled = true;
   S.forEach(sec => sec.tables.forEach(t => { lines.push(q(sec.tab + ': ' + t.title)); lines.push(t.cols.map(c => q(c[0])).join(',')); t.rows.forEach(r => lines.push(r.map(q).join(','))); lines.push(q('Source: ' + t.src)); lines.push(''); }));
   try { await saveBlob(new Blob(['\ufeff' + lines.join('\r\n')], {type:'text/csv'}), 'OC_Vibe_Insights_data.csv'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); } finally { b.disabled = false; } };
 
-/* ---------- export to PDF ---------- */
-function loadScript(src){ return new Promise((res,rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('load')); document.head.appendChild(s); }); }
-const nextFrame = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-async function buildPdf(ids) {
-  ids = ids && ids.length ? ids : PAGES;
-  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-  const root = document.documentElement, app = $('app'), prevTheme = root.getAttribute('data-theme'), wasLong = LONG, scrollY = window.scrollY;
-  root.setAttribute('data-theme','light'); app.classList.add('exporting'); setView(true);
-  const closedD = [...document.querySelectorAll('details.more-d:not([open])')]; closedD.forEach(d => d.open = true); document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-  const st = document.createElement('style'); st.textContent = '.exporting{width:860px}.exporting .grid2,.exporting .sec-more{grid-template-columns:minmax(0,1fr)!important}.exporting .page{break-inside:auto}';
-  document.head.appendChild(st);
-  await document.fonts.ready; await nextFrame();
-  try {
-    const { jsPDF } = window.jspdf; const pdf = new jsPDF({unit:'pt', format:'letter', orientation:'portrait'});
-    const PW=612, PH=792, M=54, CW=PW-2*M, CH=PH-2*M-24, GAP=12; let y=M;
-    const blocks = [{el:$('band'), newPage:false}];
-    const expand = el => el.tagName === 'SUMMARY' ? [] : (['grid2','stack','qbody','qside','ann','ann-paper','ann-grid','sec-more','art-grid','art-body','more-d'].some(c => el.classList.contains(c))) ? [...el.children].flatMap(expand) : [el];
-    ids.forEach((id,pi) => [...$(id).children].flatMap(expand).forEach((ch,ci) => { if (ch.offsetHeight>0) blocks.push({el:ch, newPage: pi>0 && ci===0}); }));
-    for (const blk of blocks) {
-      const cv = await html2canvas(blk.el, {scale:1.6, backgroundColor:'#FFFFFF', logging:false});
-      const ratio = CW / cv.width, hPt = cv.height * ratio;
-      if (blk.newPage || (y > M && y + Math.min(hPt, CH) > M + CH)) { pdf.addPage(); y = M; }
-      if (hPt > CH && hPt <= CH*1.15) { if (y > M) { pdf.addPage(); y = M; } const wPt = CW*CH/hPt; pdf.addImage(cv.toDataURL('image/jpeg', 0.85), 'JPEG', M+(CW-wPt)/2, y, wPt, CH); y += CH + GAP; continue; }
-      let offPx = 0;
-      while (offPx < cv.height) {
-        const slicePx = Math.min(cv.height-offPx, Math.floor((M+CH-y)/ratio));
-        const part = document.createElement('canvas'); part.width = cv.width; part.height = slicePx;
-        part.getContext('2d').drawImage(cv, 0, offPx, cv.width, slicePx, 0, 0, cv.width, slicePx);
-        pdf.addImage(part.toDataURL('image/jpeg', 0.85), 'JPEG', M, y, CW, slicePx*ratio);
-        offPx += slicePx; y += slicePx*ratio + GAP;
-        if (offPx < cv.height) { pdf.addPage(); y = M; }
-      }
-    }
-    const total = pdf.getNumberOfPages();
-    for (let i=1;i<=total;i++) {
-      pdf.setPage(i);
-      const fc = document.createElement('canvas'); fc.width = CW*3; fc.height = 42; const g = fc.getContext('2d');
-      g.fillStyle='#FFFFFF'; g.fillRect(0,0,fc.width,fc.height); g.fillStyle='#43A3A3'; g.fillRect(0,0,fc.width,3);
-      g.fillStyle='#231F20'; g.font='350 26px "Sharp Sans Disp No2", sans-serif'; g.textBaseline='bottom';
-      g.fillText('Visit Anaheim | visitanaheim.org', 0, 40);
-      const rt = `OC Vibe Insights · Data through Sept. 2026  ·  Page ${i} of ${total}`; g.fillText(rt, fc.width - g.measureText(rt).width, 40);
-      pdf.addImage(fc.toDataURL('image/png'), 'PNG', M, PH-M+6, CW, 14);
-    }
-    return pdf.output('blob');
-  } finally {
-    closedD.forEach(d => d.open = false);
-    st.remove(); app.classList.remove('exporting');
-    if (prevTheme===null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', prevTheme);
-    setView(wasLong); goPage(CUR); window.scrollTo(0, scrollY);
-  }
+/* ---------- export to PDF (Oct. 14, 2026) ----------
+   The PDF is the deck rendered to PDF at build time (deck_pdf.py), so pages carry the deck's layout and spacing.
+   Chosen sections are cut from it in the browser (pdf_subset.js with pdf-lib, inlined), the same cut as PowerPoint. No network needed. */
+const deckSections = ids => {
+  const content = S.filter(x => x.id !== 'p-appx');
+  const names = ids.map(id => id==='p-summary' ? 'Introduction' : id==='p-notes' ? 'Next steps' : id==='p-appx' ? 'Appendix' : (S.find(x => x.id===id)||{}).tab).filter(Boolean);
+  if (content.every(x => ids.includes(x.id))) names.push('Compare and contrast');
+  return names;
+};
+async function buildPdf(ids, all) {
+  const full = b64Blob(ATTACH.pdf, 'application/pdf');
+  if (all) return full;
+  if (typeof PDFLib === 'undefined' || typeof pdfSubset === 'undefined') throw Object.assign(new Error('unavailable'), {code:'unavailable'});
+  return pdfSubset(PDFLib, await full.arrayBuffer(), deckSections(ids), PDFMAP);
 }
+$('dlPdf').onclick = async () => { const b=$('dlPdf'); b.disabled = true;
+  try { await saveBlob(b64Blob(ATTACH.pdf, 'application/pdf'), 'OC_Vibe_Insights.pdf'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); } finally { b.disabled = false; } };
 /* ---------- export chooser: pick sections and format ---------- */
 const pageTitle = id => id==='p-summary' ? 'Overview (BI Pulse summary)' : id==='p-notes' ? 'Sources, recommendations and notes' : (S.find(x => x.id===id)||{}).tab || id;
 function csvFor(ids) {
@@ -459,24 +424,30 @@ async function xlsxFor(ids) {
     sheets.push({ name: nm, rows });
   });
   const col = i => { let s = ''; i++; while (i) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
-  const cell = (v, r, c) => {
+  const cell = (v, r, c, multi) => {
     const ref = col(c) + (r + 1); let s = 0;
     if (v && typeof v === 'object' && 'v' in v) { s = v.s; v = v.v; }
     const t = String(v == null ? '' : v).trim().replace(/−/g, '-');
     if (!s && /^-?\d{1,3}(,\d{3})*(\.\d+)?$|^-?\d+(\.\d+)?$/.test(t) && !/^(19|20)\d\d$/.test(t)) return `<c r="${ref}"><v>${t.replace(/,/g, '')}</v></c>`;
     if (!s && /^[+-]?\d+(\.\d+)?%$/.test(t)) return `<c r="${ref}" s="5"><v>${parseFloat(t) / 100}</v></c>`;
-    if (!s && /^-?\$\d{1,3}(,\d{3})*(\.\d+)?$|^-?\$\d+(\.\d+)?$/.test(t)) return `<c r="${ref}" s="6"><v>${t.replace(/[$,]/g, '')}</v></c>`;
+    if (!s && /^-?\$\d{1,3}(,\d{3})*(\.\d+)?$|^-?\$\d+(\.\d+)?$/.test(t)) return `<c r="${ref}" s="${/\./.test(t) ? 8 : 6}"><v>${t.replace(/[$,]/g, '')}</v></c>`;
+    if (!s && multi && W && t.length > W[c]) s = 7;   // long text wraps inside its column (Oct. 14, 2026)
     return t ? `<c r="${ref}" t="inlineStr"${s ? ` s="${s}"` : ''}><is><t xml:space="preserve">${xe(t)}</t></is></c>` : '';
   };
+  let W = null;
   sheets.forEach((sh, k) => {
-    const data = sh.rows.map((r, i) => `<row r="${i + 1}">${r.map((v, j) => cell(v, i, j)).join('')}</row>`).join('');
-    z.file(`xl/worksheets/sheet${k + 1}.xml`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" showGridLines="0"/></sheetViews><cols><col min="1" max="1" width="48" customWidth="1"/><col min="2" max="12" width="20" customWidth="1"/></cols><sheetData>${data}</sheetData></worksheet>`);
+    // column widths fitted to each table's content (titles and source lines overflow into empty cells instead)
+    W = Array.from({ length: 12 }, (_, j) => j ? 12 : 30);
+    sh.rows.filter(r => r.length > 1).forEach(r => r.forEach((v, j) => { const n = String(v && typeof v === 'object' ? v.v : v == null ? '' : v).length + 2; W[j] = Math.min(Math.max(W[j] || 12, n), j ? 40 : 50); }));
+    const data = sh.rows.map((r, i) => `<row r="${i + 1}">${r.map((v, j) => cell(v, i, j, r.length > 1)).join('')}</row>`).join('');
+    const cols = W.map((w, j) => `<col min="${j + 1}" max="${j + 1}" width="${w}" customWidth="1"/>`).join('');
+    z.file(`xl/worksheets/sheet${k + 1}.xml`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" showGridLines="0"/></sheetViews><cols>${cols}</cols><sheetData>${data}</sheetData></worksheet>`);
   });
   z.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_, k) => `<Override PartName="/xl/worksheets/sheet${k + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`);
   z.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`);
   z.file('xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((sh, k) => `<sheet name="${xe(sh.name)}" sheetId="${k + 1}" r:id="rId${k + 1}"/>`).join('')}</sheets></workbook>`);
   z.file('xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_, k) => `<Relationship Id="rId${k + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${k + 1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
-  z.file('xl/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="2"><numFmt numFmtId="164" formatCode="0.0%"/><numFmt numFmtId="165" formatCode="&quot;$&quot;#,##0.##"/></numFmts><fonts count="5"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="15"/><color rgb="FF125C60"/><name val="Calibri"/></font><font><b/><sz val="12"/><color rgb="FF125C60"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><i/><sz val="9"/><color rgb="FF555555"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF125C60"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="7"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="3" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="4" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`);
+  z.file('xl/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="3"><numFmt numFmtId="164" formatCode="0.0%"/><numFmt numFmtId="165" formatCode="&quot;$&quot;#,##0"/><numFmt numFmtId="166" formatCode="&quot;$&quot;#,##0.00"/></numFmts><fonts count="5"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="15"/><color rgb="FF125C60"/><name val="Calibri"/></font><font><b/><sz val="12"/><color rgb="FF125C60"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><i/><sz val="9"/><color rgb="FF555555"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF125C60"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="9"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="3" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment wrapText="1" vertical="center"/></xf><xf numFmtId="0" fontId="4" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment wrapText="1" vertical="top"/></xf><xf numFmtId="166" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`);
   return z.generateAsync({ type: 'blob', compression: 'DEFLATE', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 }
 const PUBLIC_URL = 'https://oc-vibe-insights.vercel.app/';
@@ -513,9 +484,7 @@ async function copyText(t, input) {
         btn.textContent = 'Preparing PowerPoint…';
         const deck = b64Blob(ATTACH.deck, 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
         if (all) { await saveBlob(deck, 'OC_Vibe_Insights.pptx'); toast('PowerPoint ready.'); return; }
-        const content = S.filter(x => x.id !== 'p-appx');
-        const names = ids.map(id => id==='p-summary' ? 'Introduction' : id==='p-notes' ? 'Next steps' : id==='p-appx' ? 'Appendix' : (S.find(x => x.id===id)||{}).tab).filter(Boolean);
-        if (content.every(x => ids.includes(x.id))) names.push('Compare and contrast');
+        const names = deckSections(ids);
         if (typeof JSZip === 'undefined' || typeof pptxSubset === 'undefined') throw Object.assign(new Error('unavailable'), {code:'unavailable'});
         const blob = await pptxSubset(JSZip, await deck.arrayBuffer(), names);
         await saveBlob(blob, `OC_Vibe_Insights${suffix}.pptx`); toast('PowerPoint ready: the title slide plus the chosen sections.');
@@ -530,8 +499,7 @@ async function copyText(t, input) {
         await saveBlob(new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv'}), `OC_Vibe_Insights_data${suffix}.csv`); toast('CSV ready.');
       } else {
         btn.textContent = 'Preparing PDF…';
-        const ordered = PAGES.filter(id => ids.includes(id));
-        const blob = await buildPdf(ordered); await saveBlob(blob, `Visit-Anaheim-OC-Vibe-Insights${suffix}.pdf`); toast('PDF ready.');
+        const blob = await buildPdf(ids, all); await saveBlob(blob, `OC_Vibe_Insights${suffix}.pdf`); toast(all ? 'PDF ready: the full report.' : 'PDF ready: the title page plus the chosen sections.');
       }
     } catch (err) { dlError(err, 'Export'); }
     finally { btn.disabled = false; btn.textContent = label; }

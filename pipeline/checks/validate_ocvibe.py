@@ -319,6 +319,12 @@ _html = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file
 _spl = [c for r in _SC.PLANNED["rows"] for c in r if _re.search(r"[$%]|\b\d[\d,.]*\s*(visits|tickets|people|M|K)\b", c)]
 _sem = [t for t in [_SC.LEDE, _SC.LINE] + [d["text"] for d in _SC.DETAILS] + [c for r in _SC.TABLE["rows"] + _SC.PLANNED["rows"] for c in r] if "\u2014" in t]
 check("H. Report text", "Update schedule: next update is the first 15th of Jan., April, July or Oct. after the last update, shown in the header, overview and footer; planned sources show no figures", _SC.NEXT == _nx and _html.count(_SC.NEXT_S) >= 3 and _SC.LINE in _html and len(_SC.DETAILS) == 6 and not _spl and not _sem, f"last {_SC.LAST_S}, next {_SC.NEXT_S} (expected {_nx:%b. %-d, %Y}); next date shown {_html.count(_SC.NEXT_S)} times; planned sources with figures: {_spl or 'none'}; em dashes: {len(_sem)}")
+import zipfile as _zf
+_bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_pm = json.load(open(os.path.join(_bd, "deck_pages.json")))
+_nsl = len(_re.findall(r"<p:sldId ", _zf.ZipFile(os.path.join(_bd, "OC_Vibe_Insights.pptx")).read("ppt/presentation.xml").decode()))
+_cov = sorted(p for x in _pm["sections"] for p in x["pages"])
+check("H. Report text", "PDF export: the report PDF has one page per deck slide and every page belongs to exactly one deck section", _pm["n"] == _nsl and _cov == list(range(_nsl)) and 0 in _pm["sections"][0]["pages"], f"{_pm['n']} PDF pages, {_nsl} slides, {len(_pm['sections'])} sections; pages covered once: {_cov == list(range(_nsl))}")
 _rx = __import__("facts_only").EST_RX
 _left = [t for t in _texts + CT.TAKEAWAYS + CT.DQ if _rx.search(t)]
 check("H. Report text", "No scenario-model estimate remains in the report text", not _left, f"{len(_left)} statements with estimate wording" + (f": {_left[0][:80]}" if _left else ""))

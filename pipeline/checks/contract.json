@@ -78,7 +78,8 @@
     "infographics.py",
     "maps.py",
     "maps_geo.json",
-    "schedule.py"
+    "schedule.py",
+    "deck_pages.json"
   ],
   "software": [
     {

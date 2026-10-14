@@ -77,7 +77,8 @@
     "newsroom.py",
     "infographics.py",
     "maps.py",
-    "maps_geo.json"
+    "maps_geo.json",
+    "schedule.py"
   ],
   "software": [
     {

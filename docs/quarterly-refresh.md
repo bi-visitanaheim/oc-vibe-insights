@@ -1,6 +1,6 @@
 # Quarterly refresh runbook
 
-Set up Oct. 13, 2026 at John Picou's request. Tourism Economics (TE) delivers its Anaheim Travel Forecast each quarter, so OC Vibe Insights is refreshed each quarter. A scheduled task named "OC Vibe Insights quarterly refresh" runs this runbook on the 15th of January, April, July and October at about 9 a.m. Pacific. Anyone can also run it by hand.
+Set up Oct. 13, 2026 at John Picou's request. Tourism Economics (TE) data is the core of the report and its Anaheim Travel Forecast arrives each quarter, so OC Vibe Insights is refreshed each quarter (confirmed Oct. 14, 2026). STR, CoStar and Visa are available weekly or monthly and Azira monthly; they are pulled at the same time so every figure in an edition shares one as-of date. A scheduled task named "OC Vibe Insights quarterly refresh" runs this runbook on the 15th of January, April, July and October at about 9 a.m. Pacific. Anyone can also run it by hand.
 
 The refresh only uses measured or published data. If a source has nothing new, the run keeps the current figures and says so. It never estimates a missing figure.
 
@@ -29,6 +29,8 @@ Licensed raw exports (STR, CoStar) go into `pipeline/files/licensed/` on the One
 | Section text | `facts_only.py`, `ocv_whole.py`, `calcs.py`, `newsroom.py` (nut graphs, detail cards, reading-order bridges), `infographics.py` |
 
 Rules:
+- Set `LAST_UPDATE` in `pipeline/schedule.py` to the date of this update; the next scheduled date is computed from it and shown in the header, overview, footer, Sources page, Excel and deck. Update the "In this edition" column of `TABLE` for each source that changed.
+- If a planned source has arrived (Ticketmaster data from Honda Center, Placer.ai), check it, confirm it is cleared for sharing, add it as summaries only, and move it from `PLANNED` to `TABLE`.
 - Change only figures that have a new published value; update the period and publication date with each one.
 - Update any sentence whose number changed (headlines, ledes, nut graphs, detail cards, infographics, compare and contrast). The number-trace check fails if text cites a number that is no longer in a table.
 - Keep Tourism Economics figures as City of Anaheim totals; never allocate them to OC Vibe.

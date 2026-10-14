@@ -312,6 +312,13 @@ _geo = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspa
 _mbad = [f"{sid}:{p['name']}" for sid, m in _mp for p in m["points"] if p["name"] not in _geo["pts"] or not _geo["pts"][p["name"]]["world" if m["kind"] == "world" else "us"]]
 _mval = [f"{sid}:{p['name']}" for sid, m in _mp for p in (m["points"] + m.get("states", [])) if p["t"].split(" ")[0] not in _other]
 check("H. Report text", "Maps: every mapped value comes from a report table, has a position, and each map has a dated source", len(_mp) >= 3 and not _mbad and not _mval and all(_re.search(r"20\d\d", m["src"]) for _, m in _mp), f"{len(_mp)} maps, {sum(len(m['points']) + len(m.get('states', [])) for _, m in _mp)} values; unplaced: {_mbad or 'none'}; untraced: {_mval or 'none'}")
+import schedule as _SC, datetime as _dtm
+_cands = [_dtm.date(y, m, 15) for y in (_SC.LAST_UPDATE.year, _SC.LAST_UPDATE.year + 1) for m in (1, 4, 7, 10)]
+_nx = min(d for d in _cands if d > _SC.LAST_UPDATE)
+_html = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "oc-vibe-insights.html")).read()
+_spl = [c for r in _SC.PLANNED["rows"] for c in r if _re.search(r"[$%]|\b\d[\d,.]*\s*(visits|tickets|people|M|K)\b", c)]
+_sem = [t for t in [_SC.LEDE, _SC.LINE] + [d["text"] for d in _SC.DETAILS] + [c for r in _SC.TABLE["rows"] + _SC.PLANNED["rows"] for c in r] if "\u2014" in t]
+check("H. Report text", "Update schedule: next update is the first 15th of Jan., April, July or Oct. after the last update, shown in the header, overview and footer; planned sources show no figures", _SC.NEXT == _nx and _html.count(_SC.NEXT_S) >= 3 and _SC.LINE in _html and len(_SC.DETAILS) == 6 and not _spl and not _sem, f"last {_SC.LAST_S}, next {_SC.NEXT_S} (expected {_nx:%b. %-d, %Y}); next date shown {_html.count(_SC.NEXT_S)} times; planned sources with figures: {_spl or 'none'}; em dashes: {len(_sem)}")
 _rx = __import__("facts_only").EST_RX
 _left = [t for t in _texts + CT.TAKEAWAYS + CT.DQ if _rx.search(t)]
 check("H. Report text", "No scenario-model estimate remains in the report text", not _left, f"{len(_left)} statements with estimate wording" + (f": {_left[0][:80]}" if _left else ""))

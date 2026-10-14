@@ -222,6 +222,12 @@ $('qa').innerHTML = S.map(s => `<button type="button" class="qa-row" data-go="${
 /* ---------- sources page ---------- */
 $('takeaways').innerHTML = DATA.takeaways.map(t => { const k = t.lastIndexOf(' (Source: '); let body = k > 0 ? t.slice(0,k) : t, src = k > 0 ? t.slice(k+10, -1) : ''; const c = body.indexOf(' (Calculation: '); let calc = ''; if (c > 0) { calc = body.slice(c+15, -1); body = body.slice(0, c); } return `<li>${emph(body)}${calc ? `<span class="calc-line"><b>Calculation:</b> ${esc(calc)}</span>` : ''}${src ? `<span class="src-inline">Source: ${esc(src)}</span>` : ''}</li>`; }).join('');
 $('dqList').innerHTML = DQ.map(t => `<li>${emph(t)}</li>`).join('');
+/* Update schedule and planned sources (Oct. 14, 2026) */
+{ const U = DATA.schedule;
+  $('updLede').innerHTML = emph(U.lede);
+  $('updCards').innerHTML = `<div class="dgrid">${U.details.map(d => `<article class="dcard reveal"><span class="dk">${esc(d.k)}</span><b class="dfig">${esc(d.fig)}</b><span class="dfl">${esc(d.fig_l)}</span><p>${emph(d.text)}</p><span class="src-inline">Source: ${esc(d.src)}</span></article>`).join('')}</div>`;
+  $('updTable').innerHTML = tableHtml(Object.assign({ full: true, hi: -1 }, U.table), 'upd-t');
+  $('updPlanned').innerHTML = tableHtml(Object.assign({ full: true, hi: -1, sub: 'No figures from these sources appear until the data is received, checked and cleared for sharing. Each is added at the next quarterly update after it arrives.' }, U.planned), 'upd-p'); }
 $('srcList').innerHTML = DATA.sources.map(([name, desc]) => `<li class="src-item"><h4>${esc(name)}</h4><p>${esc(desc)}</p></li>`).join('');
 $('regTbl').innerHTML = tableHtml({title:'Sources used in this report', sub:`${DATA.register.length} sources`, cols:[['Source',0],['Document',0],['Period covered',0],['Published or pulled',0],['Used for',0],['How it was checked',0]], rows:DATA.register, hi:-1, full:true, src:'Visit Anaheim Business Intelligence, Oct. 12, 2026'}, 'reg');
 $('recList').innerHTML = `<div class="scroll" tabindex="0" aria-label="Recommendations"><table><thead><tr><th scope="col">What to do</th><th scope="col">Who</th><th scope="col">When</th><th scope="col">Why</th><th scope="col">How we'll measure it</th></tr></thead><tbody>${RECS_T.map(r => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${emph(r[3])}</td><td>${esc(r[4])}</td></tr>`).join('')}</tbody></table></div>`;
@@ -232,7 +238,7 @@ const MAIN = DATA.main;
 let ANN = null;
 function renderAnn() {
   const lead = 'main', st = MAIN, today = new Date();   // the overview's main announcement (facts only)
-  const prepared = `Prepared by Visit Anaheim Business Intelligence with data through Sept. 2026, ${DATA.prepared}.`;
+  const prepared = `Prepared by Visit Anaheim Business Intelligence with data through Sept. 2026, ${DATA.prepared}. Updated quarterly; next scheduled update ${DATA.schedule.next}.`;
   ANN = {st, lead, hl: 'OC Vibe market update', dateline: `ANAHEIM, Calif. (${apDate(today)}):`, prepared};
   const max = Math.max(...st.chart.rows.map(r => Math.abs(r[1])), 1e-9);
   const bars = st.chart.rows.map(([l,v,t,hi]) => `<div class="ann-bar${hi?' hi':''}${v<0?' neg':''}" data-tip="${esc(l)}: ${esc(t)}" tabindex="0"><span class="l">${esc(l)}</span><span class="t" aria-hidden="true"><span class="f" style="width:${Math.max(2, Math.abs(v)/max*100).toFixed(1)}%"></span></span><span class="v">${v>0?'▲':v<0?'▼':'▶'}&#8239;${esc(t.replace(/^\+/, '+'))}</span></div>`).join('');
@@ -443,7 +449,7 @@ function csvFor(ids) {
 async function xlsxFor(ids) {
   const z = new JSZip(), xe = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
   const cv = v => v && typeof v === 'object' ? v.t : v;
-  const sheets = [{ name: 'About', rows: [[{ v: 'OC Vibe Insights: data tables', s: 1 }], [`Visit Anaheim Business Intelligence · prepared ${DATA.prepared} · data through Sept. 2026`], ['Contact: bi@visitanaheim.org'], [],
+  const sheets = [{ name: 'About', rows: [[{ v: 'OC Vibe Insights: data tables', s: 1 }], [`Visit Anaheim Business Intelligence · prepared ${DATA.prepared} · data through Sept. 2026`], ['Contact: bi@visitanaheim.org'], [DATA.schedule.line], [],
     ['Each sheet is one section. Every table is followed by its source and period. Values marked F are forecasts.'], ['CoStar, STR and Visa are licensed data: share summaries outside Visit Anaheim, not raw exports.']] }];
   const used = new Set(['About']);
   S.filter(sec => ids.includes(sec.id)).forEach(sec => {

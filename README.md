@@ -6,12 +6,12 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 20 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 21 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
-| **Deck** | `OC_Vibe_Insights.pptx`, 98 slides, VA Branded; a key takeaways slide up front, and each section opens with a news report slide, a details slide and an "At a glance" infographic slide; three map slides |
+| **Deck** | `OC_Vibe_Insights.pptx`, 101 slides, VA Branded; key takeaways and "How this report is updated" slides up front, and each section opens with a news report slide, a details slide and an "At a glance" infographic slide; three map slides |
 | **Data through** | Sept. 2026 (STR through Oct. 3, 2026; CoStar and Visa through Aug. 2026) |
-| **Last updated** | Oct. 13, 2026 |
+| **Updated** | Quarterly, on the 15th of January, April, July and October (data last updated Oct. 13, 2026; next scheduled update Oct. 15, 2026) |
 
 ---
 
@@ -34,7 +34,7 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 
 ## 2. What the dashboard contains
 
-The **Overview** opens with **Key takeaways**: one card per section with its headline metric in bold, what it means, the period and a link to the section. Then comes the main announcement, a facts-only BI Pulse release that can be copied with formatting, and the questions and short answers.
+The **Overview** opens with **Key takeaways**: one card per section with its headline metric in bold, what it means, the period and a link to the section. Below them, an "Updated quarterly" bar gives the last and next update dates and links to the full schedule. Then comes the main announcement, a facts-only BI Pulse release that can be copied with formatting, and the questions and short answers.
 
 | Tab | Question it answers | Main sources |
 |---|---|---|
@@ -74,6 +74,7 @@ Each section reads like a newspaper story, in this order:
 
 - **Data infographics ("At a glance").** Built only from figures already in each section, each with its source, date and calculations: an economy chain (visitors, spending, impact, jobs, taxes), waffles (of every 100 District 5 visitors), an itemized visitor receipt with an "every $1" bar, a jobs pictogram, hotel occupancy towers by night, share bars (new hotel supply; day vs. overnight visitors), an ARTIC departures board, an impressions-to-visits funnel, and Anaheim vs. U.S. bars. On screen, numbers count up and bars grow once on entrance; off under reduced motion and in print or PDF.
 - **Maps for geographic data.** Who visits: a U.S. map shading the top origin states (Azira, District 5, Jan. 1 to May 31, 2026) with circles for the top metro areas. Visitor spending: a U.S. map of card spending by cardholder home metro and a world map of international card spending by country (Visa Destination Insights, Aug. 2026). Every value comes from a table in the section; circle area shows the value; Anaheim is marked; the legend ranks the top eight in bold. Boundaries: U.S. Census Bureau cartographic boundaries (us-atlas 3.0.1, Albers USA) and Natural Earth 1:110m (world-atlas 2.0.2). Geometry is built once by `npm run maps` (`pipeline/maps_geo.js` to `maps_geo.json`); `map_svg.js` draws the maps on the page, and `maps_render.js` renders them as PNGs for the deck.
+- **Update schedule.** The header, overview bar, footer, release, Excel About sheet and deck title show "Updated quarterly" with the last and next update dates. The Sources page opens with "How this report is updated": who, what, when, where, why and how cards, a table of when each source publishes and what each quarterly update does with it, and the planned data sources (Ticketmaster data from Honda Center; Placer.ai), which show no figures until the data is received, checked and cleared. Dates and text live in `pipeline/schedule.py`; the next date is computed from `LAST_UPDATE`.
 - **Key takeaways and bold statistics.** The overview's takeaway cards and a matching deck slide; key numbers are bold in the text.
 - **Full-width layout.** Headlines and deks run the full page width; blocks stack full width with no side columns; stat rows stretch to fill; the overview release flows in three newspaper columns. Checked at 1920, 1440, 1024, 768 and 390 px.
 - **Value tooltips.** Hover over or tab to any bar, column, line point, heatmap cell or overview bar to see its value. The selected mark is highlighted.
@@ -124,6 +125,7 @@ The source register on the Sources page lists each source's document, period cov
 | `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
 | `pipeline/infographics.py` | The "At a glance" infographic data for each section (attached after newsroom) |
 | `pipeline/newsroom.py` | News report structure: nut graphs, detail cards, reading order, bridges and the em-dash rule (attached last) |
+| `pipeline/schedule.py` | Update schedule: last and next update dates, the who/what/when/where/why/how cards, the source cadence table and planned sources |
 | `pipeline/maps.py` | Map specs for geographic data, built from the section tables (attached after infographics) |
 | `pipeline/maps_geo.js`, `maps_geo.json` | Map geometry and point positions (U.S. states, world countries, metro and country points) |
 | `pipeline/map_svg.js`, `maps_render.js` | Map drawing shared by the page and Node; PNG rendering for the deck |
@@ -165,7 +167,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-013` (Oct. 13, 2026): 51 of 51 checks passed, including the newsroom, infographic and map checks. The suite was re-run from this repository with the same result.
+- The latest recorded run is `pipeline/computations/validation-014` (Oct. 14, 2026): 52 of 52 checks passed, including the newsroom, infographic, map and update-schedule checks. The suite was re-run from this repository with the same result.
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
@@ -174,7 +176,8 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
   - no em dashes, AP-style dates and no first person in news reports;
   - the reading order links each section to the next;
   - every infographic has a dated source and shows its calculations, and the visitor receipt adds up;
-  - every mapped value traces to a report table, has a map position, and each map has a dated source.
+  - every mapped value traces to a report table, has a map position, and each map has a dated source;
+  - the next update date is the first 15th of January, April, July or October after the last update and is shown on the page, and planned sources show no figures.
 
 `impact.py` still holds the earlier scenario model for reference. `facts_only.py` keeps all of its output out of the report.
 
@@ -189,7 +192,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 
 ### Quarterly refresh
 
-A scheduled task, "OC Vibe Insights quarterly refresh," runs on the 15th of January, April, July and October at about 9 a.m. Pacific, after Tourism Economics' quarterly forecast arrives. It looks for new TE, LARC, STR, CoStar, Azira and Visa files, updates only figures with a new published value, rebuilds the dashboard and deck, runs the checks, republishes the artifact, commits on the OneDrive copy and sends John a summary. John then runs `git push` so Vercel redeploys. Steps: `docs/quarterly-refresh.md`.
+The report is updated quarterly because Tourism Economics data, the core of the report, arrives each quarter. STR, CoStar and Visa are available weekly or monthly and Azira monthly; they are pulled at the same time so every figure in an edition shares one as-of date. A scheduled task, "OC Vibe Insights quarterly refresh," runs on the 15th of January, April, July and October at about 9 a.m. Pacific, after Tourism Economics' quarterly forecast arrives. It looks for new TE, LARC, STR, CoStar, Azira and Visa files, updates only figures with a new published value, rebuilds the dashboard and deck, runs the checks, republishes the artifact, commits on the OneDrive copy and sends John a summary. John then runs `git push` so Vercel redeploys. Steps: `docs/quarterly-refresh.md`.
 
 ## 6. Data notes to keep in mind
 
@@ -220,6 +223,7 @@ A scheduled task, "OC Vibe Insights quarterly refresh," runs on the 15th of Janu
 
 - Confirm the concert hall capacity with OC Vibe.
 - Set up a quarterly data exchange with OC Vibe for ticket-buyer ZIP codes and hotel results once venues open (concert hall early 2027; first hotel 2028).
+- Planned sources: request Ticketmaster ticketing data for Honda Center from OC Vibe (data-sharing agreement; summaries only) and confirm who holds a Placer.ai license. Add each at the next quarterly update after it arrives.
 - Get post-2017 Orange County transit ridership, if available.
 - Get Tourism Economics transportation impact data (not yet received).
 - Confirm California 2025 figures against Visit California's primary report.

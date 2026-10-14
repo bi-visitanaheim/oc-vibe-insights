@@ -466,6 +466,8 @@ _ft.attach(SECTIONS)
 import facts_only as _fo
 _fo.attach(SECTIONS, TAKEAWAYS, DQ, STORIES, DATA_EXTRA['main'], SOURCES, _ocv.REGISTER)
 import newsroom as _nr   # Oct. 13, 2026: broadsheet news report + analysis structure (facts only; no opinion)
+import schedule as _sc   # Oct. 14, 2026: quarterly update schedule (glossary term and method)
+_nr.GLOSSARY_ADD += _sc.GLOSSARY; _nr.METHOD_ADD += _sc.METHOD
 _nr.attach(SECTIONS, "Oct. 13, 2026")
 for _o in (TAKEAWAYS, DQ, RECS, SOURCES, DATA_EXTRA, STORIES): _nr.no_em(_o)
 import infographics as _ig   # Oct. 13, 2026: data infographics per section

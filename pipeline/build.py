@@ -10,7 +10,8 @@ logo_img = re.search(r'<img [^>]+>', logo_line).group(0)
 
 PREP = "Oct. 13, 2026"
 import ocv_content as OCVC
-DATA = dict(main=C.DATA_EXTRA['main'], tags=C.DATA_EXTRA['tags'], sections=C.SECTIONS, stories=C.STORIES, takeaways=C.TAKEAWAYS, sources=C.SOURCES, prepared=PREP, register=OCVC.REGISTER)
+import schedule as SC   # Oct. 14, 2026: quarterly update schedule and planned sources
+DATA = dict(main=C.DATA_EXTRA['main'], tags=C.DATA_EXTRA['tags'], sections=C.SECTIONS, stories=C.STORIES, takeaways=C.TAKEAWAYS, sources=C.SOURCES, prepared=PREP, register=OCVC.REGISTER, schedule=SC.SCHEDULE)
 
 EXTRA_CSS = r"""
 
@@ -490,6 +491,17 @@ tr.hirow td,tr.hirow th{background:var(--surface-fill)!important;color:var(--on-
 @media (max-width:640px){.upnext{grid-template-columns:minmax(0,1fr)!important}.upnext .un-b{grid-column:1;grid-row:auto;justify-self:start}}
 footer a{color:inherit;font-weight:800}
 .exp-link{margin:10px 0 0}.exp-link label{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}.exp-link input{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--ctl);border-radius:var(--r-sm);background:var(--surface-card);color:var(--ink)}
+/* Update schedule (Oct. 14, 2026) */
+.upd-bar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;margin:14px 0 4px;padding:14px 18px;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--surface-card);border:2px solid var(--heading);border-left-width:8px;border-radius:var(--r-md)}
+.upd-bar:hover{background:linear-gradient(90deg,rgba(67,163,163,.14),rgba(180,217,227,.08))}
+.upd-bar:focus-visible{outline:3px solid var(--heading);outline-offset:2px}
+.upd-ic{width:38px;height:38px;border-radius:50%;background:var(--heading);color:var(--surface-card);display:grid;place-items:center;font-size:22px;font-weight:900}
+.upd-t{display:grid;gap:3px;font-size:14px}.upd-t>b{font-size:17px;font-weight:900;color:var(--heading)}.upd-t span b{font-weight:800;color:var(--heading)}
+.upd-go{font-weight:800;color:var(--heading);white-space:nowrap;font-size:14px}
+@media (max-width:640px){.upd-bar{grid-template-columns:auto minmax(0,1fr)}.upd-go{grid-column:2}}
+.upd-lede{font-size:16px;margin:0 0 14px;max-width:none}
+.upd-box .dgrid{margin:0 0 16px}
+.upd-box .tbl-cap{margin-top:14px}
 """
 
 BODY = f"""<title>OC Vibe Insights</title>
@@ -505,7 +517,7 @@ BODY = f"""<title>OC Vibe Insights</title>
       <div class="logo-chip">{logo_img}</div>
       <div class="titles">
         <h1>OC Vibe Insights</h1>
-        <p id="periodLine">Prepared by Visit Anaheim for OC Vibe · Visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026</p>
+        <p id="periodLine">Prepared by Visit Anaheim for OC Vibe · Visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly; next update {SC.NEXT_S}</p>
       </div>
     </div>
     <div class="hdr-ctl" id="hdrCtl">
@@ -543,6 +555,7 @@ BODY = f"""<title>OC Vibe Insights</title>
           <h3 class="ov-h">Key takeaways</h3>
           <p class="csub" style="font-weight:350;margin:0 0 12px">The headline number from each section, with its period. Select one to read the full story.</p>
           <div class="kts" id="keyTk"></div>
+          <button type="button" class="upd-bar reveal" data-go="p-notes" data-target="updSched"><span class="upd-ic" aria-hidden="true">↻</span><span class="upd-t"><b>Updated quarterly</b><span>Data last updated <b>{SC.LAST_S}</b> · Next scheduled update <b>{SC.NEXT_S}</b> · 15th of January, April, July and October, after Tourism Economics' quarterly forecast. New sources (Ticketmaster data from Honda Center, Placer.ai) are planned.</span></span><span class="upd-go">How updates work <span aria-hidden="true">→</span></span></button>
           <h3 class="ov-h">Questions and short answers</h3>
           <p class="csub" style="font-weight:350;margin:0 0 12px">Each question with a short answer. Select a question to see the details.</p>
           <div class="qa" id="qa"></div>
@@ -550,6 +563,12 @@ BODY = f"""<title>OC Vibe Insights</title>
         <div id="secHost" style="display:contents"></div>
         <section class="page" id="p-notes" data-title="Sources">
           <div class="page-h"><h2>Sources</h2><span class="badge">Prepared {PREP}</span></div>
+          <div class="box upd-box" id="updSched"><h3>How this report is updated</h3>
+            <p class="upd-lede" id="updLede"></p>
+            <div id="updCards"></div>
+            <div id="updTable"></div>
+            <div id="updPlanned"></div>
+          </div>
           <div class="takeaways"><h3>Key takeaways</h3><ul class="bul" id="takeaways"></ul></div>
           <div class="stack" style="margin-top:12px">
             <div class="box"><h3>Recommendations for OC Vibe</h3>
@@ -597,6 +616,7 @@ BODY = f"""<title>OC Vibe Insights</title>
       </div>
       <footer>
         <span>Sources: Tourism Economics; LARC; CoStar; Symphony | Tourism Economics (Azira); Datafy; OCTA; U.S. BTS; Visit Anaheim BI</span>
+        <span>{SC.LINE}</span>
         <span>Powered by Visit Anaheim Business Intelligence Team · Contact us: <a href="mailto:bi@visitanaheim.org">bi@visitanaheim.org</a></span>
       </footer>
     </main>

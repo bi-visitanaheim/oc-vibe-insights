@@ -294,7 +294,7 @@ s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 0.7, w: 3.0, h: 3.0 / LOGO_
 s.addImage({ data: LOGO, x: M + 0.15, y: 0.85, w: 2.7, h: 2.7 / LOGO_AR, altText: 'Visit Anaheim' });
 s.addText('Visitor insights for OC Vibe', { placeholder: 'title' });
 s.addText('How Anaheim visitors spend, stay, travel and choose where to go, and what the market outlook means for OC Vibe. Anaheim, Orange County and U.S. data through September 2026.', { placeholder: 'sub' });
-s.addText('Prepared by Visit Anaheim Business Intelligence · October 2026', ft({ x: M, y: 6.6, w: 9, h: 0.4, fontSize: 12, color: H.white }));
+s.addText('Prepared by Visit Anaheim Business Intelligence · October 2026 · Updated quarterly; next update ' + D.schedule.next, ft({ x: M, y: 6.6, w: 11, h: 0.4, fontSize: 12, color: H.white }));
 s.addNotes('Prepared by Visit Anaheim Business Intelligence for OC Vibe (BIREPORTS-966).');
 
 /* Main announcement (mirrors the dashboard overview) and summary of findings */
@@ -313,6 +313,22 @@ keyTakeawaysSlide();
 s = content('Introduction', 'How this report reads', 'Each section is a news report (lede, why it matters, the details) followed by analysis · sections in reading order', '');
 table(s, [['Section', 0], ['The question it answers', 0], ['Why the next section follows', 0]], D.sections.filter(x => x.id !== 'p-appx').map(x => [x.tab, x.q, x.next ? x.next.tab + ': ' + x.next.bridge : '']), M, 1.55, W - 2 * M, { colW: [2.0, 4.1, 6.03], rowH: 0.5, fs: 8.5, hi: -1 });
 source(s, 'Visit Anaheim Business Intelligence (Oct. 13, 2026). Facts only; no editorial or opinion content.');
+/* Update schedule (Oct. 14, 2026): who, what, when, where, why and how of the quarterly update */
+{ const U = D.schedule;
+  s = content('Introduction', 'How this report is updated', U.line, U.lede);
+  rich(s, U.lede, { x: M, y: 1.45, w: W - 2 * M, h: 0.62, fontSize: 12 });
+  const gw = (W - 2 * M - 0.36) / 3, ch = 2.1;
+  U.details.forEach((d, i) => {
+    const px = M + (i % 3) * (gw + 0.18), py = 2.15 + Math.floor(i / 3) * (ch + 0.1);
+    s.addShape(pres.shapes.RECTANGLE, { x: px, y: py, w: gw, h: ch, fill: { color: H.white }, line: { color: H.e4, width: 1 }, objectName: 'update-card-' + i });
+    s.addShape(pres.shapes.RECTANGLE, { x: px, y: py, w: gw, h: 0.07, fill: { color: H.e1 }, line: { color: H.e1 } });
+    s.addText(d.k.toUpperCase(), ft({ x: px + 0.15, y: py + 0.13, w: gw - 0.3, h: 0.22, fontSize: 9, bold: true, color: H.e3, charSpacing: 1.5 }));
+    s.addText(d.fig, ft({ x: px + 0.15, y: py + 0.34, w: gw - 0.3, h: 0.42, fontSize: 20, bold: true, italic: true, color: H.e3, fit: 'shrink' }));
+    s.addText(d.fig_l, ft({ x: px + 0.15, y: py + 0.76, w: gw - 0.3, h: 0.28, fontSize: 10, bold: true, color: H.dark, fit: 'shrink' }));
+    rich(s, d.text, { x: px + 0.15, y: py + 1.05, w: gw - 0.3, h: ch - 1.35, fontSize: 9, fit: 'shrink' });
+    s.addText('Source: ' + d.src, ft({ x: px + 0.15, y: py + ch - 0.3, w: gw - 0.3, h: 0.26, fontSize: 7, color: H.dark, valign: 'bottom', fit: 'shrink' }));
+  });
+  source(s, U.src + '. Contact: ' + U.contact + '.'); }
 
 /* 0. Anaheim and OC Vibe today (measured data only; no estimates) */
 pres.addSection({ title: 'Anaheim and OC Vibe today' });
@@ -600,6 +616,14 @@ s = content('Next steps', 'About the data', 'Limits and differences between sour
 bullets(s, D.dq.slice(0, 8), M, 1.6, W - 2 * M, 4.9, 11.5);
 s = content('Next steps', 'About the data (continued)', 'Limits and differences between sources to keep in mind', '');
 bullets(s, D.dq.slice(8), M, 1.6, W - 2 * M, 4.9, 11.5);
+{ const U = D.schedule;
+  s = content('Next steps', U.table.title, U.line, '');
+  table(s, U.table.cols, U.table.rows, M, 1.5, W - 2 * M, { colW: [3.4, 2.6, 2.75, 3.38], rowH: 0.48, fs: 9, hi: -1 });
+  source(s, U.table.src + '.');
+  s = content('Next steps', U.planned.title, 'Planned for a more complete view of OC Vibe visitors · not in this edition', '');
+  table(s, U.planned.cols, U.planned.rows, M, 1.6, W - 2 * M, { colW: [2.7, 2.9, 3.83, 2.7], rowH: 0.85, fs: 10.5, hi: -1 });
+  rich(s, 'No figures from these sources appear until the data is received, checked and cleared for sharing. Each is added at the next quarterly update after it arrives. Ticketing and foot-traffic data are licensed or partner data: the report would show summaries only.', { x: M, y: 4.5, w: W - 2 * M, h: 0.9, fontSize: 12 });
+  source(s, U.planned.src + '.'); }
 
 /* Appendix */
 pres.addSection({ title: 'Appendix' });

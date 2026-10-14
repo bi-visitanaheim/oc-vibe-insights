@@ -69,6 +69,7 @@ function newsSlides(id) {
   source(t, x.w5h.src);
   infoSlide(id);
   KIND = 'Analysis';
+  mapSlides(id);
 }
 
 /* Data infographics (Oct. 13, 2026): one "At a glance" slide per section, drawn with native shapes (editable, no images) */
@@ -210,6 +211,46 @@ function infoSlide(id) {
   source(t, [...new Set(x.info.map(g => g.src))].join('; '));
 }
 
+/* Maps (Oct. 13, 2026): one slide per map, rendered from the same map renderer as the dashboard (maps_render.js) */
+function mapSlides(id) {
+  const x = sec(id); if (!x || !(x.maps || []).length) return;
+  x.maps.forEach((m, i) => {
+    const file = `map_${id}_${i}.png`; if (!require('fs').existsSync(file)) return;
+    const t = content(x.tab, m.title, m.sub, '');
+    const ar = m.kind === 'world' ? 960 / 470 : 960 / 600, iw = Math.min(8.7, 4.85 * ar), ih = iw / ar;
+    t.addImage({ path: file, x: M, y: 1.55, w: iw, h: ih, altText: m.title + ': ' + [...m.points].sort((a, b) => b.v - a.v).slice(0, 8).map(p => p.name + ' ' + p.t).join(', ') });
+    const lx = M + iw + 0.3, lw = W - M - lx; let ly = 1.55;
+    if (m.bins) {
+      t.addText('STATES', ft({ x: lx, y: ly, w: lw, h: 0.25, fontSize: 9.5, bold: true, color: H.e3, charSpacing: 1 })); ly += 0.3;
+      [...m.bins.map((bn, k) => [['125C60', '43A3A3', 'B4D9E3'][k], bn[1]]), ['E9EBE4', m.other]].forEach(([c, l]) => {
+        t.addShape(pres.shapes.RECTANGLE, { x: lx, y: ly + 0.04, w: 0.18, h: 0.18, fill: { color: c }, line: { color: 'C9C6B8', width: 0.5 } });
+        t.addText(l, ft({ x: lx + 0.28, y: ly, w: lw - 0.3, h: 0.26, fontSize: 10, color: H.dark })); ly += 0.3; });
+      ly += 0.15;
+    }
+    t.addText((m.kind === 'world' ? 'COUNTRIES' : 'METRO AREAS') + ' (CIRCLES)', ft({ x: lx, y: ly, w: lw, h: 0.25, fontSize: 9.5, bold: true, color: H.e3, charSpacing: 1 })); ly += 0.32;
+    const fmt = p => m.unit === 'money' ? '$' + (p.v >= 1 ? p.v.toFixed(1) + 'M' : Math.round(p.v * 1000) + 'K') : p.t;
+    [...m.points].sort((a, b) => b.v - a.v).slice(0, 8).forEach((p, k) => {
+      t.addText([{ text: fmt(p) + '  ', options: { bold: true, color: H.e3, fontSize: 12 } }, { text: p.name, options: { color: H.dark, fontSize: 10 } }], ft({ x: lx, y: ly, w: lw, h: 0.3, fit: 'shrink' })); ly += 0.33; });
+    source(t, m.src + '. Map: U.S. Census Bureau boundaries (us-atlas); Natural Earth 1:110m (world-atlas); circles at each metro\'s principal city or country\'s center.');
+  });
+}
+/* Key takeaways (Oct. 13, 2026): one bold headline number per section */
+function keyTakeawaysSlide() {
+  const secs = D.sections.filter(x => x.id !== 'p-appx'); if (!secs.length) return;
+  const t = content('Introduction', 'Key takeaways', 'The headline number from each section, with its period', '');
+  const cols = 3, gw = (W - 2 * M - 0.36) / cols, ch = 1.55;
+  secs.forEach((x, i) => {
+    const cx = M + (i % cols) * (gw + 0.18), cy = 1.5 + Math.floor(i / cols) * (ch + 0.1);
+    t.addShape(pres.shapes.RECTANGLE, { x: cx, y: cy, w: gw, h: ch, fill: { color: H.white }, line: { color: H.e4, width: 1 } });
+    t.addShape(pres.shapes.RECTANGLE, { x: cx, y: cy, w: gw, h: 0.06, fill: { color: H.e1 }, line: { color: H.e1, width: 0 } });
+    t.addText(x.tab.toUpperCase(), ft({ x: cx + 0.12, y: cy + 0.1, w: gw - 0.24, h: 0.22, fontSize: 8.5, bold: true, color: H.e3, charSpacing: 1 }));
+    t.addText(x.hv, ft({ x: cx + 0.12, y: cy + 0.32, w: 1.9, h: 0.5, fontSize: 24, bold: true, italic: true, color: H.e3, fit: 'shrink' }));
+    t.addText(x.hl, ft({ x: cx + 2.05, y: cy + 0.34, w: gw - 2.15, h: 0.48, fontSize: 9.5, bold: true, color: H.dark, valign: 'middle', fit: 'shrink' }));
+    rich(t, x.head, { x: cx + 0.12, y: cy + 0.86, w: gw - 0.24, h: 0.62, fontSize: 10, fit: 'shrink' });
+  });
+  source(t, 'Each figure with its source and period on its section slides. Visit Anaheim Business Intelligence (Oct. 13, 2026).');
+}
+
 /* How the key insight is calculated: step table per section (calculated steps and reported inputs) */
 function calcSlide(id, title) {
   const x = sec(id); if (!x || !x.calc_steps || !x.calc_steps.some(r => r[1] !== 'Reported')) return;
@@ -268,6 +309,7 @@ source(s, D.main.srcs.join('; ') + '.');
 s = content('Introduction', 'Summary of findings', 'Each finding with its source and date', '');
 bullets(s, D.takeaways, M, 1.55, W - 2 * M, 5.0, 10);
 source(s, 'Sources and dates are shown with each finding; full source register on the Sources slides.');
+keyTakeawaysSlide();
 s = content('Introduction', 'How this report reads', 'Each section is a news report (lede, why it matters, the details) followed by analysis · sections in reading order', '');
 table(s, [['Section', 0], ['The question it answers', 0], ['Why the next section follows', 0]], D.sections.filter(x => x.id !== 'p-appx').map(x => [x.tab, x.q, x.next ? x.next.tab + ': ' + x.next.bridge : '']), M, 1.55, W - 2 * M, { colW: [2.0, 4.1, 6.03], rowH: 0.5, fs: 8.5, hi: -1 });
 source(s, 'Visit Anaheim Business Intelligence (Oct. 13, 2026). Facts only; no editorial or opinion content.');

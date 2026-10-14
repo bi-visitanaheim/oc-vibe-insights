@@ -1,0 +1,310 @@
+{
+  "schema_version": 2,
+  "claim_id": "OCVIBE_CALCS_2026-10-12",
+  "repository": {
+    "commit": "unavailable",
+    "dirty": true
+  },
+  "command": [
+    "python3",
+    "checks/validate_ocvibe.py",
+    "computations/validation-013"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.13.16"
+      },
+      {
+        "name": "Python",
+        "version": "3.13"
+      },
+      {
+        "name": "numpy",
+        "version": "see stdout"
+      },
+      {
+        "name": "scipy",
+        "version": "see stdout"
+      },
+      {
+        "name": "pandas",
+        "version": "see stdout"
+      }
+    ],
+    "hardware": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39"
+  },
+  "mathematics": {
+    "assertion_tested": "Every OC Vibe Insights model output equals an independent exact-rational recomputation; stated invariants and cross-source totals hold; empirical gaps pass stated statistical tests; Monte Carlo ranges are seed-stable; every number in the report text traces to the report's tables and data notes; transit data snapshots reconcile across files",
+    "coefficient_domain": "Exact rationals (fractions.Fraction) for recomputation; IEEE-754 double for production model, statistics and simulation",
+    "conventions": "2025 dollars; visitors = 50+ miles or overnight (Tourism Economics); triangular distributions with min/mode/max = conservative/base/optimistic; 95% intervals",
+    "inputs": [
+      "checks/validate_ocvibe.py",
+      "data.py",
+      "impact.py",
+      "newdata.py",
+      "content.py",
+      "ocv_content.py",
+      "new_content.py",
+      "views_valid.py",
+      "logic_content.py",
+      "roles_content.py",
+      "files/STR_Daily_Data_8.xlsx",
+      "files/CoStar_DataExport_17.xlsx",
+      "files/ca_transit_fin_orange.csv",
+      "files/ca_transit_fleet_orange.csv",
+      "files/ca_transit_fte_orange.csv",
+      "files/ca_transit_pax_mode_orange.csv",
+      "files/ca_transit_pax_orange.csv",
+      "files/ca_transit_rev_orange.csv",
+      "files/ca_transit_types_orange.csv",
+      "ocv_whole.py",
+      "calcs.py",
+      "feature.py",
+      "facts_only.py"
+    ],
+    "bounds": {
+      "monte_carlo_draws_per_seed": 200000,
+      "seeds": [
+        20261012,
+        20261013
+      ],
+      "bootstrap_resamples": 10000,
+      "str_nights": 276,
+      "gtfs_service_day": "2026-10-14"
+    },
+    "non_claims": [
+      "Does not validate the scenario assumptions themselves; it measures their effect",
+      "Does not establish causality of OC Vibe on visitation",
+      "Third-party source figures are checked for internal consistency, not audited at source"
+    ]
+  },
+  "randomness": {
+    "used": true,
+    "generator": "numpy.random.default_rng (PCG64)",
+    "seed": 20261012
+  },
+  "run": {
+    "started_at": "2026-10-13T23:59:45.547803+00:00",
+    "runtime_seconds": 39.471289,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 1100.0,
+    "max_output_bytes": 4194304,
+    "resource_limits": {
+      "memory_bytes": null,
+      "cpu_seconds": null,
+      "max_cores": null,
+      "max_threads": null
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "checks/validate_ocvibe.py",
+    "data.py",
+    "impact.py",
+    "newdata.py",
+    "content.py",
+    "ocv_content.py",
+    "new_content.py",
+    "views_valid.py",
+    "logic_content.py",
+    "roles_content.py",
+    "files/STR_Daily_Data_8.xlsx",
+    "files/CoStar_DataExport_17.xlsx",
+    "files/ca_transit_fin_orange.csv",
+    "files/ca_transit_fleet_orange.csv",
+    "files/ca_transit_fte_orange.csv",
+    "files/ca_transit_pax_mode_orange.csv",
+    "files/ca_transit_pax_orange.csv",
+    "files/ca_transit_rev_orange.csv",
+    "files/ca_transit_types_orange.csv",
+    "ocv_whole.py",
+    "calcs.py",
+    "feature.py",
+    "facts_only.py",
+    "newsroom.py",
+    "infographics.py",
+    "maps.py",
+    "maps_geo.json"
+  ],
+  "input_artifacts": [
+    {
+      "path": "checks/validate_ocvibe.py",
+      "sha256": "c5e8bb7a04de523b044e3c75c47ee2d4567ab60a09de24fc7df1164c25141d9d",
+      "sha256_after": "c5e8bb7a04de523b044e3c75c47ee2d4567ab60a09de24fc7df1164c25141d9d"
+    },
+    {
+      "path": "data.py",
+      "sha256": "89ff799176c7dc50781e5294720dd0d9a289de543857f6c5c632ae51739cd61f",
+      "sha256_after": "89ff799176c7dc50781e5294720dd0d9a289de543857f6c5c632ae51739cd61f"
+    },
+    {
+      "path": "impact.py",
+      "sha256": "59f175c9dc0f38087c70c9157b8a0f815c434ebcc9caca5b11ae1193a1d96ba1",
+      "sha256_after": "59f175c9dc0f38087c70c9157b8a0f815c434ebcc9caca5b11ae1193a1d96ba1"
+    },
+    {
+      "path": "newdata.py",
+      "sha256": "cc443b107a10bc00ed403b375ed922b9ffa44a1ab06d2cfb034dcba97983bed7",
+      "sha256_after": "cc443b107a10bc00ed403b375ed922b9ffa44a1ab06d2cfb034dcba97983bed7"
+    },
+    {
+      "path": "content.py",
+      "sha256": "4fa3f04c23439b22e542d5ff81c64448bedf3922a895497d6ecbf718352e24e7",
+      "sha256_after": "4fa3f04c23439b22e542d5ff81c64448bedf3922a895497d6ecbf718352e24e7"
+    },
+    {
+      "path": "ocv_content.py",
+      "sha256": "9e941aa50bf6fa0a1c4ccb8ec954f589e7ff1bc9da280cc08ddfb18aabde2db4",
+      "sha256_after": "9e941aa50bf6fa0a1c4ccb8ec954f589e7ff1bc9da280cc08ddfb18aabde2db4"
+    },
+    {
+      "path": "new_content.py",
+      "sha256": "327658b86dc7129a43124c920f6a1af6c05e247a0baf8501db5443c5bded4716",
+      "sha256_after": "327658b86dc7129a43124c920f6a1af6c05e247a0baf8501db5443c5bded4716"
+    },
+    {
+      "path": "views_valid.py",
+      "sha256": "bcd96b601f6fe020cbcb760355263f5b40c6306656a30f15422e03c11abe9255",
+      "sha256_after": "bcd96b601f6fe020cbcb760355263f5b40c6306656a30f15422e03c11abe9255"
+    },
+    {
+      "path": "logic_content.py",
+      "sha256": "79da632da4277f4daff30f959c4e437eec442bb9d8421695767d911e64e84b64",
+      "sha256_after": "79da632da4277f4daff30f959c4e437eec442bb9d8421695767d911e64e84b64"
+    },
+    {
+      "path": "roles_content.py",
+      "sha256": "40dc79830913df9c20492ace82ee2ec5620db15de3116d2d223cd5d9c8535ec1",
+      "sha256_after": "40dc79830913df9c20492ace82ee2ec5620db15de3116d2d223cd5d9c8535ec1"
+    },
+    {
+      "path": "files/STR_Daily_Data_8.xlsx",
+      "sha256": "5d319c86d9f229072d88cff9a72e07e2212bc1798a84dbf1ed1d59875a922421",
+      "sha256_after": "5d319c86d9f229072d88cff9a72e07e2212bc1798a84dbf1ed1d59875a922421"
+    },
+    {
+      "path": "files/CoStar_DataExport_17.xlsx",
+      "sha256": "9b76fdf9b341b906a09ef94cdf16ccfe1e89eccc62deec8c3246b3102ef8f220",
+      "sha256_after": "9b76fdf9b341b906a09ef94cdf16ccfe1e89eccc62deec8c3246b3102ef8f220"
+    },
+    {
+      "path": "files/ca_transit_fin_orange.csv",
+      "sha256": "797c66e5d23aaf59386eb1572acaa6ce83cbc3b7616275e69e609e9581fc51fc",
+      "sha256_after": "797c66e5d23aaf59386eb1572acaa6ce83cbc3b7616275e69e609e9581fc51fc"
+    },
+    {
+      "path": "files/ca_transit_fleet_orange.csv",
+      "sha256": "bbc817529c5d12a128402fee93b22f5cc54dd5f30a9fed7ead3743f5c0bac411",
+      "sha256_after": "bbc817529c5d12a128402fee93b22f5cc54dd5f30a9fed7ead3743f5c0bac411"
+    },
+    {
+      "path": "files/ca_transit_fte_orange.csv",
+      "sha256": "62e587b705affd71c63c6ba13f75ffe976c40b26a2d210ad2e4a2ca488b3c790",
+      "sha256_after": "62e587b705affd71c63c6ba13f75ffe976c40b26a2d210ad2e4a2ca488b3c790"
+    },
+    {
+      "path": "files/ca_transit_pax_mode_orange.csv",
+      "sha256": "6703f77c14ed73210b1d388d9ae8a5dc26e7f01fbe6f9c2ef79cf4af6d60a90d",
+      "sha256_after": "6703f77c14ed73210b1d388d9ae8a5dc26e7f01fbe6f9c2ef79cf4af6d60a90d"
+    },
+    {
+      "path": "files/ca_transit_pax_orange.csv",
+      "sha256": "0a346680b4c1f0e54a1c11386e1df73214acd7adc19d0ced39ed7a294e3afff1",
+      "sha256_after": "0a346680b4c1f0e54a1c11386e1df73214acd7adc19d0ced39ed7a294e3afff1"
+    },
+    {
+      "path": "files/ca_transit_rev_orange.csv",
+      "sha256": "353c1245d5a02de0f14b47ec65b31102b84793370a06b554b2bc6a6ac53d2aae",
+      "sha256_after": "353c1245d5a02de0f14b47ec65b31102b84793370a06b554b2bc6a6ac53d2aae"
+    },
+    {
+      "path": "files/ca_transit_types_orange.csv",
+      "sha256": "1c5ba7deac3560f7cbe349d3f77988aa2c1c37a5ffc06595027a593e0f0071c0",
+      "sha256_after": "1c5ba7deac3560f7cbe349d3f77988aa2c1c37a5ffc06595027a593e0f0071c0"
+    },
+    {
+      "path": "ocv_whole.py",
+      "sha256": "c801c43075174a0a5fbf435cc5c974d8a3c196eb9ca86baf104bf7b54876180d",
+      "sha256_after": "c801c43075174a0a5fbf435cc5c974d8a3c196eb9ca86baf104bf7b54876180d"
+    },
+    {
+      "path": "calcs.py",
+      "sha256": "a0508ab86fb6d4c57da75b584a04e5db9f8bd34ba4cc6cf86dbe863c07a3e457",
+      "sha256_after": "a0508ab86fb6d4c57da75b584a04e5db9f8bd34ba4cc6cf86dbe863c07a3e457"
+    },
+    {
+      "path": "feature.py",
+      "sha256": "b9d884a48f7ed614d8750fd314b30233d56304daa12ecda87d8bf4e685c66bbb",
+      "sha256_after": "b9d884a48f7ed614d8750fd314b30233d56304daa12ecda87d8bf4e685c66bbb"
+    },
+    {
+      "path": "facts_only.py",
+      "sha256": "5a5d4b3eb714f75233f2d43578bc2e116c13bf043fc97f8f654db9db93d6f430",
+      "sha256_after": "5a5d4b3eb714f75233f2d43578bc2e116c13bf043fc97f8f654db9db93d6f430"
+    },
+    {
+      "path": "newsroom.py",
+      "sha256": "9e988ec2c5e95a5ead4c063af535bd82ed096861342f9c1fa2efa92f0b4daf04",
+      "sha256_after": "9e988ec2c5e95a5ead4c063af535bd82ed096861342f9c1fa2efa92f0b4daf04"
+    },
+    {
+      "path": "infographics.py",
+      "sha256": "ba71d7c73566372b309ed13b3fef2052ab14ca2e6e6864224d4b85a6e07d2400",
+      "sha256_after": "ba71d7c73566372b309ed13b3fef2052ab14ca2e6e6864224d4b85a6e07d2400"
+    },
+    {
+      "path": "maps.py",
+      "sha256": "d202f2de64a3f1e67332c41bd8e62bf175236ce6eab9a731100e66323a955328",
+      "sha256_after": "d202f2de64a3f1e67332c41bd8e62bf175236ce6eab9a731100e66323a955328"
+    },
+    {
+      "path": "maps_geo.json",
+      "sha256": "0b2ca6b382328f28b02e8ec49716464d1ea958bc22e52b56b49b0b51eadce78b",
+      "sha256_after": "0b2ca6b382328f28b02e8ec49716464d1ea958bc22e52b56b49b0b51eadce78b"
+    }
+  ],
+  "output_directory": "computations/validation-013",
+  "declared_results": [
+    "computations/validation-013/results.json"
+  ],
+  "outputs": [
+    {
+      "path": "computations/validation-013/stdout.txt",
+      "sha256": "d5912ec6fba5ae53fd99c75bf19eec2e4920895617c03562200742349250c3d2",
+      "kind": "log"
+    },
+    {
+      "path": "computations/validation-013/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "computations/validation-013/results.json",
+      "sha256": "24966568aa105e821c7e8e2f53b552744767d096bb2d1557ba5d895045085a99",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions."
+  ]
+}

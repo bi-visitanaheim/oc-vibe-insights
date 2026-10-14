@@ -38,7 +38,7 @@ Rules:
 
 From the repository root (Python 3.11+, Node 18+; in a Claude session set `PPTX_THEME_SCRIPT` to the pptx skill's `apply_theme.js`):
 
-1. `npm run deck`, then `npm run page`.
+1. `npm run deck` (writes the deck data, renders the map PNGs, builds the deck), then `npm run page`. If a new place appears in a geographic table (a new origin metro or country), add its longitude and latitude to `PTS` in `pipeline/maps_geo.js` and run `npm run maps` first; the validation fails if a mapped value has no position.
 2. `npm run validate`, writing to `pipeline/computations/validation-NNN` (next number). Every check must pass. A failing check is fixed, not skipped.
 3. `npm run shots` and look at 1920, 1440, 1024, 768 and 390 px: no horizontal scroll, no clipped text.
 4. Run a data-quality audit on what changed (sources, periods, units, quarter-over-quarter jumps over 15%) and list the issues before publishing.

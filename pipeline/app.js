@@ -168,7 +168,7 @@ function renderSection(s) {
   const feat = (s.feature || []).length ? `<div class="feat${s.feature.length === 1 ? ' one' : ''}" id="${s.id}-charts">${s.feature.map(c => `<div class="reveal">${chartHtml(c)}</div>`).join('')}</div>` : '';
   const W = (s.details || []).length ? `<div class="dgrid">${s.details.map(d => `<article class="dcard reveal"><span class="dk">${esc(d.k)}</span><b class="dfig">${esc(d.fig)}</b><span class="dfl">${esc(d.fig_l)}</span><p>${emph(d.text)}</p><span class="src-inline">Source: ${esc(d.src)}</span></article>`).join('')}</div>`
     : s.w5h ? ['who','what','when','where','why','how'].map(k => `<p class="w5h-p"><b class="w5h-k">${k[0].toUpperCase()+k.slice(1)}.</b> ${emph(s.w5h[k])}</p>`).join('') + `<p class="src-inline">Sources: ${esc(s.w5h.src)}</p>` : '';
-  const NX = s.next ? `<nav class="upnext reveal" aria-label="Next section"><span class="un-k">Up next</span><button type="button" class="un-b" data-go="${s.next.id}">${esc(s.next.tab)} <span aria-hidden="true">→</span></button>${s.next.bridge ? `<p>${emph(s.next.bridge)}</p>` : ''}</nav>` : '';
+  const NX = s.next ? `<nav class="upnext reveal" aria-label="Next section"><span class="un-k">Up next · section ${S.indexOf(s) + 2} of ${S.length + 1}</span><button type="button" class="un-b" data-go="${s.next.id}">${esc(s.next.tab)} <span aria-hidden="true">→</span></button>${s.next.bridge ? `<p>${emph(s.next.bridge)}</p>` : ''}</nav>` : '';
   const isNews = s.kind === 'News report';
   const item = x => `<li><span class="otag">${esc(x.tag)}</span> ${emph(x.text)}${calcLine(x.calc)}<span class="src-inline">Source: ${esc(x.src)}</span></li>`;
   const F = s.for_ocv ? `<div class="ocv-whole reveal" id="${s.id}-ocv"><h3>What it means for OC Vibe</h3><div class="ow-grid">
@@ -192,11 +192,12 @@ function renderSection(s) {
     ${steps}
     ${W ? `<div class="art-w5h reveal" id="${s.id}-w5h"><h3>The details</h3><p class="d-sub">Who, what, when, where, why and how, each with its figure, source and date.</p>${W}</div>` : ''}
     ${isNews ? `<div class="an-band reveal" id="${s.id}-analysis"><span class="kind">Analysis</span><h3>What the data shows</h3><p><b>The question:</b> ${esc(s.q)}</p></div>` : `<p class="art-q"><b>The question:</b> ${esc(s.q)}</p>`}
+    ${(s.maps || []).length ? `<div class="mp-wrapall" id="${s.id}-maps">${s.maps.map((m, i) => `<figure class="mp reveal" id="${s.id}-map${i}"><header class="ig-h"><h4>${esc(m.title)}</h4><p>${esc(m.sub)}</p></header><div class="mp-grid"><div class="mp-canvas">${mapSvg(MAPGEO, m)}</div>${mapLegend(m)}</div><p class="ig-src">Source: ${esc(m.src)}. Map: ${esc(MAPGEO.src)}; circles placed at each metro's principal city or each country's center.</p></figure>`).join('')}</div>` : ''}
     ${feat}
     <figure class="art-fig tbl reveal" id="${s.id}-t0">${tableHtml(t0, s.id+'-t0')}</figure>
     ${F}
     ${CC}
-    <details class="more-d" id="${s.id}-more"><summary>More data and notes <span class="muted">(${nMore} items)</span></summary>
+    <details class="more-d" id="${s.id}-more"><summary><span class="md-ic" aria-hidden="true">+</span><span class="md-t"><b>More data and notes</b><span class="md-s">${nMore} more charts and tables, plus the notes and data-quality caveats behind this section. Don't skip these before you quote a number.</span></span><span class="md-btn"><span class="md-open">Show</span><span class="md-close">Hide</span></span></summary>
       <div class="sec-more">${more.join('')}</div>
       <div class="notes-box" id="${s.id}-notes"><h3>Notes and data quality</h3><ul>${s.notes.map(n => `<li>${emph(n)}</li>`).join('')}</ul></div>
     </details>
@@ -213,6 +214,8 @@ function wireMore(root) {
 $('secHost').outerHTML = S.map(renderSection).join('');
 wireMore(document);
 
+/* ---------- overview: key takeaways (one bold metric per section) ---------- */
+$('keyTk').innerHTML = S.filter(s => s.id !== 'p-appx').map((s, i) => `<button type="button" class="kt reveal" data-go="${s.id}" style="--i:${i}"><span class="kt-k">${esc(s.tab)}</span><b class="kt-v">${esc(s.hv)}</b><span class="kt-l">${esc(s.hl)}</span><span class="kt-h">${emph(s.head)}</span><span class="kt-s">${esc(s.period)}</span><span class="kt-go">Read the section <span aria-hidden="true">→</span></span></button>`).join('');
 /* ---------- overview: questions and short answers ---------- */
 $('qa').innerHTML = S.map(s => `<button type="button" class="qa-row" data-go="${s.id}"><span class="qa-b"><span class="qa-q">${esc(s.q)}</span><span class="qa-a">${emph(s.ans)}</span>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</span><span class="qa-v"><b>${esc(s.hv)}</b><small>${esc(s.hl)}</small></span><span class="qa-go" aria-hidden="true">›</span></button>`).join('');
 
@@ -310,7 +313,7 @@ document.addEventListener('keydown', e => { if (e.key==='Escape' && $('app').cla
 
 /* ---------- pages, sidebar, section tabs ---------- */
 const PAGES = ['p-summary', ...S.map(s => s.id), 'p-notes'];
-const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id, s.kind === 'News report' ? 'The lede' : 'Key insight'],[s.id+'-nut','Why it matters'],[s.id+'-ig','At a glance'],[s.id+'-calc','How it is calculated'],[s.id+'-w5h','The details'],[s.id+'-analysis','Analysis'],[s.id+'-charts','Charts'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-nut') ? s.nut : id.endsWith('-ig') ? (s.info||[]).length : id.endsWith('-analysis') ? s.kind === 'News report' : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
+const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id, s.kind === 'News report' ? 'The lede' : 'Key insight'],[s.id+'-nut','Why it matters'],[s.id+'-ig','At a glance'],[s.id+'-calc','How it is calculated'],[s.id+'-w5h','The details'],[s.id+'-analysis','Analysis'],[s.id+'-maps','Maps'],[s.id+'-charts','Charts'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-nut') ? s.nut : id.endsWith('-ig') ? (s.info||[]).length : id.endsWith('-analysis') ? s.kind === 'News report' : id.endsWith('-maps') ? (s.maps||[]).length : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
 $('sideList').innerHTML = SIDE.map(([id,t,subs]) => `<li><button type="button" class="top" data-go="${id}">${esc(t)}</button><div class="subs">${subs.map(([sid,st]) => `<button type="button" class="sub" data-go="${id}" data-target="${sid}">${esc(st)}</button>`).join('')}</div></li>`).join('');
 $('secPills').innerHTML = [...SIDE, ['p-notes','Sources']].map(([id,t]) => `<button type="button" class="tab" data-go="${id}">${esc(t)}</button>`).join('');
 document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { goPage(PAGES.indexOf(b.dataset.go), b.dataset.target); if (matchMedia('(max-width:900px)').matches && b.closest('.side')) setSide(false); });
@@ -435,11 +438,57 @@ function csvFor(ids) {
   S.filter(sec => ids.includes(sec.id)).forEach(sec => sec.tables.forEach(t => { lines.push(q(sec.tab + ': ' + t.title)); lines.push(t.cols.map(c => q(c[0])).join(',')); t.rows.forEach(r => lines.push(r.map(q).join(','))); lines.push(q('Source: ' + t.src)); lines.push(''); }));
   return lines;
 }
+
+/* Excel export (Oct. 13, 2026): a real .xlsx built with JSZip; one sheet per section, every table with its source; numbers stay numbers */
+async function xlsxFor(ids) {
+  const z = new JSZip(), xe = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+  const cv = v => v && typeof v === 'object' ? v.t : v;
+  const sheets = [{ name: 'About', rows: [[{ v: 'OC Vibe Insights: data tables', s: 1 }], [`Visit Anaheim Business Intelligence · prepared ${DATA.prepared} · data through Sept. 2026`], ['Contact: bi@visitanaheim.org'], [],
+    ['Each sheet is one section. Every table is followed by its source and period. Values marked F are forecasts.'], ['CoStar, STR and Visa are licensed data: share summaries outside Visit Anaheim, not raw exports.']] }];
+  const used = new Set(['About']);
+  S.filter(sec => ids.includes(sec.id)).forEach(sec => {
+    const rows = [[{ v: sec.tab, s: 1 }], [sec.head || ''], []];
+    sec.tables.forEach(t => { rows.push([{ v: t.title, s: 2 }]); rows.push(t.cols.map(c => ({ v: c[0], s: 3 }))); t.rows.forEach(r => rows.push(r.map(cv))); rows.push([{ v: 'Source: ' + t.src, s: 4 }]); rows.push([]); });
+    let nm = sec.tab.replace(/[\\/?*[\]:]/g, ' ').slice(0, 31); while (used.has(nm)) nm = nm.slice(0, 29) + '_' + used.size; used.add(nm);
+    sheets.push({ name: nm, rows });
+  });
+  const col = i => { let s = ''; i++; while (i) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
+  const cell = (v, r, c) => {
+    const ref = col(c) + (r + 1); let s = 0;
+    if (v && typeof v === 'object' && 'v' in v) { s = v.s; v = v.v; }
+    const t = String(v == null ? '' : v).trim().replace(/−/g, '-');
+    if (!s && /^-?\d{1,3}(,\d{3})*(\.\d+)?$|^-?\d+(\.\d+)?$/.test(t) && !/^(19|20)\d\d$/.test(t)) return `<c r="${ref}"><v>${t.replace(/,/g, '')}</v></c>`;
+    if (!s && /^[+-]?\d+(\.\d+)?%$/.test(t)) return `<c r="${ref}" s="5"><v>${parseFloat(t) / 100}</v></c>`;
+    if (!s && /^-?\$\d{1,3}(,\d{3})*(\.\d+)?$|^-?\$\d+(\.\d+)?$/.test(t)) return `<c r="${ref}" s="6"><v>${t.replace(/[$,]/g, '')}</v></c>`;
+    return t ? `<c r="${ref}" t="inlineStr"${s ? ` s="${s}"` : ''}><is><t xml:space="preserve">${xe(t)}</t></is></c>` : '';
+  };
+  sheets.forEach((sh, k) => {
+    const data = sh.rows.map((r, i) => `<row r="${i + 1}">${r.map((v, j) => cell(v, i, j)).join('')}</row>`).join('');
+    z.file(`xl/worksheets/sheet${k + 1}.xml`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" showGridLines="0"/></sheetViews><cols><col min="1" max="1" width="48" customWidth="1"/><col min="2" max="12" width="20" customWidth="1"/></cols><sheetData>${data}</sheetData></worksheet>`);
+  });
+  z.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_, k) => `<Override PartName="/xl/worksheets/sheet${k + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`);
+  z.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`);
+  z.file('xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((sh, k) => `<sheet name="${xe(sh.name)}" sheetId="${k + 1}" r:id="rId${k + 1}"/>`).join('')}</sheets></workbook>`);
+  z.file('xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_, k) => `<Relationship Id="rId${k + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${k + 1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
+  z.file('xl/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="2"><numFmt numFmtId="164" formatCode="0.0%"/><numFmt numFmtId="165" formatCode="&quot;$&quot;#,##0.##"/></numFmts><fonts count="5"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="15"/><color rgb="FF125C60"/><name val="Calibri"/></font><font><b/><sz val="12"/><color rgb="FF125C60"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><i/><sz val="9"/><color rgb="FF555555"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF125C60"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="7"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="3" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="4" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`);
+  return z.generateAsync({ type: 'blob', compression: 'DEFLATE', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+const PUBLIC_URL = 'https://oc-vibe-insights.vercel.app/';
+const shareUrl = ids => PUBLIC_URL + (ids.length === 1 && ids[0] !== 'p-summary' ? '#' + ids[0].replace('p-', '') : '');
+async function copyText(t, input) {
+  try { await navigator.clipboard.writeText(t); return true; } catch (_) {}
+  try { input.focus(); input.select(); return document.execCommand('copy'); } catch (_) { return false; }
+}
 (function initExport(){
   const dlg = $('expDlg'), list = $('expList');
   list.innerHTML = PAGES.map(id => `<label class="exp-item"><input type="checkbox" value="${id}" checked> <span>${esc(pageTitle(id))}</span></label>`).join('');
   const boxes = () => [...list.querySelectorAll('input')];
-  const sync = () => { const n = boxes().filter(b => b.checked).length; $('expGo').disabled = n===0; $('expCount').textContent = n===PAGES.length ? 'All sections selected' : `${n} of ${PAGES.length} selected`; };
+  const fmtNow = () => (dlg.querySelector('input[name="expFmt"]:checked')||{}).value || 'pdf';
+  const sync = () => { const n = boxes().filter(b => b.checked).length, f = fmtNow(); $('expGo').disabled = n===0; $('expCount').textContent = n===PAGES.length ? 'All sections selected' : `${n} of ${PAGES.length} selected`;
+    $('expLinkBox').hidden = f !== 'link'; $('expShare').hidden = f !== 'link' || !navigator.share; $('expGo').textContent = f === 'link' ? 'Copy link' : 'Export';
+    $('expLink').value = shareUrl(boxes().filter(b => b.checked).map(b => b.value)); };
+  dlg.querySelectorAll('input[name="expFmt"]').forEach(r => r.addEventListener('change', sync));
+  $('expShare').onclick = async () => { try { await navigator.share({ title: 'OC Vibe Insights', url: $('expLink').value }); dlg.close(); } catch (_) {} };
   list.addEventListener('change', sync);
   $('expAll').onclick = () => { boxes().forEach(b => b.checked = true); sync(); };
   $('expNone').onclick = () => { boxes().forEach(b => b.checked = false); sync(); };
@@ -448,7 +497,8 @@ function csvFor(ids) {
   dlg.addEventListener('click', e => { if (e.target===dlg) dlg.close(); });
   $('exportPdf').onclick = () => { sync(); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); };
   $('expGo').onclick = async () => {
-    const ids = boxes().filter(b => b.checked).map(b => b.value), fmt = (dlg.querySelector('input[name="expFmt"]:checked')||{}).value || 'pdf';
+    const ids = boxes().filter(b => b.checked).map(b => b.value), fmt = fmtNow();
+    if (fmt === 'link') { const ok = await copyText($('expLink').value, $('expLink')); toast(ok ? 'Link copied: ' + $('expLink').value : 'Copy the link from the box above.'); if (ok) dlg.close(); return; }
     dlg.close();
     const btn = $('exportPdf'); btn.disabled = true; const label = btn.textContent;
     const all = ids.length===PAGES.length, suffix = all ? '' : '-' + (ids.length===1 ? ids[0].replace('p-','') : 'selected');
@@ -463,6 +513,10 @@ function csvFor(ids) {
         if (typeof JSZip === 'undefined' || typeof pptxSubset === 'undefined') throw Object.assign(new Error('unavailable'), {code:'unavailable'});
         const blob = await pptxSubset(JSZip, await deck.arrayBuffer(), names);
         await saveBlob(blob, `OC_Vibe_Insights${suffix}.pptx`); toast('PowerPoint ready: the title slide plus the chosen sections.');
+      } else if (fmt==='xlsx') {
+        if (!S.some(sec => ids.includes(sec.id))) { toast('The selected sections have no data tables. Choose a content section.'); return; }
+        btn.textContent = 'Preparing Excel…';
+        await saveBlob(await xlsxFor(ids), `OC_Vibe_Insights_data${suffix}.xlsx`); toast('Excel workbook ready.');
       } else if (fmt==='csv') {
         const lines = csvFor(ids);
         if (!lines.length) { toast('The selected sections have no data tables. Choose a content section or export a PDF.'); return; }

@@ -435,6 +435,61 @@ tr.hirow td,tr.hirow th{background:var(--surface-fill)!important;color:var(--on-
 .vs-b em b{font-weight:900}
 @media (max-width:640px){.vs-r{grid-template-columns:minmax(0,1fr)}.ig-towers{gap:4px}.tw-b{height:110px}.tw span{font-size:10.5px}.tw b{font-size:12px}.bd-h,.bd-r{grid-template-columns:48px minmax(0,1fr) 90px}.bd-d{font-size:12.5px}.ig{padding:14px 12px 10px}}
 @media print{.ig .grow,.ig .grow-y{transform:none!important}.ig :is(.ch-step,.ch-link,.rc-ln,.bd-r,.fn-s,.vs-r){opacity:1!important;transform:none!important}}
+
+/* Maps (Oct. 13, 2026) */
+.mp-wrapall{display:grid;gap:14px;margin:16px 0 0}
+.mp{margin:0;background:var(--surface-card);border:1px solid var(--border);border-top:4px solid var(--ESC3);border-radius:var(--r-md);padding:16px 18px 12px;min-width:0}
+.mp-grid{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(220px,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.mp-grid{grid-template-columns:minmax(0,1fr)}}
+.mp-canvas{background:var(--surface-page);border-radius:var(--r-sm);padding:6px}
+.mp-svg{display:block;width:100%;height:auto}
+.mp-svg [data-tip]{cursor:pointer;outline:none}.mp-svg .mp-b:focus,.mp-svg .mp-st:focus{stroke:#231F20;stroke-width:2.5}
+:root[data-theme="dark"] :is(.mp-canvas,.mp-key),:root:not([data-theme="light"]) :is(.mp-canvas,.mp-key){--mp-land:#3a4a4b;--mp-line:#1d2324;--mp-ink:#F9F9F2;--mp-halo:#1d2324;--mp-val:#B4D9E3;--mp-b0:#B4D9E3;--mp-b1:#43A3A3;--mp-b2:#2E6E72}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) :is(.mp-canvas,.mp-key){--mp-land:#E9EBE4;--mp-line:#FFFFFF;--mp-ink:#231F20;--mp-halo:#FFFFFF;--mp-val:#125C60;--mp-b0:#125C60;--mp-b1:#43A3A3;--mp-b2:#B4D9E3}}
+:root[data-theme="light"] :is(.mp-canvas,.mp-key){--mp-land:#E9EBE4;--mp-line:#FFFFFF;--mp-ink:#231F20;--mp-halo:#FFFFFF;--mp-val:#125C60;--mp-b0:#125C60;--mp-b1:#43A3A3;--mp-b2:#B4D9E3}
+.mp-key{font-size:13.5px}
+.mp-kh{margin:0 0 6px;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--heading)}
+.mp-bins{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:4px}.mp-bins li{display:flex;gap:8px;align-items:center}
+.mp-bins .sw{width:14px;height:14px;border-radius:3px;flex:none}.sw.b0{background:var(--mp-b0,#125C60)}.sw.b1{background:var(--mp-b1,#43A3A3)}.sw.b2{background:var(--mp-b2,#B4D9E3)}.sw.land{background:#E9EBE4;border:1px solid var(--border)}
+.mp-top{margin:0 0 10px;padding-left:20px;display:grid;gap:4px}.mp-top b{font-weight:900;color:var(--heading)}
+.mp-note{margin:0;font-size:12px;display:flex;gap:6px;align-items:center}.mp-hk{width:10px;height:10px;background:#A10009;transform:rotate(45deg);display:inline-block}
+@media (prefers-reduced-motion:no-preference){.mp-b{transform-box:fill-box;transform-origin:center;transition:transform .7s cubic-bezier(.2,.7,.2,1) calc(var(--i,0)*70ms)}.js-anim .mp:not(.in) .mp-b{transform:scale(0)}
+  .mp-st{transition:opacity .6s ease}.js-anim .mp:not(.in) .mp-st{opacity:.15}}
+@media print{.mp-b{transform:none!important}.mp-st{opacity:1!important}}
+/* Key takeaways (overview) */
+.kts{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 22px}.kts>.kt{flex:1 1 240px;min-width:0}
+.kt{display:flex;flex-direction:column;gap:3px;text-align:left;font:inherit;color:inherit;background:var(--surface-card);border:1px solid var(--border);border-top:4px solid var(--ESC1);border-radius:var(--r-md);padding:14px 16px;cursor:pointer}
+.kt:hover,.kt:focus-visible{border-color:var(--heading);box-shadow:0 2px 10px rgba(18,92,96,.15)}
+.kt-k{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--heading)}
+.kt-v{font-size:clamp(28px,2.6vw,38px);font-weight:900;font-style:italic;color:var(--heading);line-height:1.05}
+.kt-l{font-size:13.5px;font-weight:800}
+.kt-h{font-size:14.5px;line-height:1.4;margin-top:4px}
+.kt-s{font-size:11.5px;color:var(--muted);margin-top:2px}
+.kt-go{margin-top:auto;padding-top:8px;font-size:13px;font-weight:800;color:var(--heading)}
+.kv{font-weight:850!important}
+/* More data and notes: called out so readers do not skip it */
+.more-d{border:2px solid var(--heading)!important;background:var(--surface-card)}
+.more-d>summary{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px!important;background:linear-gradient(90deg,rgba(67,163,163,.16),rgba(180,217,227,.12))}
+.more-d>summary::-webkit-details-marker{display:none}
+.md-ic{width:34px;height:34px;border-radius:50%;background:var(--ESC3);color:#FFFFFF;display:grid;place-items:center;font-size:22px;font-weight:800;line-height:1}
+.more-d[open] .md-ic{transform:rotate(45deg)}
+.md-t{display:flex;flex-direction:column;gap:2px}.md-t b{font-size:17px;color:var(--heading)}.md-s{font-size:13.5px;font-weight:500;color:var(--ink)}
+.md-btn{font-size:13px;font-weight:800;color:#FFFFFF;background:var(--ESC3);border-radius:999px;padding:7px 16px}
+.more-d .md-close{display:none}.more-d[open] .md-close{display:inline}.more-d[open] .md-open{display:none}
+@media (prefers-reduced-motion:no-preference){.more-d:not([open]) .md-ic{animation:mdpulse 2.4s ease-in-out 2}}
+@keyframes mdpulse{0%,100%{box-shadow:0 0 0 0 rgba(67,163,163,.55)}50%{box-shadow:0 0 0 9px rgba(67,163,163,0)}}
+@media (max-width:640px){.more-d>summary{grid-template-columns:auto minmax(0,1fr)}.md-btn{grid-column:1/-1;justify-self:start}}
+/* Up next: stands out */
+.upnext{background:var(--ESC3)!important;border:0!important;color:#FFFFFF;padding:22px 24px!important;grid-template-columns:minmax(0,1fr) auto!important;gap:6px 20px!important;box-shadow:0 6px 20px rgba(18,92,96,.25)}
+.upnext *{color:#FFFFFF}
+.upnext .un-k{grid-column:1/-1;opacity:.9;color:#B4D9E3!important}
+.upnext .un-b{grid-column:2;grid-row:2;align-self:center;background:#FFFFFF;color:#125C60!important;border-radius:999px;padding:12px 22px!important;font-size:18px!important;font-style:normal!important;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.upnext .un-b *{color:#125C60!important}
+.upnext .un-b:hover,.upnext .un-b:focus-visible{text-decoration:none!important;outline:3px solid #B4D9E3;outline-offset:2px}
+.upnext p{grid-column:1;grid-row:2;font-size:15.5px!important;margin:0!important}
+@media (max-width:640px){.upnext{grid-template-columns:minmax(0,1fr)!important}.upnext .un-b{grid-column:1;grid-row:auto;justify-self:start}}
+footer a{color:inherit;font-weight:800}
+.exp-link{margin:10px 0 0}.exp-link label{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}.exp-link input{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--ctl);border-radius:var(--r-sm);background:var(--surface-card);color:var(--ink)}
 """
 
 BODY = f"""<title>OC Vibe Insights</title>
@@ -485,6 +540,9 @@ BODY = f"""<title>OC Vibe Insights</title>
             </div>
             <div class="ann-paper" id="annPaper"></div>
           </article>
+          <h3 class="ov-h">Key takeaways</h3>
+          <p class="csub" style="font-weight:350;margin:0 0 12px">The headline number from each section, with its period. Select one to read the full story.</p>
+          <div class="kts" id="keyTk"></div>
           <h3 class="ov-h">Questions and short answers</h3>
           <p class="csub" style="font-weight:350;margin:0 0 12px">Each question with a short answer. Select a question to see the details.</p>
           <div class="qa" id="qa"></div>
@@ -539,7 +597,7 @@ BODY = f"""<title>OC Vibe Insights</title>
       </div>
       <footer>
         <span>Sources: Tourism Economics; LARC; CoStar; Symphony | Tourism Economics (Azira); Datafy; OCTA; U.S. BTS; Visit Anaheim BI</span>
-        <span>Powered by Visit Anaheim Business Intelligence Team</span>
+        <span>Powered by Visit Anaheim Business Intelligence Team · Contact us: <a href="mailto:bi@visitanaheim.org">bi@visitanaheim.org</a></span>
       </footer>
     </main>
   </div>
@@ -551,14 +609,19 @@ BODY = f"""<title>OC Vibe Insights</title>
   <fieldset class="exp-fmt"><legend>Format</legend>
     <label><input type="radio" name="expFmt" value="pdf" checked> PDF (pages as shown)</label>
     <label><input type="radio" name="expFmt" value="pptx"> PowerPoint (.pptx, slides for the chosen sections)</label>
+    <label><input type="radio" name="expFmt" value="xlsx"> Excel (.xlsx, one sheet per section with every table and its source)</label>
     <label><input type="radio" name="expFmt" value="csv"> CSV (data tables only)</label>
+    <label><input type="radio" name="expFmt" value="link"> Share link (to the public site; one section selected links to that section)</label>
+  </fieldset>
+  <div class="exp-link" id="expLinkBox" hidden><label for="expLink">Link</label><input id="expLink" type="text" readonly><p class="exp-sub" style="margin:4px 0 0">Anyone with this link can open the public site. The claude.ai version stays private.</p></div>
+  <fieldset hidden>
   </fieldset>
   <fieldset><legend>Sections</legend>
     <div class="exp-quick"><button type="button" class="ctl" id="expAll">Select all</button><button type="button" class="ctl" id="expNone">Clear</button><button type="button" class="ctl" id="expCur">Current section only</button></div>
     <div class="exp-list" id="expList"></div>
     <p class="exp-count" id="expCount" aria-live="polite"></p>
   </fieldset>
-  <div class="exp-acts"><button type="button" class="ctl" id="expCancel">Cancel</button><button type="button" class="ctl accent" id="expGo">Export</button></div>
+  <div class="exp-acts"><button type="button" class="ctl" id="expCancel">Cancel</button><button type="button" class="ctl" id="expShare" hidden>Share…</button><button type="button" class="ctl accent" id="expGo">Export</button></div>
 </dialog>
 <div class="toast" id="toast" role="status" hidden></div>
 <script>
@@ -575,6 +638,10 @@ const RECS_T = {json.dumps(__import__('logic_content').RECS_T, ensure_ascii=Fals
 </script>
 <script>
 {open(BASE + '/pptx_subset.js').read()}
+</script>
+<script>
+const MAPGEO = {open(BASE + '/maps_geo.json').read()};
+{open(BASE + '/map_svg.js').read()}
 </script>
 <script>
 {open(BASE + '/app.js').read()}

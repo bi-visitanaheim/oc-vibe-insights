@@ -6,10 +6,10 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 19 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 20 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
-| **Deck** | `OC_Vibe_Insights.pptx`, 94 slides, VA Branded; each section opens with a news report slide, a details slide and an "At a glance" infographic slide |
+| **Deck** | `OC_Vibe_Insights.pptx`, 98 slides, VA Branded; a key takeaways slide up front, and each section opens with a news report slide, a details slide and an "At a glance" infographic slide; three map slides |
 | **Data through** | Sept. 2026 (STR through Oct. 3, 2026; CoStar and Visa through Aug. 2026) |
 | **Last updated** | Oct. 13, 2026 |
 
@@ -34,7 +34,7 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 
 ## 2. What the dashboard contains
 
-The **Overview** is the main announcement, a facts-only BI Pulse release that can be copied with formatting. It is followed by questions and short answers.
+The **Overview** opens with **Key takeaways**: one card per section with its headline metric in bold, what it means, the period and a link to the section. Then comes the main announcement, a facts-only BI Pulse release that can be copied with formatting, and the questions and short answers.
 
 | Tab | Question it answers | Main sources |
 |---|---|---|
@@ -64,24 +64,27 @@ Each section reads like a newspaper story, in this order:
 7. The details: six announcement-style data cards (who, what, when, where, why and how), each with a figure, its label or calculation, the detail and the source with its date.
 
 **Analysis** (feature)
-8. The question, featured charts and the main table.
+8. The question, maps (where the data is geographic), featured charts and the main table.
 9. What it means for OC Vibe: "What it enhances" and "What OC Vibe needs", tagged by topic, not by role.
 10. Compare and contrast.
-11. A collapsed panel, "More data and notes".
-12. Up next.
+11. "More data and notes": a highlighted callout with a count of the extra charts and tables and a reminder to read the notes and caveats before quoting a number (opens automatically in print and PDF).
+12. Up next: a full-width band with the section number, the next headline, why it follows and a Continue button.
 
 ### Features
 
 - **Data infographics ("At a glance").** Built only from figures already in each section, each with its source, date and calculations: an economy chain (visitors, spending, impact, jobs, taxes), waffles (of every 100 District 5 visitors), an itemized visitor receipt with an "every $1" bar, a jobs pictogram, hotel occupancy towers by night, share bars (new hotel supply; day vs. overnight visitors), an ARTIC departures board, an impressions-to-visits funnel, and Anaheim vs. U.S. bars. On screen, numbers count up and bars grow once on entrance; off under reduced motion and in print or PDF.
+- **Maps for geographic data.** Who visits: a U.S. map shading the top origin states (Azira, District 5, Jan. 1 to May 31, 2026) with circles for the top metro areas. Visitor spending: a U.S. map of card spending by cardholder home metro and a world map of international card spending by country (Visa Destination Insights, Aug. 2026). Every value comes from a table in the section; circle area shows the value; Anaheim is marked; the legend ranks the top eight in bold. Boundaries: U.S. Census Bureau cartographic boundaries (us-atlas 3.0.1, Albers USA) and Natural Earth 1:110m (world-atlas 2.0.2). Geometry is built once by `npm run maps` (`pipeline/maps_geo.js` to `maps_geo.json`); `map_svg.js` draws the maps on the page, and `maps_render.js` renders them as PNGs for the deck.
+- **Key takeaways and bold statistics.** The overview's takeaway cards and a matching deck slide; key numbers are bold in the text.
 - **Full-width layout.** Headlines and deks run the full page width; blocks stack full width with no side columns; stat rows stretch to fill; the overview release flows in three newspaper columns. Checked at 1920, 1440, 1024, 768 and 390 px.
 - **Value tooltips.** Hover over or tab to any bar, column, line point, heatmap cell or overview bar to see its value. The selected mark is highlighted.
-- **Export.** Choose sections, then export as PDF, CSV or PowerPoint. PowerPoint gives the title slide plus the slides for the chosen sections (all sections gives the full deck); it is assembled in the browser from the full deck (`pipeline/pptx_subset.js`, with JSZip 3.10.1, MIT), so slides stay editable. The deck can also be downloaded from the page.
+- **Export.** Choose sections, then export as PDF, PowerPoint, Excel, CSV or a share link. Excel gives a real .xlsx with an About sheet and one sheet per section (numbers stored as numbers, percents and dollars formatted, a source row under every table). The share link copies https://oc-vibe-insights.vercel.app/ (with the section anchor when one section is chosen) and opens the device share sheet where available. PowerPoint gives the title slide plus the slides for the chosen sections (all sections gives the full deck); it is assembled in the browser from the full deck (`pipeline/pptx_subset.js`, with JSZip 3.10.1, MIT), so slides stay editable. The deck can also be downloaded from the page.
 - **Views and navigation:**
   - one page at a time or all pages; links, tabs and "Up next" land each section just below the sticky section bar;
   - full screen;
   - light and dark themes;
   - mobile layout;
   - entrance motion only, turned off for viewers who choose reduced motion.
+- **Contact.** The footer reads "Contact us: bi@visitanaheim.org" (mailto link).
 
 ---
 
@@ -121,6 +124,9 @@ The source register on the Sources page lists each source's document, period cov
 | `public/` | What Vercel serves: `index.html`, `OC_Vibe_Insights.pptx`, `robots.txt` |
 | `pipeline/infographics.py` | The "At a glance" infographic data for each section (attached after newsroom) |
 | `pipeline/newsroom.py` | News report structure: nut graphs, detail cards, reading order, bridges and the em-dash rule (attached last) |
+| `pipeline/maps.py` | Map specs for geographic data, built from the section tables (attached after infographics) |
+| `pipeline/maps_geo.js`, `maps_geo.json` | Map geometry and point positions (U.S. states, world countries, metro and country points) |
+| `pipeline/map_svg.js`, `maps_render.js` | Map drawing shared by the page and Node; PNG rendering for the deck |
 | `pipeline/pptx_subset.js` | PowerPoint export: keeps the chosen deck sections and removes the rest cleanly |
 | `scripts/make_public.py` | Copies the built page and deck into `public/` |
 | `docs/activity-log.md` | Build notes and the change log |
@@ -143,9 +149,10 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
    8. `feature.py` (featured charts)
    9. `facts_only.py` (removes estimates and rebuilds the "Anaheim and OC Vibe today" section)
    10. `newsroom.py` (news report structure, reading order, house style)
-   11. `infographics.py` (last step: "At a glance" infographics)
+   11. `infographics.py` ("At a glance" infographics)
+   12. `maps.py` (last step: maps for geographic data)
 3. **Deck:** run `npm run deck`.
-   - This writes `pipeline/deck_data.json`, then `pipeline/OC_Vibe_Insights.pptx`.
+   - This writes `pipeline/deck_data.json`, renders the map PNGs (`pipeline/map_*.png`), then writes `pipeline/OC_Vibe_Insights.pptx`.
    - The VA theme step uses the pptx skill's `apply_theme.js`, which is not stored in this repository. Set `PPTX_THEME_SCRIPT` to its path to apply it. Without it, the deck is written unthemed and a warning is shown.
 4. **Page:** run `npm run page`.
    - This writes `pipeline/oc-vibe-insights.html` (deck embedded) and copies the page and deck into `public/`.
@@ -158,7 +165,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-012` (Oct. 13, 2026): 50 of 50 checks passed, including the newsroom and infographic checks. The suite was re-run from this repository with the same result.
+- The latest recorded run is `pipeline/computations/validation-013` (Oct. 13, 2026): 51 of 51 checks passed, including the newsroom, infographic and map checks. The suite was re-run from this repository with the same result.
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
@@ -166,7 +173,8 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
   - every section is a complete news report (dateline, lede, nut graph, six sourced detail cards);
   - no em dashes, AP-style dates and no first person in news reports;
   - the reading order links each section to the next;
-  - every infographic has a dated source and shows its calculations, and the visitor receipt adds up.
+  - every infographic has a dated source and shows its calculations, and the visitor receipt adds up;
+  - every mapped value traces to a report table, has a map position, and each map has a dated source.
 
 `impact.py` still holds the earlier scenario model for reference. `facts_only.py` keeps all of its output out of the report.
 
@@ -175,7 +183,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`) and Node 18+ (`np
 | Feature | claude.ai artifact | Vercel website |
 |---|---|---|
 | Who can open it | People it is shared with | Anyone with the link to oc-vibe-insights.vercel.app |
-| PDF, CSV and PowerPoint exports | Yes | Yes |
+| PDF, PowerPoint, Excel, CSV and share-link exports | Yes | Yes (the share link always points to the website) |
 
 ---
 

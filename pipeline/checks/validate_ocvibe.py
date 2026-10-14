@@ -307,6 +307,11 @@ _igcalc = [f"{sid}:{g['kind']}" for sid, g in _ig if g["kind"] in ("receipt", "s
 check("H. Report text", "Every infographic has a title and a dated source; derived values show their calculation", len(_ig) >= 9 and not _igbad and not _igcalc, f"{len(_ig)} infographics; missing source/date: {_igbad or 'none'}; missing calculation: {_igcalc or 'none'}")
 _recv = [g for _, g in _ig if g["kind"] == "receipt"]
 check("H. Report text", "Receipt infographic: per-visitor lines add up to the stated total", all(abs(sum(l["n"] for l in g["lines"]) - float(g["total"]["v"].strip("$"))) < 0.05 for g in _recv), "; ".join(f"sum {sum(l['n'] for l in g['lines']):.2f} vs {g['total']['v']}" for g in _recv))
+_mp = [(x["id"], m) for x in CT.SECTIONS for m in (x.get("maps") or [])]
+_geo = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "maps_geo.json")))
+_mbad = [f"{sid}:{p['name']}" for sid, m in _mp for p in m["points"] if p["name"] not in _geo["pts"] or not _geo["pts"][p["name"]]["world" if m["kind"] == "world" else "us"]]
+_mval = [f"{sid}:{p['name']}" for sid, m in _mp for p in (m["points"] + m.get("states", [])) if p["t"].split(" ")[0] not in _other]
+check("H. Report text", "Maps: every mapped value comes from a report table, has a position, and each map has a dated source", len(_mp) >= 3 and not _mbad and not _mval and all(_re.search(r"20\d\d", m["src"]) for _, m in _mp), f"{len(_mp)} maps, {sum(len(m['points']) + len(m.get('states', [])) for _, m in _mp)} values; unplaced: {_mbad or 'none'}; untraced: {_mval or 'none'}")
 _rx = __import__("facts_only").EST_RX
 _left = [t for t in _texts + CT.TAKEAWAYS + CT.DQ if _rx.search(t)]
 check("H. Report text", "No scenario-model estimate remains in the report text", not _left, f"{len(_left)} statements with estimate wording" + (f": {_left[0][:80]}" if _left else ""))

@@ -15,8 +15,8 @@
       "views_valid.py",
       "logic_content.py",
       "roles_content.py",
-      "files/STR_Daily_Data_8.xlsx",
-      "files/CoStar_DataExport_17.xlsx",
+      "files/licensed/STR_Daily_Data_8.xlsx",
+      "files/licensed/CoStar_DataExport_17.xlsx",
       "files/ca_transit_fin_orange.csv",
       "files/ca_transit_fleet_orange.csv",
       "files/ca_transit_fte_orange.csv",
@@ -75,7 +75,9 @@
     "files/gtfs/trips.txt",
     "files/gtfs/stop_times.txt.gz",
     "newsroom.py",
-    "infographics.py"
+    "infographics.py",
+    "maps.py",
+    "maps_geo.json"
   ],
   "software": [
     {

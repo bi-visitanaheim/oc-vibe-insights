@@ -470,3 +470,5 @@ _nr.attach(SECTIONS, "Oct. 13, 2026")
 for _o in (TAKEAWAYS, DQ, RECS, SOURCES, DATA_EXTRA, STORIES): _nr.no_em(_o)
 import infographics as _ig   # Oct. 13, 2026: data infographics per section
 _ig.attach(SECTIONS); _nr.no_em(SECTIONS)
+import maps as _mp   # Oct. 13, 2026: map visuals for geographic data
+_mp.attach(SECTIONS); _nr.no_em(SECTIONS)

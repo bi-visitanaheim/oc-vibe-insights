@@ -333,6 +333,90 @@ check("C. Reconciliation", "Transit snapshots: rows sum to totals and files reco
 _rl = [RC.TYP["Revenues"][i] - RC.TYP["Expenses"][i] - RC.TYP["Revenues Less Expenses"][i] for i in range(len(RC.YRS))]
 check("C. Reconciliation", "Transit snapshots: revenues less expenses recomputes in every year", max(abs(x) for x in _rl) < 1, f"largest difference ${max(abs(x) for x in _rl):.2f} over {len(RC.YRS)} years")
 
+# ---------------- Questions answered and Reports and data library (Oct. 14, 2026) ----------------
+import ask as _AK, library as _LB
+from fractions import Fraction as _F
+_E = __import__("data").EI
+_tr = []
+for _g, _t in _AK.TE_TR.items():   # transportation impact: sums and shares recomputed exactly from the report rows
+    _tr.append(_F(str(_t["sales_t"])) == sum(_F(str(v)) for v in _t["sales"].values()))
+    _tr.append(_t["jobs_t"] == sum(_t["jobs"].values()))
+    _tr.append(abs(_F(str(_t["spend"])) / _F(str(_E[_g]["sp25"])) * 100 - _F(str(round(_t["share"], 10)))) < _F(1, 10**6))
+check("I. Questions answered", "Transportation impact: business sales, jobs and labor income add up from Tourism Economics' industry rows; shares recompute",
+      all(_tr) and _AK.TE_TR["Anaheim"]["jobs_t"] == 2080 and _AK.TE_TR["Orange County"]["jobs_t"] == 6141 and round(_AK.TE_TR["Orange County"]["sales_t"]) == 973,
+      f"Anaheim {_AK.TE_TR['Anaheim']['jobs_t']:,} jobs (1,919 + 161), ${_AK.TE_TR['Anaheim']['sales_t']:.0f}M sales; Orange County {_AK.TE_TR['Orange County']['jobs_t']:,} jobs, ${_AK.TE_TR['Orange County']['sales_t']:.0f}M sales; Garden Grove {_AK.TE_TR['Garden Grove']['jobs_t']} jobs")
+_u = _AK.UST; _v = _AK.VCA
+_ok_us = round(_u["sp25"] / _u["trips25"]) == 553 and round(_u["dom_sp25"] / _u["dom_trips25"]) == 494 and abs(_v["tr_share"] - 25.2 / 140.8 * 100) < 1e-9 and round(_v["tr_share"], 1) == 17.9
+check("I. Questions answered", "Average spend and California transportation share recompute: U.S. $553 per trip ($1.360T ÷ 2.46B), domestic $494; California $25.2B ÷ $140.8B = 17.9%", _ok_us,
+      f"U.S. per trip ${_u['sp25']/_u['trips25']:.2f}; domestic ${_u['dom_sp25']/_u['dom_trips25']:.2f}; California {_v['tr_share']:.3f}%")
+_mix = sum(v for _, v in _v["mix"])
+check("I. Questions answered", "Visit California visitor spending by category adds to the published total within rounding", abs(_mix - _v["visitor"]) <= 0.15, f"{_mix:.1f} vs. {_v['visitor']} ($B)")
+_qids = {q["id"] for q in _AK.ASK}; _lids = {f["id"] for f in _LB.FILES}
+_bad_ref = [f"{q['id']}:{f}" for q in _AK.ASK for f in q.get("files", []) if f not in _lids] + [f"{q['id']}:go" for q in _AK.ASK if q["go"] not in {x["id"] for x in CT.SECTIONS} | {"p-library", "p-notes"}]
+_miss = [f["file"] for f in _LB.FILES if f["topic"] != "report" and not os.path.exists(os.path.join(_LB.LIB_DIR, f["file"]))]
+_bd2 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_missr = [f["file"] for f in _LB.FILES if f["topic"] == "report" and not os.path.exists(os.path.join(_bd2, f["file"]))]
+check("I. Questions answered", "Library: every listed file exists, every question links only to listed files and real sections, and every core question has a visual, method and source",
+      not _bad_ref and not _miss and not _missr and all(_AK.ASK[[q["id"] for q in _AK.ASK].index(c)]["viz"] and _AK.ASK[[q["id"] for q in _AK.ASK].index(c)]["how"] for c in _AK.CORE) and all(len(g) == 4 and g[3] for q in _AK.ASK for g in q["geo"]),
+      f"{len(_LB.FILES)} files ({len(_miss) + len(_missr)} missing); {len(_AK.ASK)} questions; {len(_bad_ref)} broken links")
+_names = ["Taylor", "Atkinson", "Mike", "Bree", "Katie", "Pederson", "Samantha", "Shannel", "Picou", "Nancy", "Cindy", "Meliker"]
+_qt = json.dumps([_AK.ASK, _LB.FILES, _LB.LINKS], ensure_ascii=False)
+_hit = [n for n in _names if _re.search(r"\b" + n + r"\b", _qt)]
+_pdocs = []
+for _f in _LB.FILES:
+    _pp = os.path.join(_LB.LIB_DIR, _f["file"])
+    if _f["file"].endswith((".xlsx", ".pptx")) and os.path.exists(_pp):
+        _z = _zf.ZipFile(_pp); _blob = b"".join(_z.read(n) for n in _z.namelist() if n.endswith(".xml"))
+        _pdocs += [f"{_f['file']}:{n}" for n in ("Samantha", "Nancy", "Cindy", "Meliker", "Harding", "picou") if n.encode() in _blob]
+check("I. Questions answered", "No individuals are named in the questions or the library, and Office files carry no personal names in their properties or sheet names", not _hit and not _pdocs and "—" not in _qt,
+      f"names in text: {_hit or 'none'}; in files: {_pdocs or 'none'}; em dashes: {_qt.count(chr(0x2014))}")
+_nq = len(_re.findall(r'id="p-ask"|id="p-library"', _html))
+check("I. Questions answered", "The app has the Questions answered and Reports and data library pages, and the focused deck exists with every core question",
+      _nq == 2 and os.path.exists(os.path.join(_bd2, "OC_Vibe_Questions_Answered.pptx")) and len(_re.findall(r"<p:sldId ", _zf.ZipFile(os.path.join(_bd2, "OC_Vibe_Questions_Answered.pptx")).read("ppt/presentation.xml").decode())) >= 4 * 2 + 3,
+      f"pages {_nq}/2; questions deck slides {len(_re.findall(r'<p:sldId ', _zf.ZipFile(os.path.join(_bd2, 'OC_Vibe_Questions_Answered.pptx')).read('ppt/presentation.xml').decode()))}")
+
+# ---------------- J. Visual layer: AntV G2, T8, Infographic, X6 and D3 (Oct. 14, 2026) ----------------
+_bd3 = os.path.dirname(_bd2)
+_pkg = json.load(open(os.path.join(_bd3, "package.json")))
+_dev = {**_pkg.get("dependencies", {}), **_pkg.get("devDependencies", {})}
+_want = {"@antv/g2": "5.4.8", "@antv/t8": "0.3.1", "@antv/infographic": "0.2.20", "@antv/x6": "3.1.8", "@mdi/js": "7.4.47", "d3": "7.9.0"}
+_pin = all(_dev.get(k) == v for k, v in _want.items())
+_ext = _re.findall(r'<script[^>]+src=["\']https?://|<link[^>]+href=["\']https?://(?!fonts\.googleapis)', _html)
+_hosts = [h for h in ("assets.antv.antgroup.com", "weavefox", "sive.antv", "unpkg.com", "cdn.jsdelivr", "gw.alipayobjects") if h in _html]
+_libs = [k for k, m in (("G2", "G2Q"), ("T8", "t8Render"), ("Infographic", "addIg("), ("X6", "X6.Graph"), ("D3", "d3-compare")) if m not in _html]
+check("J. Visual layer", "Chart libraries are pinned to exact versions, inlined in the page, and the page loads nothing from outside hosts",
+      _pin and not _ext and not _hosts and not _libs, f"pinned {sum(_dev.get(k) == v for k, v in _want.items())}/{len(_want)}; external tags {len(_ext)}; outside hosts {_hosts or 'none'}; missing layers {_libs or 'none'}")
+_mx = []
+for _g in ("Anaheim", "Orange County"):
+    _parts = [_E[_g][k] for k in ("rec", "lodging", "retail", "fb", "transport")]
+    _mx.append((_g, sum(_parts), _E[_g]["sp25"], sum(round(p / _E[_g]["sp25"] * 100, 1) for p in _parts)))
+check("J. Visual layer", "Spending treemaps: the five categories add to total visitor spending within $1M and the labeled shares add to 100% within 0.2 points",
+      all(abs(s - t) <= 1.0 and abs(p - 100) <= 0.2 for _, s, t, p in _mx), "; ".join(f"{g} ${s:,.0f}M of ${t:,.0f}M, shares {p:.1f}%" for g, s, t, p in _mx))
+_aj = open(os.path.join(_bd2, "antv_app.js")).read()
+_im = json.loads(_re.search(r"const IMPACT = (\{.*?\});", _aj).group(1).replace("'", '"'))
+_iok = []
+for _g, _v in _im.items():
+    _iok.append(_v[0] == _E[_g]["vis25"] and _v[1] == _E[_g]["sp25"] and _v[4] == _E[_g]["impact"] and _v[5] == _E[_g]["jobs"] and _v[7] == _E[_g]["sl_tax"] and abs(_v[1] + _v[2] + _v[3] - _v[4]) <= 1.0)
+check("J. Visual layer", "Impact flow diagram (X6): visitors, spending, total impact, jobs and taxes match the Tourism Economics figures, and direct + indirect + induced = total within $1M",
+      all(_iok) and len(_im) == 3, "; ".join(f"{g}: ${v[1]:,}M + ${v[2]:,}M + ${v[3]:,}M = ${v[1]+v[2]+v[3]:,.1f}M vs. ${v[4]:,}M" for g, v in _im.items()))
+
+# ---------------- K. One Export panel: report, doc, slides, design, motion, data, link (Oct. 15, 2026) ----------------
+_mk = open(os.path.join(_bd2, "make_app.js")).read()
+_tools = ["report", "doc", "slides", "design", "motion", "data", "link"]
+_tool_ids = _re.findall(r"\{ id: '(\w+)', name:", _mk)
+_one_place = ('id="p-make"' not in _html and 'id="dlPdf"' not in _html and 'id="makeBtn"' not in _html and "'dash'" not in _mk.replace("=== 'dash'", ""))
+_mk_ok = (_tool_ids == _tools and 'id="expDlg"' in _html and _one_place and "PptxGenJS 4.0.1" in _html and _dev.get("pptxgenjs") == "4.0.1"
+          and not _re.search(r"fetch\((?!LOGO\))", _mk))
+check("K. One Export panel", "Every file comes from one Export panel (full report, Doc, Slides, Design, Motion, Data, Share link); no separate Make page, download buttons or Dashboard; slides use pinned PptxGenJS 4.0.1; nothing fetched but the logo",
+      _mk_ok, f"kinds {', '.join(_tool_ids)}; one place {_one_place}; PptxGenJS {_dev.get('pptxgenjs')}")
+# every figure the studio offers is a section card or a Questions answered row, unchanged (value, area, source)
+_cards = {(s["id"], str(c[2]).lstrip("▲▼ ").strip()) for s in CT.SECTIONS for c in s.get("cards", [])}
+_asks = {(q["go"], g[1]) for q in _AK.ASK for g in q["geo"]}
+_n_pool = len(_cards) + len(_asks)
+check("K. One Export panel", "Doc, Slides, Design and Motion figures are taken unchanged from section key figures and Questions answered (no recalculation in the studio code)",
+      "POOL.push({ id: s.id.slice(2) + '-c' + i" in _mk and "value: g[1], detail: g[2], src: g[3]" in _mk and not _re.search(r"\bvalue:\s*[^,]*[*/+]\s*\d", _mk),
+      f"{len(_cards)} section key figures and {len(_asks)} question rows available to the studio")
+
 # ---------------- write ----------------
 results["checks"] = checks; results["passed"] = sum(c_["ok"] for c_ in checks); results["total"] = len(checks)
 results["seed"] = SEED; results["generated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())

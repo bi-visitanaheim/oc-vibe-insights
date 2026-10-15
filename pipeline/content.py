@@ -474,3 +474,5 @@ import infographics as _ig   # Oct. 13, 2026: data infographics per section
 _ig.attach(SECTIONS); _nr.no_em(SECTIONS)
 import maps as _mp   # Oct. 13, 2026: map visuals for geographic data
 _mp.attach(SECTIONS); _nr.no_em(SECTIONS)
+import ask as _ask   # Oct. 14, 2026: questions answered (Anaheim, County, U.S.) and the reports and data library
+_ask.attach(SECTIONS, SOURCES, DQ, _ocv.REGISTER, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)

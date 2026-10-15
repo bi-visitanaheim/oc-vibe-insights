@@ -17,7 +17,7 @@ Search in this order, newest first, and note the file name, date and location of
 | Azira / Visa (Symphony) | POI analysis (District 5), domestic visitors, media attribution, Visa visitor type and international card activity | Project files; SharePoint |
 | OCTA, Amtrak, Metrolink | Only if a new schedule period or fact sheet is published | Public sites (visitanaheim.org first, then the agency) |
 
-Licensed raw exports (STR, CoStar) go into `pipeline/files/licensed/` on the OneDrive copy only. They are never committed (`.gitignore`).
+Licensed raw exports (STR, CoStar) go into `pipeline/files/licensed/` on the OneDrive copy for the pipeline (not committed). Since Oct. 14, 2026 every source file is also published in the app's Reports and data library (decision by John Picou): put each new original in the OneDrive folder `library_src`, add or update its entry in `pipeline/library.py` (file name, period, publication date, summary, sections), and run `python3 scripts/stage_library.py <library_src folder>`. Remove superseded editions from `library.py` only if they are no longer cited.
 
 ## 2. Update the inputs
 
@@ -26,6 +26,8 @@ Licensed raw exports (STR, CoStar) go into `pipeline/files/licensed/` on the One
 | `pipeline/data.py` | `SRC` source labels and dates; `EI` (TE Economic Impact); `YEARS`, `ANA_VIS`, `ANA_SP`, `ANA_SP_YOY`, `GG_*`, `Q` (TE quarterly), `ANA_Q`, `INTL`; `LARC`, `LARC_Q`, `LARC_REV`, `SET`, `CONV_PACE`, `CPI`; `CS_*` (CoStar reports); `POI`/`GEO`/`MED*` (Azira); `ADT`, `TRANSIT` |
 | `pipeline/newdata.py` | Reads the STR and CoStar exports by file name (`F + "STR_Daily_Data_8.xlsx"`, `"CoStar_DataExport_17.xlsx"`); `VISA*`, `AMTRAK`, `METRO` |
 | `pipeline/ocv_whole.py` | Reads the STR export for the hotel calendar |
+| `pipeline/ask.py`, `pipeline/library.py` | Questions answered (`TE_TR`, `VCA`, `UST`, the 21 questions) and the library list; the D3 comparison and treemap data are built from `EI` here |
+| `pipeline/antv_app.js` | `IMPACT` for the economic impact flow diagram (visitors, direct, indirect, induced, total, jobs, labor income, state and local taxes, $M) for Anaheim, Garden Grove and Orange County; update from the new Tourism Economics reports (validation checks it against `EI`) |
 | Section text | `facts_only.py`, `ocv_whole.py`, `calcs.py`, `newsroom.py` (nut graphs, detail cards, reading-order bridges), `infographics.py` |
 
 Rules:
@@ -42,7 +44,7 @@ From the repository root (Python 3.11+, Node 18+; in a Claude session set `PPTX_
 
 1. `npm run deck` (writes the deck data, renders the map PNGs, builds the deck and renders the report PDF; LibreOffice and poppler required), then `npm run page`. If a new place appears in a geographic table (a new origin metro or country), add its longitude and latitude to `PTS` in `pipeline/maps_geo.js` and run `npm run maps` first; the validation fails if a mapped value has no position.
 2. `npm run validate`, writing to `pipeline/computations/validation-NNN` (next number). Every check must pass. A failing check is fixed, not skipped.
-3. `npm run shots` and look at 1920, 1440, 1024, 768 and 390 px: no horizontal scroll, no clipped text.
+3. `npm run shots` and look at 1920, 1440, 1024, 768 and 390 px: no horizontal scroll, no clipped text. Check the G2 charts, T8 text, infographics, X6 diagrams and D3 visuals in light and dark mode; on phones the diagrams swipe sideways. In the Export panel, save one of each choice (Full report, Doc, Slides, Design, Motion, Data) and open the files; Doc, Slides, Design and Motion read the section key figures and Questions answered, so they update with them.
 4. Run a data-quality audit on what changed (sources, periods, units, quarter-over-quarter jumps over 15%) and list the issues before publishing.
 
 ## 4. Publish
@@ -55,4 +57,6 @@ From the repository root (Python 3.11+, Node 18+; in a Claude session set `PPTX_
 
 - Send John a short summary: sources found (file, date), figures that changed (old → new, with source), sources with nothing new, check results, and anything that needs a decision.
 - Draft (do not create) a BIREPORTS verification ticket for John's review. Create it only after he says yes.
-- External sharing still needs the approvals in the README (TE draft clearance, LARC consent, licensed data as summaries only).
+- Questions answered (`pipeline/ask.py`): update the values that have a new published edition (Tourism Economics transportation rows, Visit California, U.S. Travel Association forecast) and add the Tourism Economics transportation impact analysis when it arrives. Rebuild both decks (`npm run deck`) so the questions deck matches the app.
+- Library: every file cited by a question must exist (validation group I checks this).
+- All source files are cleared for public sharing (README, section 7, Oct. 14, 2026).

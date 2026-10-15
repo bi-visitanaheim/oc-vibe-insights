@@ -15,6 +15,6 @@ head = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
         '<meta name="robots" content="noindex, nofollow">\n</head>\n<body>\n')
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(head + body + "\n</body>\n</html>\n")
-for f in ("OC_Vibe_Insights.pptx", "OC_Vibe_Insights.pdf"):
+for f in ("OC_Vibe_Insights.pptx", "OC_Vibe_Insights.pdf", "OC_Vibe_Questions_Answered.pptx"):
     shutil.copyfile(os.path.join(P, f), os.path.join(OUT, f))
 print("public/index.html, public/OC_Vibe_Insights.pptx and public/OC_Vibe_Insights.pdf written")

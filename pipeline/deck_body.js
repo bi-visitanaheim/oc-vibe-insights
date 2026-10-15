@@ -330,6 +330,12 @@ source(s, 'Visit Anaheim Business Intelligence (Oct. 13, 2026). Facts only; no e
   });
   source(s, U.src + '. Contact: ' + U.contact + '.'); }
 
+/* Questions answered (Oct. 14, 2026): the four core questions for Anaheim, Orange County and the U.S. */
+pres.addSection({ title: 'Questions answered' });
+qaCoreSlide('Questions answered');
+AQ.core.forEach(id => { qaSlide('Questions answered', QS[id]); qaDetailSlide('Questions answered', QS[id]); });
+qaIndexSlide('Questions answered');
+
 /* 0. Anaheim and OC Vibe today (measured data only; no estimates) */
 pres.addSection({ title: 'Anaheim and OC Vibe today' });
 newsSlides('p-ocv');
@@ -597,6 +603,10 @@ for (let i = 0; i < ccSecs.length; i += 2) {
 }
 
 /* Recommendations */
+/* Reports and data library (Oct. 14, 2026) */
+pres.addSection({ title: 'Reports and data library' });
+libSlides('Reports and data library');
+
 pres.addSection({ title: 'Next steps' });
 s = content('Next steps', 'How Visit Anaheim data can help OC Vibe succeed', 'Recommendations from Visit Anaheim BI · for discussion', '');
 table(s, [['What to do', 0], ['Who', 0], ['When', 0], ['Why', 0], ['How we\'ll measure it', 0]], D.recs_t, M, 1.5, W - 2 * M, { colW: [2.9, 2.2, 1.8, 3.0, 2.23], rowH: 0.58, fs: 9, hi: -1, rich: true });
@@ -648,7 +658,7 @@ for (let i = 0; i < ap.tables[2].rows.length; i += 8) {   // 8 methods per slide
 }
 
 (async () => {
-  await pres.writeFile({ fileName: 'OC_Vibe_Insights.pptx' });
+  await pres.writeFile({ fileName: 'OC_Vibe_Insights.pptx', compression: true });
   await applyTheme('OC_Vibe_Insights.pptx', THEME);
   console.log('written');
 })();

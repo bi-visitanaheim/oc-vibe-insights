@@ -79,6 +79,10 @@ function heatHtml(c) {
   return `<div class="scroll" tabindex="0" aria-label="${esc(c.title)}"><table class="heat"><thead><tr><th scope="col">Month</th>${c.cols.map(h => `<th scope="col">${esc(h)}</th>`).join('')}<th scope="col">Peak nights and groups</th></tr></thead><tbody>${c.rows.map(r => `<tr><th scope="row">${esc(r.l)}</th>${r.cells.map((v, j) => `<td class="${cls(v)}" data-tip="${esc(r.l)}, ${esc(c.cols[j])}: ${(+v).toFixed(1)}% occupancy${r.extra ? ' · ' + esc(r.extra) : ''}">${(+v).toFixed(1)}%</td>`).join('')}<td class="hx">${esc(r.extra || '')}</td></tr>`).join('')}</tbody></table></div>
     <div class="legend heat-lg"><span><i class="h1"></i>Under 70%</span><span><i class="h2"></i>70–75%</span><span><i class="h3"></i>75–80%</span><span><i class="h4"></i>80–85%</span><span><i class="h5"></i>85%+</span></div>`;
 }
+/* AntV G2 layer (Oct. 14, 2026): every bar, column, line and heatmap chart is registered here and drawn by G2 (antv_app.js) when it scrolls into view; the hand-built SVG stays inside as the fallback */
+const G2Q = [];
+const g2wrap = (c, body, h) => { const id = G2Q.push(c) - 1; return `<div class="g2c" data-g2="${id}" style="--g2h:${h}px">${body}</div>`; };
+const g2h = c => c.kind === 'bars' ? Math.max(150, c.rows.length * 34 + 36) : c.kind === 'cols' ? 300 : c.kind === 'line' ? 300 : c.kind === 'heat' ? Math.max(260, c.rows.length * 34 + 70) : 260;
 function chartHtml(c) {
   let body = '';
   if (c.kind === 'line' || c.kind === 'wf' || c.kind === 'range' || c.kind === 'heat') {
@@ -86,7 +90,9 @@ function chartHtml(c) {
       : c.kind === 'wf' ? `${c.title}. ` + c.steps.map(s => `${s.l} ${s.t}`).join(', ')
       : c.kind === 'range' ? `${c.title}. ` + c.marks.map(m => m.l).join(', ') : `${c.title}`;
     body = c.kind === 'line' ? svgLine(c) : c.kind === 'wf' ? svgWf(c) : c.kind === 'range' ? svgRange(c) : heatHtml(c);
-    const leg = c.kind === 'line' && c.series.length > 1 ? `<div class="legend">${c.series.map(sr => `<span><i class="${sr.focal ? 'lf' : 'lo'}"></i>${esc(sr.name)}</span>`).join('')}</div>` : '';
+    if (c.kind === 'line') body = g2wrap(c, body, g2h(c));
+    if (c.kind === 'heat') body = g2wrap(c, '', g2h(c)) + `<details class="fold g2-data"><summary><span class="fd-ic" aria-hidden="true">+</span><span class="fd-t"><b>Data table and notes</b><span>Every value in the chart, with peak nights and group share by month.</span></span><span class="fd-btn"><span class="fd-open">Show</span><span class="fd-close">Hide</span></span></summary><div class="fd-body">${body}</div></details>`;
+    const leg = c.kind === 'line' && c.series.length > 1 && false ? `<div class="legend">${c.series.map(sr => `<span><i class="${sr.focal ? 'lf' : 'lo'}"></i>${esc(sr.name)}</span>`).join('')}</div>` : '';
     return `<figure class="chartf"${c.kind === 'heat' ? '' : ` role="img" aria-label="${esc(aria)}"`}><h3>${esc(c.title)}</h3><p class="csub2">${esc(c.sub)}</p>${body}${leg}<p class="src">Source: ${esc(c.src)}</p></figure>`;
   }
   const aria = c.rows ? `${c.title}: ` + c.rows.map(r => `${r.l} ${r.t}`).join(', ') : c.title;
@@ -102,6 +108,7 @@ function chartHtml(c) {
     const max = Math.max(...c.rows.map(r => Math.abs(r.v)), 1e-9);
     body = `<div class="hbars">${c.rows.map(r => `<span class="l">${esc(r.l)}</span><span class="t" data-tip="${esc(r.l)}: ${esc(r.t)}" tabindex="0" role="img" aria-label="${esc(r.l)}: ${esc(r.t)}"><span class="f${r.hi?' hi':''}" style="width:${Math.max(1.5, Math.abs(r.v)/max*100).toFixed(1)}%"></span></span><span class="v">${esc(r.t)}</span>`).join('')}</div>`;
   }
+  body = g2wrap(c, body, g2h(c));
   return `<figure class="chartf" role="img" aria-label="${esc(aria)}"><h3>${esc(c.title)}</h3><p class="csub2">${esc(c.sub)}</p>${body}<p class="src">Source: ${esc(c.src)}</p></figure>`;
 }
 
@@ -168,7 +175,8 @@ function renderSection(s) {
   const feat = (s.feature || []).length ? `<div class="feat${s.feature.length === 1 ? ' one' : ''}" id="${s.id}-charts">${s.feature.map(c => `<div class="reveal">${chartHtml(c)}</div>`).join('')}</div>` : '';
   const W = (s.details || []).length ? `<div class="dgrid">${s.details.map(d => `<article class="dcard reveal"><span class="dk">${esc(d.k)}</span><b class="dfig">${esc(d.fig)}</b><span class="dfl">${esc(d.fig_l)}</span><p>${emph(d.text)}</p><span class="src-inline">Source: ${esc(d.src)}</span></article>`).join('')}</div>`
     : s.w5h ? ['who','what','when','where','why','how'].map(k => `<p class="w5h-p"><b class="w5h-k">${k[0].toUpperCase()+k.slice(1)}.</b> ${emph(s.w5h[k])}</p>`).join('') + `<p class="src-inline">Sources: ${esc(s.w5h.src)}</p>` : '';
-  const NX = s.next ? `<nav class="upnext reveal" aria-label="Next section"><span class="un-k">Up next · section ${S.indexOf(s) + 2} of ${S.length + 1}</span><button type="button" class="un-b" data-go="${s.next.id}">${esc(s.next.tab)} <span aria-hidden="true">→</span></button>${s.next.bridge ? `<p>${emph(s.next.bridge)}</p>` : ''}</nav>` : '';
+  const nxS = s.next ? S.find(x => x.id === s.next.id) : null, si = S.indexOf(s);
+  const NX = s.next ? `<nav class="upnext2" aria-label="Next section"><div class="un2-prog" aria-hidden="true"><span style="width:${((si + 2) / (S.length + 1) * 100).toFixed(1)}%"></span></div><span class="un2-k">Up next · section ${si + 2} of ${S.length + 1}</span><h3 class="un2-h">${esc(nxS ? (nxS.head || nxS.q) : s.next.tab)}</h3>${s.next.bridge ? `<p class="un2-p">${emph(s.next.bridge)}</p>` : ''}<button type="button" class="un2-b" data-go="${s.next.id}">Continue to ${esc(s.next.tab)} <span aria-hidden="true">→</span></button></nav>` : '';
   const isNews = s.kind === 'News report';
   const item = x => `<li><span class="otag">${esc(x.tag)}</span> ${emph(x.text)}${calcLine(x.calc)}<span class="src-inline">Source: ${esc(x.src)}</span></li>`;
   const F = s.for_ocv ? `<div class="ocv-whole reveal" id="${s.id}-ocv"><h3>What it means for OC Vibe</h3><div class="ow-grid">
@@ -176,31 +184,44 @@ function renderSection(s) {
       <div class="ow-col"><h4>What OC Vibe needs</h4><ul>${s.for_ocv.need.map(item).join('')}</ul></div></div></div>` : '';
   const CC = s.cc ? `<div class="cc-box reveal" id="${s.id}-cc"><h3>Compare and contrast</h3><div class="scroll" tabindex="0" aria-label="Compare and contrast"><table class="cc-t2"><thead><tr><th scope="col">Type</th><th scope="col">Point</th><th scope="col">Solution</th><th scope="col">Source and date</th></tr></thead><tbody>${s.cc.map(c => `<tr class="cc-${c.type.toLowerCase().replace(/\s+/g,'-')}"><th scope="row"><span class="cc-t">${esc(c.type)}</span></th><td>${emph(c.point)}${calcLine(c.calc)}</td><td>${c.solution ? emph(c.solution) : '<span class="muted">None needed</span>'}</td><td class="src-cell">${esc(c.src)}</td></tr>`).join('')}</tbody></table></div></div>` : '';
   const nMore = more.length + 1;
+  /* Oct. 14, 2026: each section reads in five clear segments; the summary, visuals and data stay open, supporting detail folds away */
+  const segH = (n, t, sub, id) => `<div class="seg-h" id="${s.id}-s${n}"><span class="seg-n" aria-hidden="true">${n}</span><div><h3>${t}</h3>${sub ? `<p>${sub}</p>` : ''}</div></div>`;
+  const fold = (id, title, desc, body, open) => `<details class="fold"${id ? ` id="${id}"` : ''}${open ? ' open' : ''}><summary><span class="fd-ic" aria-hidden="true">+</span><span class="fd-t"><b>${title}</b><span>${desc}</span></span><span class="fd-btn"><span class="fd-open">Show</span><span class="fd-close">Hide</span></span></summary><div class="fd-body">${body}</div></details>`;
+  const hasGlance = (s.info || []).length || (s.maps || []).length;
+  const segs = [['1', 'The story'], ...(hasGlance ? [['2', 'At a glance']] : []), [hasGlance ? '3' : '2', 'The data'], [hasGlance ? '4' : '3', 'What it means'], [hasGlance ? '5' : '4', 'Behind the numbers']];
+  const nData = 1 + more.length + (s.feature || []).length;
+  const segNav = `<nav class="seg-nav" aria-label="In this section">${segs.map(([n, t]) => `<button type="button" class="seg-chip${t === 'The data' ? ' hot' : ''}" data-seg="${s.id}-s${n}"><span aria-hidden="true">${n}</span> ${t}${t === 'The data' ? ` <em>${nData} charts and tables</em>` : ''}</button>`).join('')}</nav>`;
+  const nD = (s.details || []).length;
   return `<section class="page art${isNews ? ' news' : ''}" id="${s.id}" data-title="${esc(s.tab)}">
     <header class="art-h reveal">
       <span class="art-kick">${isNews ? '<span class="kind">News report</span> · ' : (s.kind ? `<span class="kind">${esc(s.kind)}</span> · ` : '')}${esc(s.tab)}</span>
       <h2 class="art-head">${esc(s.head || s.q)}</h2>
       ${s.dek ? `<p class="art-dek">${esc(s.dek)}</p>` : ''}
       <p class="art-by">By Visit Anaheim Business Intelligence · ${esc(DATA.prepared)} · <span class="badge">${esc(s.period)}</span></p>
+      ${segNav}
     </header>
+    ${segH('1', 'The story', 'The question and its short answer, why it matters and the headline numbers.')}
     <div class="art-lede-wrap">
-      <div class="answer art-lede reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">${isNews ? 'The lede' : 'Key insight'}</span><p>${s.dateline ? `<span class="dline">${esc(s.dateline)}</span> ` : ''}${emph(s.ans)}</p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
-      ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p>${emph(s.nut)}</p></div>` : ''}
+      <div class="answer art-lede qa-sec reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">The question</span><p class="qs-q">${esc(s.q)}</p><span class="answer-l qs-al">Short answer</span><p>${s.dateline ? `<span class="dline">${esc(s.dateline)}</span> ` : ''}<span class="t8x" data-t8="${esc(s.ans)}">${emph(s.ans)}</span></p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
+      ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p class="t8x" data-t8="${esc(s.nut)}">${emph(s.nut)}</p></div>` : ''}
     </div>
-    ${(s.info || []).length ? `<div class="ig-wrap${s.info.length > 1 ? ' two' : ''}" id="${s.id}-ig"><h3 class="ig-k">At a glance</h3>${s.info.map((g, i) => infoHtml(g, s.id, i)).join('')}</div>` : ''}
     <section class="art-nums reveal" aria-label="By the numbers"><h3>By the numbers</h3><div class="nums">${stats}</div></section>
-    ${steps}
-    ${W ? `<div class="art-w5h reveal" id="${s.id}-w5h"><h3>The details</h3><p class="d-sub">Who, what, when, where, why and how, each with its figure, source and date.</p>${W}</div>` : ''}
-    ${isNews ? `<div class="an-band reveal" id="${s.id}-analysis"><span class="kind">Analysis</span><h3>What the data shows</h3><p><b>The question:</b> ${esc(s.q)}</p></div>` : `<p class="art-q"><b>The question:</b> ${esc(s.q)}</p>`}
+    <button type="button" class="data-jump seg-chip" data-seg="${s.id}-s${hasGlance ? '3' : '2'}">See the data: ${nData} charts and tables <span aria-hidden="true">↓</span></button>
+    ${hasGlance ? segH('2', 'At a glance', 'The same figures as pictures and maps.') : ''}
+    ${(s.info || []).length ? `<div class="ig-wrap${s.info.length > 1 ? ' two' : ''}" id="${s.id}-ig">${s.info.map((g, i) => infoHtml(g, s.id, i)).join('')}</div>` : ''}
     ${(s.maps || []).length ? `<div class="mp-wrapall" id="${s.id}-maps">${s.maps.map((m, i) => `<figure class="mp reveal" id="${s.id}-map${i}"><header class="ig-h"><h4>${esc(m.title)}</h4><p>${esc(m.sub)}</p></header><div class="mp-grid"><div class="mp-canvas">${mapSvg(MAPGEO, m)}</div>${mapLegend(m)}</div><p class="ig-src">Source: ${esc(m.src)}. Map: ${esc(MAPGEO.src)}; circles placed at each metro's principal city or each country's center.</p></figure>`).join('')}</div>` : ''}
+    ${segH(hasGlance ? '3' : '2', 'The data', 'The charts and tables behind the short answer, each with its source.')}
+    <div id="${s.id}-analysis"></div>
     ${feat}
     <figure class="art-fig tbl reveal" id="${s.id}-t0">${tableHtml(t0, s.id+'-t0')}</figure>
+    ${more.length ? `<div class="more-prev"><h4 class="mp-h">More from this data <span class="mp-c">${more.length} more chart${more.length > 1 ? 's and tables' : ' or table'}</span></h4><div class="sec-more">${more.slice(0, 2).join('')}</div></div>` : ''}
+    ${fold(s.id + '-more', more.length > 2 ? `See all ${more.length} charts and tables, plus notes` : 'Notes and data quality', more.length > 2 ? `${more.length - 2} more not shown above, and the notes and data-quality caveats. Read these before you quote a number.` : 'The notes and data-quality caveats behind this section. Read these before you quote a number.', `${more.length > 2 ? `<div class="sec-more">${more.slice(2).join('')}</div>` : ''}<div class="notes-box" id="${s.id}-notes"><h3>Notes and data quality</h3><ul>${s.notes.map(n => `<li>${emph(n)}</li>`).join('')}</ul></div>`).replace('class="fold"', 'class="fold strong"')}
+    ${segH(hasGlance ? '4' : '3', 'What it means', 'For OC Vibe as a whole, then how this compares.')}
     ${F}
-    ${CC}
-    <details class="more-d" id="${s.id}-more"><summary><span class="md-ic" aria-hidden="true">+</span><span class="md-t"><b>More data and notes</b><span class="md-s">${nMore} more charts and tables, plus the notes and data-quality caveats behind this section. Don't skip these before you quote a number.</span></span><span class="md-btn"><span class="md-open">Show</span><span class="md-close">Hide</span></span></summary>
-      <div class="sec-more">${more.join('')}</div>
-      <div class="notes-box" id="${s.id}-notes"><h3>Notes and data quality</h3><ul>${s.notes.map(n => `<li>${emph(n)}</li>`).join('')}</ul></div>
-    </details>
+    ${CC ? fold(s.id + '-ccf', 'Compare and contrast', `Growth, opportunities, quick wins, early hurdles, pitfalls and explanations, each with a solution (${s.cc.length} points).`, CC) : ''}
+    ${segH(hasGlance ? '5' : '4', 'Behind the numbers', 'How each figure is built, step by step, and the full who, what, when, where, why and how.')}
+    ${steps ? fold(s.id + '-calcf', 'How the key insight is calculated', 'Each step with its calculation, result and source.', steps) : ''}
+    ${W ? fold(s.id + '-w5hf', 'The details', `Who, what, when, where, why and how${nD ? ` (${nD} cards)` : ''}, each with its figure, source and date.`, `<div class="art-w5h" id="${s.id}-w5h">${W}</div>`) : ''}
     ${NX}
   </section>`;
 }
@@ -212,12 +233,13 @@ function wireMore(root) {
   });
 }
 $('secHost').outerHTML = S.map(renderSection).join('');
+document.addEventListener('click', e => { const c = e.target.closest('.seg-chip'); if (!c) return; const el = $(c.dataset.seg); if (el) el.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
 wireMore(document);
 
 /* ---------- overview: key takeaways (one bold metric per section) ---------- */
 $('keyTk').innerHTML = S.filter(s => s.id !== 'p-appx').map((s, i) => `<button type="button" class="kt reveal" data-go="${s.id}" style="--i:${i}"><span class="kt-k">${esc(s.tab)}</span><b class="kt-v">${esc(s.hv)}</b><span class="kt-l">${esc(s.hl)}</span><span class="kt-h">${emph(s.head)}</span><span class="kt-s">${esc(s.period)}</span><span class="kt-go">Read the section <span aria-hidden="true">→</span></span></button>`).join('');
 /* ---------- overview: questions and short answers ---------- */
-$('qa').innerHTML = S.map(s => `<button type="button" class="qa-row" data-go="${s.id}"><span class="qa-b"><span class="qa-q">${esc(s.q)}</span><span class="qa-a">${emph(s.ans)}</span>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</span><span class="qa-v"><b>${esc(s.hv)}</b><small>${esc(s.hl)}</small></span><span class="qa-go" aria-hidden="true">›</span></button>`).join('');
+if ($('qa')) $('qa').innerHTML = S.map(s => `<button type="button" class="qa-row" data-go="${s.id}"><span class="qa-b"><span class="qa-q">${esc(s.q)}</span><span class="qa-a">${emph(s.ans)}</span>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</span><span class="qa-v"><b>${esc(s.hv)}</b><small>${esc(s.hl)}</small></span><span class="qa-go" aria-hidden="true">›</span></button>`).join('');
 
 /* ---------- sources page ---------- */
 $('takeaways').innerHTML = DATA.takeaways.map(t => { const k = t.lastIndexOf(' (Source: '); let body = k > 0 ? t.slice(0,k) : t, src = k > 0 ? t.slice(k+10, -1) : ''; const c = body.indexOf(' (Calculation: '); let calc = ''; if (c > 0) { calc = body.slice(c+15, -1); body = body.slice(0, c); } return `<li>${emph(body)}${calc ? `<span class="calc-line"><b>Calculation:</b> ${esc(calc)}</span>` : ''}${src ? `<span class="src-inline">Source: ${esc(src)}</span>` : ''}</li>`; }).join('');
@@ -318,8 +340,13 @@ document.addEventListener('webkitfullscreenchange', fsSync);
 document.addEventListener('keydown', e => { if (e.key==='Escape' && $('app').classList.contains('fs-fallback')) { $('app').classList.remove('fs-fallback'); fsSync(); } });
 
 /* ---------- pages, sidebar, section tabs ---------- */
-const PAGES = ['p-summary', ...S.map(s => s.id), 'p-notes'];
-const SIDE = [['p-summary','Overview',[['qa','Questions and short answers']]], ...S.map(s => [s.id, s.tab, [['ans-'+s.id, s.kind === 'News report' ? 'The lede' : 'Key insight'],[s.id+'-nut','Why it matters'],[s.id+'-ig','At a glance'],[s.id+'-calc','How it is calculated'],[s.id+'-w5h','The details'],[s.id+'-analysis','Analysis'],[s.id+'-maps','Maps'],[s.id+'-charts','Charts'],[s.id+'-t0','Main table'],[s.id+'-ocv','What it means for OC Vibe'],[s.id+'-cc','Compare and contrast'],[s.id+'-more','More data and notes']].filter(([id]) => id.endsWith('-calc') ? s.calc_steps : id.endsWith('-charts') ? (s.feature||[]).length : id.endsWith('-w5h') ? s.w5h : id.endsWith('-nut') ? s.nut : id.endsWith('-ig') ? (s.info||[]).length : id.endsWith('-analysis') ? s.kind === 'News report' : id.endsWith('-maps') ? (s.maps||[]).length : id.endsWith('-ocv') ? s.for_ocv : id.endsWith('-cc') ? s.cc : true)])];
+/* Reading order (Oct. 15, 2026): content sections, then the library, then the Appendix and Sources last */
+const S_MAIN = S.filter(s => s.id !== 'p-appx'), S_APPX = S.filter(s => s.id === 'p-appx');
+const PAGES = ['p-summary', 'p-ask', ...S_MAIN.map(s => s.id), 'p-library', ...S_APPX.map(s => s.id), 'p-notes'];
+const EXP_PAGES = PAGES.slice();
+(() => { const ap = $('p-appx'), nt = $('p-notes'); if (ap && nt) nt.parentNode.insertBefore(ap, nt); })();
+const sideSec = s => { const g = (s.info || []).length || (s.maps || []).length; return [s.id, s.tab, [['1', 'The story'], ...(g ? [['2', 'At a glance']] : []), [g ? '3' : '2', 'The data'], [g ? '4' : '3', 'What it means'], [g ? '5' : '4', 'Behind the numbers']].map(([n, t]) => [s.id + '-s' + n, n + '. ' + t])]; };
+const SIDE = [['p-summary','Overview',[['ovTk','Key takeaways']]], ['p-ask','Questions answered',[['askCore','The four core questions'],['askAll','All questions']]], ...S_MAIN.map(sideSec), ['p-library','Reports and data library',[['libFiles','Source files'],['libLinks','Public sources']]], ...S_APPX.map(sideSec)];
 $('sideList').innerHTML = SIDE.map(([id,t,subs]) => `<li><button type="button" class="top" data-go="${id}">${esc(t)}</button><div class="subs">${subs.map(([sid,st]) => `<button type="button" class="sub" data-go="${id}" data-target="${sid}">${esc(st)}</button>`).join('')}</div></li>`).join('');
 $('secPills').innerHTML = [...SIDE, ['p-notes','Sources']].map(([id,t]) => `<button type="button" class="tab" data-go="${id}">${esc(t)}</button>`).join('');
 document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { goPage(PAGES.indexOf(b.dataset.go), b.dataset.target); if (matchMedia('(max-width:900px)').matches && b.closest('.side')) setSide(false); });
@@ -376,20 +403,12 @@ function dlError(err, what) {
   else toast(`The ${what.toLowerCase()} could not be completed. Try again, or contact the BI team.`);
 }
 function b64Blob(b64, type){ const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) u8[i] = bin.charCodeAt(i); return new Blob([u8], {type}); }
-$('dlDeck').onclick = async () => { const b=$('dlDeck'); b.disabled = true;
-  try { await saveBlob(b64Blob(ATTACH.deck, 'application/vnd.openxmlformats-officedocument.presentationml.presentation'), 'OC_Vibe_Insights.pptx'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); } finally { b.disabled = false; } };
-$('dlCsv').onclick = async () => { const b=$('dlCsv'); b.disabled = true;
-  const q = v => '"' + String(v && typeof v === 'object' ? v.t : v).replace(/"/g,'""') + '"';
-  const lines = [];
-  S.forEach(sec => sec.tables.forEach(t => { lines.push(q(sec.tab + ': ' + t.title)); lines.push(t.cols.map(c => q(c[0])).join(',')); t.rows.forEach(r => lines.push(r.map(q).join(','))); lines.push(q('Source: ' + t.src)); lines.push(''); }));
-  try { await saveBlob(new Blob(['\ufeff' + lines.join('\r\n')], {type:'text/csv'}), 'OC_Vibe_Insights_data.csv'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); } finally { b.disabled = false; } };
-
 /* ---------- export to PDF (Oct. 14, 2026) ----------
    The PDF is the deck rendered to PDF at build time (deck_pdf.py), so pages carry the deck's layout and spacing.
    Chosen sections are cut from it in the browser (pdf_subset.js with pdf-lib, inlined), the same cut as PowerPoint. No network needed. */
 const deckSections = ids => {
   const content = S.filter(x => x.id !== 'p-appx');
-  const names = ids.map(id => id==='p-summary' ? 'Introduction' : id==='p-notes' ? 'Next steps' : id==='p-appx' ? 'Appendix' : (S.find(x => x.id===id)||{}).tab).filter(Boolean);
+  const names = ids.map(id => id==='p-summary' ? 'Introduction' : id==='p-ask' ? 'Questions answered' : id==='p-library' ? 'Reports and data library' : id==='p-notes' ? 'Next steps' : id==='p-appx' ? 'Appendix' : (S.find(x => x.id===id)||{}).tab).filter(Boolean);
   if (content.every(x => ids.includes(x.id))) names.push('Compare and contrast');
   return names;
 };
@@ -399,10 +418,8 @@ async function buildPdf(ids, all) {
   if (typeof PDFLib === 'undefined' || typeof pdfSubset === 'undefined') throw Object.assign(new Error('unavailable'), {code:'unavailable'});
   return pdfSubset(PDFLib, await full.arrayBuffer(), deckSections(ids), PDFMAP);
 }
-$('dlPdf').onclick = async () => { const b=$('dlPdf'); b.disabled = true;
-  try { await saveBlob(b64Blob(ATTACH.pdf, 'application/pdf'), 'OC_Vibe_Insights.pdf'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); } finally { b.disabled = false; } };
 /* ---------- export chooser: pick sections and format ---------- */
-const pageTitle = id => id==='p-summary' ? 'Overview (BI Pulse summary)' : id==='p-notes' ? 'Sources, recommendations and notes' : (S.find(x => x.id===id)||{}).tab || id;
+const pageTitle = id => id==='p-summary' ? 'Overview (BI Pulse summary)' : id==='p-ask' ? 'Questions answered (Anaheim, County, U.S.)' : id==='p-library' ? 'Reports and data library (file list)' : id==='p-notes' ? 'Sources, recommendations and notes' : (S.find(x => x.id===id)||{}).tab || id;
 function csvFor(ids) {
   const q = v => '"' + String(v && typeof v === 'object' ? v.t : v).replace(/"/g,'""') + '"';
   const lines = [];
@@ -415,7 +432,7 @@ async function xlsxFor(ids) {
   const z = new JSZip(), xe = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
   const cv = v => v && typeof v === 'object' ? v.t : v;
   const sheets = [{ name: 'About', rows: [[{ v: 'OC Vibe Insights: data tables', s: 1 }], [`Visit Anaheim Business Intelligence · prepared ${DATA.prepared} · data through Sept. 2026`], ['Contact: bi@visitanaheim.org'], [DATA.schedule.line], [],
-    ['Each sheet is one section. Every table is followed by its source and period. Values marked F are forecasts.'], ['CoStar, STR and Visa are licensed data: share summaries outside Visit Anaheim, not raw exports.']] }];
+    ['Each sheet is one section. Every table is followed by its source and period. Values marked F are forecasts.'], ['Every source file behind these tables can be viewed or downloaded in the app: Reports and data library.']] }];
   const used = new Set(['About']);
   S.filter(sec => ids.includes(sec.id)).forEach(sec => {
     const rows = [[{ v: sec.tab, s: 1 }], [sec.head || ''], []];
@@ -456,56 +473,7 @@ async function copyText(t, input) {
   try { await navigator.clipboard.writeText(t); return true; } catch (_) {}
   try { input.focus(); input.select(); return document.execCommand('copy'); } catch (_) { return false; }
 }
-(function initExport(){
-  const dlg = $('expDlg'), list = $('expList');
-  list.innerHTML = PAGES.map(id => `<label class="exp-item"><input type="checkbox" value="${id}" checked> <span>${esc(pageTitle(id))}</span></label>`).join('');
-  const boxes = () => [...list.querySelectorAll('input')];
-  const fmtNow = () => (dlg.querySelector('input[name="expFmt"]:checked')||{}).value || 'pdf';
-  const sync = () => { const n = boxes().filter(b => b.checked).length, f = fmtNow(); $('expGo').disabled = n===0; $('expCount').textContent = n===PAGES.length ? 'All sections selected' : `${n} of ${PAGES.length} selected`;
-    $('expLinkBox').hidden = f !== 'link'; $('expShare').hidden = f !== 'link' || !navigator.share; $('expGo').textContent = f === 'link' ? 'Copy link' : 'Export';
-    $('expLink').value = shareUrl(boxes().filter(b => b.checked).map(b => b.value)); };
-  dlg.querySelectorAll('input[name="expFmt"]').forEach(r => r.addEventListener('change', sync));
-  $('expShare').onclick = async () => { try { await navigator.share({ title: 'OC Vibe Insights', url: $('expLink').value }); dlg.close(); } catch (_) {} };
-  list.addEventListener('change', sync);
-  $('expAll').onclick = () => { boxes().forEach(b => b.checked = true); sync(); };
-  $('expNone').onclick = () => { boxes().forEach(b => b.checked = false); sync(); };
-  $('expCur').onclick = () => { boxes().forEach(b => b.checked = b.value===PAGES[CUR]); sync(); };
-  $('expCancel').onclick = () => dlg.close();
-  dlg.addEventListener('click', e => { if (e.target===dlg) dlg.close(); });
-  $('exportPdf').onclick = () => { sync(); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); };
-  $('expGo').onclick = async () => {
-    const ids = boxes().filter(b => b.checked).map(b => b.value), fmt = fmtNow();
-    if (fmt === 'link') { const ok = await copyText($('expLink').value, $('expLink')); toast(ok ? 'Link copied: ' + $('expLink').value : 'Copy the link from the box above.'); if (ok) dlg.close(); return; }
-    dlg.close();
-    const btn = $('exportPdf'); btn.disabled = true; const label = btn.textContent;
-    const all = ids.length===PAGES.length, suffix = all ? '' : '-' + (ids.length===1 ? ids[0].replace('p-','') : 'selected');
-    try {
-      if (fmt==='pptx') {
-        btn.textContent = 'Preparing PowerPoint…';
-        const deck = b64Blob(ATTACH.deck, 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
-        if (all) { await saveBlob(deck, 'OC_Vibe_Insights.pptx'); toast('PowerPoint ready.'); return; }
-        const names = deckSections(ids);
-        if (typeof JSZip === 'undefined' || typeof pptxSubset === 'undefined') throw Object.assign(new Error('unavailable'), {code:'unavailable'});
-        const blob = await pptxSubset(JSZip, await deck.arrayBuffer(), names);
-        await saveBlob(blob, `OC_Vibe_Insights${suffix}.pptx`); toast('PowerPoint ready: the title slide plus the chosen sections.');
-      } else if (fmt==='xlsx') {
-        if (!S.some(sec => ids.includes(sec.id))) { toast('The selected sections have no data tables. Choose a content section.'); return; }
-        btn.textContent = 'Preparing Excel…';
-        await saveBlob(await xlsxFor(ids), `OC_Vibe_Insights_data${suffix}.xlsx`); toast('Excel workbook ready.');
-      } else if (fmt==='csv') {
-        const lines = csvFor(ids);
-        if (!lines.length) { toast('The selected sections have no data tables. Choose a content section or export a PDF.'); return; }
-        btn.textContent = 'Preparing CSV…';
-        await saveBlob(new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv'}), `OC_Vibe_Insights_data${suffix}.csv`); toast('CSV ready.');
-      } else {
-        btn.textContent = 'Preparing PDF…';
-        const blob = await buildPdf(ids, all); await saveBlob(blob, `OC_Vibe_Insights${suffix}.pdf`); toast(all ? 'PDF ready: the full report.' : 'PDF ready: the title page plus the chosen sections.');
-      }
-    } catch (err) { dlError(err, 'Export'); }
-    finally { btn.disabled = false; btn.textContent = label; }
-  };
-})();
-
+/* The Export panel (one place for every file) is built in make_app.js. */
 /* ---------- init ---------- */
 setView(LONG && !matchMedia('(max-width:640px)').matches);
 setSide(matchMedia('(max-width:900px)').matches ? false : store.get('side') === true);
@@ -514,7 +482,7 @@ CUR = hi>=0 ? hi : 0;
 document.querySelectorAll('.page').forEach((p,k) => p.classList.toggle('cur', k===CUR)); updateNav();
 /* open collapsed detail for print and PDF export, then restore */
 let _closed = [];
-window.addEventListener('beforeprint', () => { _closed = [...document.querySelectorAll('details.more-d:not([open])')]; _closed.forEach(d => d.open = true); });
+window.addEventListener('beforeprint', () => { _closed = [...document.querySelectorAll('details.more-d:not([open]), details.fold:not([open]), details.ask-item:not([open])')]; _closed.forEach(d => d.open = true); });
 window.addEventListener('afterprint', () => { _closed.forEach(d => d.open = false); _closed = []; });
 /* entrance motion (VA Branded: fade and 12px rise, once; off under reduced motion; content shows without scripts) */
 (function(){

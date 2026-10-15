@@ -11,3 +11,7 @@ node_modules/
 
 # OS files
 .DS_Store
+pipeline/qa_deck.js
+build_artifact/
+package-lock.json
+pipeline/computations/validation-local/

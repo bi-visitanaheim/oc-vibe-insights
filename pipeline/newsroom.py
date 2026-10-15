@@ -181,4 +181,6 @@ def attach(SECTIONS, prepared="Oct. 13, 2026"):
     for i, s in enumerate(SECTIONS):
         nx = SECTIONS[i + 1] if i + 1 < len(SECTIONS) else None
         s["next"] = dict(id=nx["id"] if nx else "p-notes", tab=nx["tab"] if nx else "Sources", bridge=BRIDGE.get(s["id"], ""))
+        if nx and nx["id"] == "p-appx":   # the app reads: last section, the library, then the Appendix and Sources (Oct. 15, 2026)
+            s["next"] = dict(id="p-library", tab="Reports and data library", bridge="Every report and data file behind these sections can be opened or downloaded in the library; the Appendix and Sources follow.")
     no_em(SECTIONS)

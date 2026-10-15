@@ -3,7 +3,7 @@
   "private": true,
   "description": "Visit Anaheim BI: OC Vibe Insights dashboard and deck (BIREPORTS-966)",
   "scripts": {
-    "deck": "cd pipeline && python3 export_deck.py && node maps_render.js && cat deck_head.js deck_body.js > deck.js && node deck.js && python3 deck_pdf.py",
+    "deck": "cd pipeline && python3 export_deck.py && node maps_render.js && cat deck_head.js qa_slides.js deck_body.js > deck.js && node deck.js && cat deck_head.js qa_slides.js qa_body.js > qa_deck.js && node qa_deck.js && python3 ../scripts/deflate_pptx.py OC_Vibe_Insights.pptx OC_Vibe_Questions_Answered.pptx && python3 deck_pdf.py",
     "page": "cd pipeline && python3 build.py && cd .. && python3 scripts/make_public.py",
     "build": "npm run deck && npm run page",
     "shots": "cd pipeline && node shot.js",
@@ -11,6 +11,12 @@
     "maps": "cd pipeline && node maps_geo.js > maps_geo.json"
   },
   "devDependencies": {
+    "@antv/g2": "5.4.8",
+    "@antv/infographic": "0.2.20",
+    "@antv/t8": "0.3.1",
+    "@antv/x6": "3.1.8",
+    "@mdi/js": "7.4.47",
+    "d3": "7.9.0",
     "d3-geo": "3.1.1",
     "pdf-lib": "1.17.1",
     "playwright": "1.56.0",

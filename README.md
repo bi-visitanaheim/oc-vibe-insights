@@ -6,10 +6,12 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
 | **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
-| **Dashboard** | claude.ai artifact, version 24 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
+| **Dashboard** | claude.ai artifact, version 25 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
-| **Deck** | `OC_Vibe_Insights.pptx`, 101 slides, VA Branded; key takeaways and "How this report is updated" slides up front, and each section opens with a news report slide, a details slide and an "At a glance" infographic slide; three map slides |
+| **Deck** | `OC_Vibe_Insights.pptx`, 116 slides, VA Branded; a "Questions answered" section (the four core questions with detail slides) after the introduction and a "Reports and data library" section before next steps; key takeaways and "How this report is updated" slides up front, and each section opens with a news report slide, a details slide and an "At a glance" infographic slide; three map slides |
+| **Questions deck** | `OC_Vibe_Questions_Answered.pptx`, 32 slides, VA Branded: average spend, one more night, transportation impact and District 5 for Anaheim, Orange County and the U.S., plus 14 more questions and the file list |
+| **Library** | `public/library/`: 45 source files (73 MB with the report files), each viewable and downloadable in the app |
 | **Data through** | Sept. 2026 (STR through Oct. 3, 2026; CoStar and Visa through Aug. 2026) |
 | **Updated** | Quarterly, on the 15th of January, April, July and October (data last updated Oct. 13, 2026; next scheduled update Oct. 15, 2026) |
 
@@ -38,6 +40,7 @@ The **Overview** opens with **Key takeaways**: one card per section with its hea
 
 | Tab | Question it answers | Main sources |
 |---|---|---|
+| Questions answered | 21 general questions (average spend, one more night, transportation impact, District 5, jobs, taxes, hotels, outlook), each for Anaheim, Orange County and the U.S. (California where that is the closest published level) | Tourism Economics, Visit California, U.S. Travel Association, BTS, Azira, Datafy, Visa, CoStar, STR, LARC |
 | Anaheim and OC Vibe today | Where do Anaheim's visitor economy and the OC Vibe area stand today? | Tourism Economics (2025; 2026 forecast), Datafy, Azira |
 | Who visits | Who visits District 5 and the OC Vibe area? | Azira, Datafy, Visa |
 | Visitor spending | How much does each visitor spend, and how is that changing? | Tourism Economics, Visa |
@@ -48,6 +51,7 @@ The **Overview** opens with **Key takeaways**: one card per section with its hea
 | Marketing reach | Does Visit Anaheim's marketing bring visitors? | Azira media attribution |
 | Market outlook | What in the market will affect OC Vibe? | LARC, public OC Vibe sources |
 | Appendix | What do the terms, methods and formulas mean? | Visit Anaheim BI |
+| Reports and data library | Where can I read the full reports and data? | Every source file, as received (45 files), plus linked public sources |
 | Sources | Where does every number come from? | Source register (29 entries), data notes, recommendations |
 
 Sections run in reading order; each answers the question the previous one raises, and ends with an "Up next" link that explains why the next topic follows.
@@ -72,6 +76,23 @@ Each section reads like a newspaper story, in this order:
 
 ### Features
 
+- **Questions answered (Oct. 14, 2026).** A searchable page of general questions with topic filters. The four core questions (average spend, one more night, transportation impact, District 5) open first. Each answer has a short summary with the key number, a table of figures for Anaheim, Orange County and the U.S. (each with its source and date), a visual, "How it is calculated", "Keep in mind", links to the library files that answer it, linked public sources and a "Go deeper" link to the full section. Deep links: `#ask/<question id>`. No individuals are named; the questions are general.
+- **Reports and data library (Oct. 14, 2026).** Every report and data file used to build the app, grouped by topic (economic impact, quarterly results, one more night, who visits and District 5, marketing attribution, hotels, market outlook, getting here, destination program, this report). Each file shows its publisher, type, period covered, publication date, pages and size, a summary, the questions it answers and the sections that use it, with Open and Download buttons, search and topic filters. Deep links: `#library/<file id>`. The overview opens with two cards that lead to these pages.
+- **One Export panel (Oct. 15, 2026).** Every file comes from the header's Export button (the Sources page and side menu open the same panel). It reads in numbered steps with a live preview and one Save button:
+  1. What do you want? Full report (PDF or PowerPoint, the deck's pages for the chosen sections), Doc (new: Word, web page or Markdown brief), Slides (new: a short PowerPoint built from the choices, with editable charts, PptxGenJS 4.0.1 inlined), Design (new: PNG, PDF or SVG one-page graphic; social, letter or widescreen; teal, dark or light), Motion (beta: 1920 × 1080 video or still image), Data (Excel or CSV), Share link.
+  2. Which sections? Chips plus All, Current page, the four core questions and Clear.
+  3. Areas and details (Doc, Slides, Design, Motion): areas, title, subtitle, charts per section, design size and colors, and a folded list of key figures.
+  4. Preview, live.
+  Figures are used exactly as published, with period and source; nothing is recalculated. Choices are remembered per viewer. The separate Make page, the Dashboard output and the extra download buttons were removed so there is one place to get files.
+- **Each section opens with its question and short answer** at the top of "The story", with the key number and source; the Overview no longer repeats them in a separate list. Appendix and Sources are the last two pages, after the Reports and data library.
+- **Interactive charts and diagrams (Oct. 14, 2026).** All inlined, pinned and offline; colors follow the VA palette in light and dark mode; every visual keeps a text alternative (aria label, data table fold or written calculation).
+  - AntV G2 5.4.8: section bar, column, line, heatmap and stacked charts and the overview growth bars, drawn on canvas when they scroll into view, with tooltips.
+  - AntV T8 0.3.1: section ledes, nut paragraphs and question answers mark values, percent changes and periods; changes are colored up or down.
+  - AntV Infographic 0.2.20: the one-more-night steps (with the calculation line), the quarterly update timeline and the library topic cards. Icons are Material Design Icons (@mdi/js 7.4.47) embedded in the page.
+  - AntV X6 3.1.8: how visitor spending becomes economic impact (Anaheim, Garden Grove, Orange County toggle) and the data lineage graph on the Sources page.
+  - D3 7.9.0: "How Anaheim compares" dot matrix on Questions answered (each row opens its answer) and spending treemaps for Anaheim and Orange County on Visitor spending. Deterministic SVG: fixed layout, sorted data, no randomness or animation.
+  - On phones, diagrams keep a readable minimum width inside a frame that swipes sideways.
+  - GPT-Vis guided chart-type choice; charts render through G2. The online icon search and chart-image services named by the skills are blocked by the network allowlist and are not used.
 - **Data infographics ("At a glance").** Built only from figures already in each section, each with its source, date and calculations: an economy chain (visitors, spending, impact, jobs, taxes), waffles (of every 100 District 5 visitors), an itemized visitor receipt with an "every $1" bar, a jobs pictogram, hotel occupancy towers by night, share bars (new hotel supply; day vs. overnight visitors), an ARTIC departures board, an impressions-to-visits funnel, and Anaheim vs. U.S. bars. On screen, numbers count up and bars grow once on entrance; off under reduced motion and in print or PDF.
 - **Maps for geographic data.** Who visits: a U.S. map shading the top origin states (Azira, District 5, Jan. 1 to May 31, 2026) with circles for the top metro areas. Visitor spending: a U.S. map of card spending by cardholder home metro and a world map of international card spending by country (Visa Destination Insights, Aug. 2026). Every value comes from a table in the section; circle area shows the value; Anaheim is marked; the legend ranks the top eight in bold. Boundaries: U.S. Census Bureau cartographic boundaries (us-atlas 3.0.1, Albers USA) and Natural Earth 1:110m (world-atlas 2.0.2). Geometry is built once by `npm run maps` (`pipeline/maps_geo.js` to `maps_geo.json`); `map_svg.js` draws the maps on the page, and `maps_render.js` renders them as PNGs for the deck.
 - **Update schedule.** The header, overview bar, footer, release, Excel About sheet and deck title show "Updated quarterly" with the last and next update dates. The Sources page opens with "How this report is updated": who, what, when, where, why and how cards, a table of when each source publishes and what each quarterly update does with it, and the planned data sources (Ticketmaster data from Honda Center; Placer.ai), which show no figures until the data is received, checked and cleared. Dates and text live in `pipeline/schedule.py`; the next date is computed from `LAST_UPDATE`.
@@ -131,7 +152,16 @@ The source register on the Sources page lists each source's document, period cov
 | `pipeline/map_svg.js`, `maps_render.js` | Map drawing shared by the page and Node; PNG rendering for the deck |
 | `pipeline/deck_pdf.py`, `pdf_subset.js` | Report PDF: renders the deck to PDF and maps sections to pages; cuts the PDF to the chosen sections in the browser |
 | `pipeline/pptx_subset.js` | PowerPoint export: keeps the chosen deck sections and removes the rest cleanly |
-| `scripts/make_public.py` | Copies the built page and deck into `public/` |
+| `scripts/make_public.py` | Copies the built page and decks into `public/` |
+| `scripts/stage_library.py` | Copies the original source files into `public/library/` under readable names; Visit Anaheim-owned Office files get neutral document properties, PDFs get the publisher as author, and no personal names remain |
+| `pipeline/library.py` | Library list: every file with publisher, period, publication date, summary, geography, sections that use it; public source links |
+| `pipeline/ask.py` | Questions answered: data (Tourism Economics transportation industry rows, Visit California 2025p, U.S. Travel Spring 2026), the 21 questions, and two new section tables (average spend by geography; economic impact of visitor transportation) |
+| `pipeline/ask_app.js` | Renders the Questions answered and library pages (search, filters, visuals, downloads, deep links) |
+| `pipeline/antv_app.js` | AntV layer: G2 chart specs and lazy mounting, T8 narrative markup, Infographic syntax, X6 impact flow and data lineage |
+| `pipeline/make_app.js`, `pipeline/make.css` | The Export panel: full report, Doc, Slides, Design, Motion, Data and Share link, with live previews and saving |
+| `pipeline/d3_app.js` | D3 layer: comparison dot matrix and spending treemaps |
+| `pipeline/qa_slides.js`, `qa_body.js` | Question and library slides shared by both decks; the focused questions deck |
+| `public/library/` | The source files served by the website and the claude.ai artifact |
 | `docs/activity-log.md` | Build notes and the change log |
 | `docs/quarterly-refresh.md` | Runbook for the quarterly data refresh |
 | `vercel.json` | Static site settings: no build on Vercel, serve `public/`, no search indexing |
@@ -140,7 +170,7 @@ The source register on the Sources page lists each source's document, period cov
 
 Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm install`), and LibreOffice (`soffice`) plus poppler (`pdfinfo`) for the report PDF.
 
-1. Copy `STR_Daily_Data_8.xlsx` and `CoStar_DataExport_17.xlsx` into `pipeline/files/licensed/`.
+1. Copy `STR_Daily_Data_8.xlsx` and `CoStar_DataExport_17.xlsx` into `pipeline/files/licensed/`. When source files change, put the originals in one folder and run `python3 scripts/stage_library.py <folder>` (names are mapped in `pipeline/library.py`).
 2. **Content:** `content.py` builds the sections and attaches these modules in order:
    1. `ocv_content.py`
    2. `new_content.py`
@@ -153,7 +183,8 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm i
    9. `facts_only.py` (removes estimates and rebuilds the "Anaheim and OC Vibe today" section)
    10. `newsroom.py` (news report structure, reading order, house style)
    11. `infographics.py` ("At a glance" infographics)
-   12. `maps.py` (last step: maps for geographic data)
+   12. `maps.py` (maps for geographic data)
+   13. `ask.py` (last step: questions answered, the two new tables, and the library list)
 3. **Deck:** run `npm run deck`.
    - This writes `pipeline/deck_data.json`, renders the map PNGs (`pipeline/map_*.png`), writes `pipeline/OC_Vibe_Insights.pptx`, then renders it to `pipeline/OC_Vibe_Insights.pdf` with the section page map `pipeline/deck_pages.json`.
    - The VA theme step uses the pptx skill's `apply_theme.js`, which is not stored in this repository. Set `PPTX_THEME_SCRIPT` to its path to apply it. Without it, the deck is written unthemed and a warning is shown.
@@ -168,7 +199,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm i
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-015` (Oct. 14, 2026): 53 of 53 checks passed, including the newsroom, infographic, map, update-schedule and PDF checks. The suite was re-run from this repository with the same result.
+- The latest recorded run is `pipeline/computations/validation-020` (Oct. 15, 2026): 64 of 64 checks passed, including the visual-layer checks and two Export panel checks (every file comes from one panel with seven choices and no separate Make page, download buttons or Dashboard; Doc, Slides, Design and Motion figures are taken unchanged from the sections and Questions answered). The suite was re-run from this repository with the same result.
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
@@ -213,10 +244,8 @@ The report is updated quarterly because Tourism Economics data, the core of the 
 
 ## 7. Approvals before sharing outside Visit Anaheim
 
-- **Tourism Economics 2025 Economic Impact:** confirm it is cleared for distribution.
-- **LARC reports:** consent is required.
-- **CoStar, STR and Visa:** licensed data. Share summaries, not raw exports.
-- **The website and repository are public** (decision by John Picou, Oct. 13, 2026). Licensed raw exports (CoStar, STR) are excluded by `.gitignore` and are never pushed.
+- **All source files cleared for public sharing** (decision by John Picou, BI & Technology Director, Oct. 14, 2026): every report and data file used to build the app is posted in the Reports and data library on the website, the repository and the claude.ai artifact. This covers the Tourism Economics 2025 Economic Impact reports (marked client preliminary), LARC reports and forecasts, and CoStar, STR and Visa files.
+- **The website and repository are public** (decision by John Picou, Oct. 13, 2026). The licensed raw exports used by the pipeline stay in `pipeline/files/licensed/` (not in Git); the same files are published as received in `public/library/` under the Oct. 14 decision.
 - **The dashboard:** private until shared.
 
 ---
@@ -227,7 +256,9 @@ The report is updated quarterly because Tourism Economics data, the core of the 
 - Set up a quarterly data exchange with OC Vibe for ticket-buyer ZIP codes and hotel results once venues open (concert hall early 2027; first hotel 2028).
 - Planned sources: request Ticketmaster ticketing data for Honda Center from OC Vibe (data-sharing agreement; summaries only) and confirm who holds a Placer.ai license. Add each at the next quarterly update after it arrives.
 - Get post-2017 Orange County transit ridership, if available.
-- Get Tourism Economics transportation impact data (not yet received).
+- Get Tourism Economics transportation impact data (not yet received). The Questions answered page uses the transportation rows of the 2025 Economic Impact reports until it arrives.
+- Add Datafy's original calendar 2024 visitor report (the source of the 5.2% OC Vibe share) to the library; the library holds Datafy's calendar 2025 tables export, which uses a different basis and will be reconciled at the next quarterly update.
+- Review OC Vibe's white paper when it is shared, and add any figures it needs to the questions page.
 - Confirm California 2025 figures against Visit California's primary report.
 
 The full change history is in `docs/activity-log.md` and the project doc "OC Vibe Insights - build notes and activity log".

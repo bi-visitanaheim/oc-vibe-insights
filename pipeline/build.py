@@ -734,6 +734,7 @@ BODY = f"""<meta charset="utf-8">
 {css}
 {EXTRA_CSS}
 {open(BASE + '/make.css').read()}
+{open(BASE + '/pages.css').read()}
 </style>
 <a class="skip" href="#main">Skip to dashboard</a>
 <div id="app">
@@ -791,10 +792,10 @@ BODY = f"""<meta charset="utf-8">
         <section class="page" id="p-ask" data-title="Questions answered">
           <div class="page-h"><h2>Questions answered</h2><span class="badge">Anaheim · Orange County · California · U.S. · data through Sept. 2026</span></div>
           <p class="ask-lede">General questions about Anaheim's visitor economy and the OC Vibe area. Each answer gives a short summary, the figures for Anaheim, Orange County and the U.S. (California where that is the closest published level), a visual, how the number is calculated, what to keep in mind, and the reports and data files to read more.</p>
-          <div class="ask-ctl"><label class="sr" for="askQ">Search the questions</label><input type="search" id="askQ" placeholder="Search: spend, jobs, night, transportation, District 5, hotels…" autocomplete="off"><div class="chipset" id="askTopics" role="group" aria-label="Filter by topic"></div></div>
           <div class="seg-h" id="askCore"><span class="seg-n" aria-hidden="true">1</span><div><h3>The four core questions</h3><p>Select a card to open its full answer.</p></div></div>
           <div class="ask-core" id="askCoreGrid"></div>
           <div class="seg-h" id="askAll"><span class="seg-n" aria-hidden="true">2</span><div><h3>All questions</h3><p>Grouped by topic. Each opens to the figures, a visual, the method and the files.</p></div></div>
+          <div class="ask-ctl"><label class="sr" for="askQ">Search the questions</label><input type="search" id="askQ" placeholder="Search: spend, jobs, night, transportation, District 5, hotels…" autocomplete="off"><div class="chipset" id="askTopics" role="group" aria-label="Filter by topic"></div></div>
           <p class="sr" aria-live="polite" id="askCount"></p>
           <div class="ask-list" id="askList"></div>
           <p class="csub" style="font-weight:350;margin:16px 0 0">Have a question that is not here? Contact the Visit Anaheim BI team: <a href="mailto:bi@visitanaheim.org">bi@visitanaheim.org</a>.</p>
@@ -803,29 +804,34 @@ BODY = f"""<meta charset="utf-8">
         <section class="page" id="p-library" data-title="Reports and data library">
           <div class="page-h"><h2>Reports and data library</h2><span class="badge" id="libBadge"></span></div>
           <p class="ask-lede">Every report and data file used to build this app, as received from each publisher. Open a file to read it in the browser, or download it. Each file lists what it covers, the period and publication date, the questions it answers and the sections that use it.</p>
-          <div class="lib-sum" id="libSum"></div>
           <div class="seg-h" id="libFilesH"><span class="seg-n" aria-hidden="true">1</span><div><h3>Source files</h3><p>Grouped by topic. Search or filter, then open or download.</p></div></div>
+          <div class="lib-sum" id="libSum"></div>
           <div class="ask-ctl"><label class="sr" for="libQ">Search the library</label><input type="search" id="libQ" placeholder="Search: Tourism Economics, Garden Grove, District 5, STR, OCTA…" autocomplete="off"><div class="chipset" id="libTopics" role="group" aria-label="Filter by topic"></div></div>
           <p class="sr" aria-live="polite" id="libCount"></p>
           <div id="libFiles"></div>
-          <div class="seg-h"><span class="seg-n" aria-hidden="true">2</span><div><h3>Public sources</h3><p>Published by others and linked rather than hosted here.</p></div></div>
+          <div class="seg-h" id="libLinksH"><span class="seg-n" aria-hidden="true">2</span><div><h3>Public sources</h3><p>Published by others and linked rather than hosted here.</p></div></div>
           <div class="box" id="libLinks"><h3>Public sources used (links)</h3><p class="csub" style="font-weight:350;margin:0 0 10px">Published by others and linked rather than hosted here.</p><ul class="lib-links" id="libLinkList"></ul></div>
           <p class="csub" style="font-weight:350;margin:16px 0 0">When quoting a figure, cite the publisher and date shown on the file. Questions about a file: <a href="mailto:bi@visitanaheim.org">bi@visitanaheim.org</a>.</p>
         </section>
         <section class="page" id="p-notes" data-title="Sources">
           <div class="page-h"><h2>Sources</h2><span class="badge">Prepared {PREP}</span></div>
+          <div class="seg-h" id="srcUpd"><span class="seg-n" aria-hidden="true">1</span><div><h3>How this report is updated</h3><p>Who updates it, when each source publishes and what each quarterly update changes.</p></div></div>
           <div class="box upd-box" id="updSched"><h3>How this report is updated</h3>
             <p class="upd-lede" id="updLede"></p>
             <div id="updCards"></div>
             <div id="updTable"></div>
             <div id="updPlanned"></div>
           </div>
+          <div class="seg-h" id="srcTk"><span class="seg-n" aria-hidden="true">2</span><div><h3>Takeaways and recommendations</h3><p>The headline findings, then Visit Anaheim BI recommendations for discussion.</p></div></div>
           <div class="takeaways"><h3>Key takeaways</h3><ul class="bul" id="takeaways"></ul></div>
           <div class="stack" style="margin-top:12px">
             <div class="box"><h3>Recommendations for OC Vibe</h3>
               <p class="csub" style="font-weight:350;margin:0 0 12px">Visit Anaheim BI recommendations based on the findings in this dashboard. These are suggestions for discussion, not findings.</p>
               <div id="recList"></div>
             </div>
+          </div>
+          <div class="seg-h" id="srcReg"><span class="seg-n" aria-hidden="true">3</span><div><h3>Source register and downloads</h3><p>Every source with its period, publication date and how it was checked, plus the files to download.</p></div></div>
+          <div class="stack" style="margin-top:12px">
             <div class="box"><h3>Downloads</h3>
               <div class="src-acts"><button type="button" class="dl" data-export="">Export the report, a doc, slides, a design, a video or the data</button><button type="button" class="dl" data-go="p-library">Open the Reports and data library</button></div>
             </div>
@@ -833,9 +839,15 @@ BODY = f"""<meta charset="utf-8">
               <p class="csub" style="font-weight:350;margin:0 0 12px">Every source used, with the period it covers, when it was published or pulled, how it is used and how Visit Anaheim BI checked it. Prepared Oct. 12, 2026.</p>
               <div id="regTbl"></div>
             </div>
+          </div>
+          <div class="seg-h" id="srcList-h"><span class="seg-n" aria-hidden="true">4</span><div><h3>Data sources</h3><p>Each publisher and dataset with its period and use.</p></div></div>
+          <div class="stack" style="margin-top:12px">
             <div class="box"><h3>Data sources</h3>
               <ul class="src-list" id="srcList"></ul>
             </div>
+          </div>
+          <div class="seg-h" id="srcMeth"><span class="seg-n" aria-hidden="true">5</span><div><h3>Methods, definitions and about the data</h3><p>How figures are built, what the terms mean and the data-quality notes.</p></div></div>
+          <div class="stack" style="margin-top:12px">
             <div class="grid2">
               <div class="box"><h3>Methodology</h3>
                 <dl class="defs">
@@ -946,6 +958,12 @@ window.MDI = {json.dumps(MDI)};
 </script>
 <script>
 {open(BASE + '/make_app.js').read()}
+</script>
+<script>
+{open(BASE + '/detail_app.js').read()}
+</script>
+<script>
+{open(BASE + '/pages_app.js').read()}
 </script>
 """
 open(BASE + '/oc-vibe-insights.html', 'w').write(BODY)

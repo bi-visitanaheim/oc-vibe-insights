@@ -85,7 +85,7 @@ NEWS = {
              ("5.2%", "of Anaheim visitor days include the OC Vibe area", DATAFY),
              ("3 sources", "Azira, Datafy and Visa", AZ_D5 + "; " + DATAFY + "; " + VISA))),
  "p-media": dict(
-   nut="Paid media already moves people to visit Anaheim, which gives OC Vibe a proven channel. Azira matched 368,416 visits to 31.0 million measurable impressions, or 11.9 visits per 1,000, from Jan. 1 to Aug. 31, 2026.",
+   nut="Paid media already moves people to travel to Anaheim, which gives OC Vibe a proven channel. Azira matched 368,416 visits to 31.0 million measurable impressions, or 11.9 visits per 1,000, from Jan. 1 to Aug. 31, 2026.",
    details=D(("31.0M", "measurable impressions", AZ_MEDIA),
              ("368,416", "observed visits after ad exposure", AZ_MEDIA),
              ("39 days", "average time from ad to visit", AZ_MEDIA),

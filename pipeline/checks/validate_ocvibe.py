@@ -417,6 +417,28 @@ check("K. One Export panel", "Doc, Slides, Design and Motion figures are taken u
       "POOL.push({ id: s.id.slice(2) + '-c' + i" in _mk and "value: g[1], detail: g[2], src: g[3]" in _mk and not _re.search(r"\bvalue:\s*[^,]*[*/+]\s*\d", _mk),
       f"{len(_cards)} section key figures and {len(_asks)} question rows available to the studio")
 
+# ---------------- L. Name style and selectable values (Oct. 15, 2026) ----------------
+_bad_va = sorted(set(m.group(0) for m in _re.finditer(r"visit\s+anaheim", _html, _re.I)) - {"Visit Anaheim", "VISIT ANAHEIM"})
+_decks_txt = " ".join(_zf.ZipFile(os.path.join(_bd2, f)).read(n).decode("utf8", "ignore") for f in ("OC_Vibe_Insights.pptx", "OC_Vibe_Questions_Answered.pptx") for n in _zf.ZipFile(os.path.join(_bd2, f)).namelist() if n.endswith(".xml"))
+_bad_deck = sorted(set(m.group(0) for m in _re.finditer(r"visit\s+anaheim", _decks_txt, _re.I)) - {"Visit Anaheim", "VISIT ANAHEIM"})
+check("L. Name style", "The organization is always written \"Visit Anaheim\" in the app and both decks (web addresses and emails stay lowercase)", not _bad_va and not _bad_deck,
+      f"other spellings in app: {_bad_va or 'none'}; in decks: {_bad_deck or 'none'}")
+_dt = open(os.path.join(_bd2, "detail_app.js")).read()
+check("L. Name style", "Every chart mark, table cell, key figure and bold number opens a data card with its value, period and source (click, tap or Enter)",
+      'id = \'dpanel\'' in _dt.replace('"', "'") or "pn.id = 'dpanel'" in _dt and all(k in _dt for k in ("[data-tip]", ".page td", "b.kv", ".t8-value", "fromG2", "Copy with source")) and "DATA_DETAIL.fromG2" in open(os.path.join(_bd2, "antv_app.js")).read(),
+      "data card wired for chart marks, G2 charts, table cells, key figures, bold and T8 values")
+
+# ---------------- M. Page by page (Oct. 15, 2026) ----------------
+_pj = open(os.path.join(_bd2, "pages_app.js")).read(); _pc = open(os.path.join(_bd2, "pages.css")).read()
+_seg_ids = ["ovPulse", "ovTk", "ovFind", "askCore", "askAll", "libFilesH", "libLinksH", "srcUpd", "srcTk", "srcReg", "srcList-h", "srcMeth"]
+_seg_missing = [i for i in _seg_ids if f'id="{i}"' not in _html]
+check("M. Page by page", "Every page is split into separate pages, one segment each (Overview 3, Questions answered 2, each section 4 to 5, library 2, Sources 5), with a sticky page bar, Scroll all option and print showing every page",
+      not _seg_missing and _pj in _html and _pc in _html and "subpage" in _pj and "#spBar" in _pc and "Scroll all" in _pj and "@media print" in _pc and "segH('1', 'The story'" in open(os.path.join(_bd2, "app.js")).read(),
+      f"fixed segment headings {len(_seg_ids) - len(_seg_missing)}/{len(_seg_ids)}; page script and styles inlined; missing {_seg_missing or 'none'}")
+check("M. Page by page", "Page-by-page code adds no outside requests and no em dashes; deep links (#section/pN), arrow keys and data-card jumps open the right page",
+      "\u2014" not in _pj and "\u2014" not in _pc and "http" not in _pj and "/p' + (i + 1)" in _pj and "ArrowRight" in _pj and "Element.prototype.scrollIntoView" in _pj,
+      "em dashes 0; outside hosts none; deep links, keys and jump handling present")
+
 # ---------------- write ----------------
 results["checks"] = checks; results["passed"] = sum(c_["ok"] for c_ in checks); results["total"] = len(checks)
 results["seed"] = SEED; results["generated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())

@@ -85,6 +85,18 @@
       el.innerHTML = ''; el.classList.add('g2-on');
       const chart = new G2.Chart({ container: el, autoFit: true, height: parseInt(getComputedStyle(el).getPropertyValue('--g2h')) || 260 });
       chart.options(sp); CHARTS.set(el, { chart, c }); await chart.render();
+      // select a mark: read the mark G2 is showing in its tooltip (G2's own picking is not exposed for these marks)
+      if (!el.dataset.dpWired) {
+        el.dataset.dpWired = '1';
+        // snapshot the tooltip as the pointer moves (G2 hides it on press), then open the data card on click
+        let snap = null;
+        const read = () => { const t = el.querySelector('.g2-tooltip'); if (!t || t.style.visibility === 'hidden') return null;
+          const items = [...t.querySelectorAll('.g2-tooltip-list-item')].map(li => [(li.querySelector('.g2-tooltip-list-item-name-label') || {}).textContent || '', (li.querySelector('.g2-tooltip-list-item-value') || {}).textContent || '']);
+          return items.length ? { l: (t.querySelector('.g2-tooltip-title') || {}).textContent || '', t: items[0][1], extra: items.slice(1).map(x => x.join(': ')).join('; ') } : null; };
+        el.addEventListener('pointermove', () => { requestAnimationFrame(() => { const r = read(); if (r) snap = r; }); });
+        el.addEventListener('pointerleave', () => { snap = null; });
+        el.addEventListener('click', ev => { const d = read() || snap; if (d && window.DATA_DETAIL) DATA_DETAIL.fromG2(el, CHARTS.get(el) ? CHARTS.get(el).c : c, d, ev); });
+      }
     } catch (e) {
       el.classList.remove('g2-on'); el.innerHTML = fallback; CHARTS.delete(el);
       const d = el.parentElement && el.parentElement.querySelector('details.g2-data'); if (d) d.open = true;

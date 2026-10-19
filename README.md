@@ -263,7 +263,7 @@ The report is updated quarterly because Tourism Economics data, the core of the 
 - Get post-2017 Orange County transit ridership, if available.
 - Get Tourism Economics transportation impact data (not yet received). The Questions answered page uses the transportation rows of the 2025 Economic Impact reports until it arrives.
 - Add Datafy's original calendar 2024 visitor report (the source of the 5.2% OC Vibe share) to the library; the library holds Datafy's calendar 2025 tables export, which uses a different basis and will be reconciled at the next quarterly update.
-- Review OC Vibe's white paper when it is shared, and add any figures it needs to the questions page.
+- One OC Vibe request is on hold pending internal approval (tracked outside this repository).
 - Confirm California 2025 figures against Visit California's primary report.
 
 The full change history is in `docs/activity-log.md` and the project doc "OC Vibe Insights - build notes and activity log".

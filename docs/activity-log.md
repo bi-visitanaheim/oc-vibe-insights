@@ -139,7 +139,7 @@ Notes on the views:
 - TE transportation impact data has not yet been received.
 - External distribution: all source files cleared for public sharing by John Picou (Oct. 14, 2026).
 - Datafy's original calendar 2024 visitor report (source of the 5.2% OC Vibe share) is not in the library yet; the calendar 2025 tables export is, on a different basis, to be reconciled at the next quarterly update.
-- Review OC Vibe's white paper when it is shared.
+- One OC Vibe request is on hold pending internal approval (tracked outside this repository).
 - Request Orange County visitor estimates for 2019-2020 and 2026 year to date from Tourism Economics.
 - A current Orange County visitor survey would replace the 2019 CIC profile (purpose, party size, children, ZIP origins).
 - Confirm the 2026 Azira length-of-stay and distance-share shift with Symphony.
@@ -150,6 +150,7 @@ Notes on the views:
 - Deck: export_deck.py → deck_data.json → deck.js (deck_head.js + deck_body.js).
 
 ## Activity log (newest first)
+2026-10-19 1:51 PM PT | John Picou | Removed every white paper reference from the app, both decks and the PDF (dashboard v37) per John: no white paper information is posted until the white paper lead approves. The OC Vibe requests question and table now list the eight answered requests (Oct. 9 follow-up: Q2 report, regional reports with food and beverage job share, One more night study; Oct. 19 ECA: five questions). Validation 68/68.
 2026-10-19 1:42 PM PT | John Picou | Outlined all OC Vibe requests in one place (dashboard v36, deck 136 slides): new "OC Vibe requests" topic leads Questions answered (what was asked, status and where each is answered; how the white paper review will work), and a requests table appears in Anaheim and OC Vibe today, Orange County tourism and the deck. Oct. 9 follow-up: Q2 2026 Tourism Economics report, Anaheim/Garden Grove/Orange County reports with food and beverage job share (16.8%, 40.6%, 29.1%), One more night study: answered; white paper review: pending a draft (none received as of Oct. 19, 2026, Outlook search). Oct. 19 ECA five questions: answered with named gaps. Library count on the reports question updated to 60. Validation 68/68. Skills: /visit-anaheim, /va-data-visualization.
 2026-10-19 1:18 PM PT | John Picou | Orange County tourism section visuals (dashboard v34, deck 135 slides): added the At a glance page (overnight share bar, 100-visitor waffle, 12-month hotel occupancy towers with entrance animation) and two maps (domestic origin metros for Anaheim and Garden Grove; international markets), each with source and date; deck gets the At a glance and map slides (tower labels sized for 12 bars). Header names Orange County tourism. Library audit: every source file in library_src is in the Reports and data library (60 files) except the four licensed CoStar raw tables, which stay internal. Validation 68/68; no sideways scroll at 390 px. Skills: /va-data-visualization, /visit-anaheim.
 2026-10-19 12:58 PM PT | John Picou | Committed the Orange County tourism update in the OneDrive repository (d38b1c6) and republished the claude.ai dashboard (version 33). GitHub push not possible from this session (no GitHub credentials on the linked computer; cloud proxy not authorized for the repository); John to run git push so Vercel deploys.

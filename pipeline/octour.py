@@ -213,6 +213,35 @@ def prep():
     if T not in K.QORDER:
         K.QORDER.insert(0, T)
 
+    # ---- OC Vibe's requests (Oct. 9, 2026 follow-up and Oct. 19, 2026 ECA request): one place that shows each request and its answer ----
+    R = "OC Vibe requests"
+    A = {x["id"]: x for x in K.ASK}
+    K.q(id="ocv-requests", topic=R, q="What has OC Vibe asked for, and where is each answered?",
+        a="Nine requests in two rounds. OC Vibe's Oct. 9, 2026 follow-up asked for the Q2 2026 Tourism Economics report, the Anaheim, Garden Grove and Orange County economic impact reports with food and beverage job shares, the One more night study, and a review of OC Vibe's white paper. Entertainment + Culture Advisors (ECA), for OCVIBE, asked five Orange County tourism questions on Oct. 19, 2026. Eight are answered in this app with their sources; the white paper review starts when a draft is shared.",
+        key="8 of 9", key_l="requests answered in this app (white paper review pending a draft)",
+        geo=[["Q2 2026 Tourism Economics report (Oct. 9)", "Answered", A["q2-report"]["a"], S_TEFC + "; library: te-travel-forecast-2026-09-q2-results.pdf"],
+             ["Anaheim, Garden Grove and Orange County reports with food and beverage job share (Oct. 9)", "Answered", A["fb-jobs"]["a"], "Tourism Economics, Economic Impact of Visitors 2025 (pub. Apr.-May 2026); all six reports and supplemental charts in the library"],
+             ["One more night study (Oct. 9)", "Answered", A["night-value"]["a"], "Visit Anaheim BI, Extra Night study and workbook (library); Tourism Economics 2025"],
+             ["Review of OC Vibe's white paper (Oct. 9)", "Pending a draft", "Visit Anaheim BI will check the white paper's visitor, spending, hotel and job figures against the sources in this app and return comments with the source and date for each figure. Every figure the paper may cite is already here with its source.", "Visit Anaheim BI (Oct. 19, 2026)"],
+             ["Five Orange County tourism questions (ECA, Oct. 19)", "Answered", "Arrivals 2009-2026, origins, seasonality, visitor profile and hotel inventory, occupancy and ADR, each with source, period and the gaps that remain.", "See the Orange County tourism section and its five questions below"]],
+        viz=None, how="Each request is listed with the date it was made, its status, the short answer and where to find the full answer and the source file.",
+        caveat="The white paper has not been shared with Visit Anaheim as of Oct. 19, 2026. County visitor counts for 2020 and 2026 year to date and a ZIP-level origin split are not published (see the Orange County tourism section for the solutions).",
+        files=["te-fc-sep", "te-ei-ana", "te-ei-gg", "te-ei-oc", "va-night", "cic-profile-2019"], go="p-octour", links=[])
+    K.q(id="ocv-whitepaper", topic=R, q="How will Visit Anaheim review OC Vibe's white paper?",
+        a="When OC Vibe shares a draft, Visit Anaheim BI will check each visitor, spending, hotel, job and tax figure against the published source, note the source and date for each, flag any figure that mixes methods (for example, Tourism Economics and CIC Research visitor counts), and suggest current figures where a newer edition exists. No draft has been received as of Oct. 19, 2026.",
+        key="Pending", key_l="white paper review starts when a draft is shared",
+        geo=[["What BI checks", "Every figure", "Value, source, period and method; same-basis comparisons only", "Visit Anaheim BI (Oct. 19, 2026)"],
+             ["Figures ready to cite", "In this app", "Anaheim, Garden Grove and Orange County visitors, spending, jobs, taxes, hotels and seasonality, each with source and date", "Reports and data library"],
+             ["Turnaround", "To be agreed", "Set with OC Vibe when the draft arrives", "Visit Anaheim BI"]],
+        viz=None, how="Figure-by-figure check against the original reports in the library.",
+        caveat="Review covers data accuracy and sourcing, not OC Vibe's positions or recommendations.",
+        files=["te-ei-ana", "te-ei-oc", "te-fc-sep", "cic-profile-2019"], go="p-library", links=[])
+    if R not in K.QORDER:
+        K.QORDER.insert(0, R)
+    n = len([f for f in L.FILES if f.get("orig")])
+    if "reports" in A:
+        A["reports"]["key"] = str(n)
+
 
 def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     if any(s["id"] == "p-octour" for s in SECTIONS):
@@ -382,7 +411,20 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
                         ["Azira (Symphony)", "Trips, origins, length of stay", "Jan. 2023-Aug. 2026", "Anaheim and Garden Grove", "Mobile location data", "Origins and recent behavior"],
                         ["CoStar", "Hotel rooms, occupancy, ADR", "1987-Sept. 2026", "Orange County market", "Hotel census and sample", "Hotel capacity and seasonality"]],
                   src=f"{S_CIC}; {S_TEOC}; {S_DR}; {S_AZ}; {S_CS}", wide=True))
+    REQ = dict(title="OC Vibe's requests and where each is answered", hi=-1,
+               sub="OC Vibe follow-up (Oct. 9, 2026) and Entertainment + Culture Advisors for OCVIBE (Oct. 19, 2026) · status as of Oct. 19, 2026",
+               cols=[["Request", 0], ["Asked", 0], ["Status", 0], ["Answer in brief", 0], ["Where in this app", 0]],
+               rows=[["Q2 2026 Tourism Economics report", "Oct. 9", "Answered", "Anaheim Q2 2026: 6.74M visitors (+2.8%), $1.76B spending (+7.8%); Garden Grove 831,000 visitors, $200.4M.", "Visitor spending; Questions answered; library (Travel Forecast, Sept. 2026)"],
+                     ["Anaheim, Garden Grove and Orange County reports with food and beverage job share", "Oct. 9", "Answered", "Food and beverage share of visitor-supported jobs: Anaheim 16.8%, Garden Grove 40.6%, Orange County 29.1% (2025).", "Jobs and economy; library (six Tourism Economics 2025 reports)"],
+                     ["One more night study", "Oct. 9", "Answered", "One more night of Anaheim lodging spending: about $794M; each 1% of visitors adding a day: about $31.5M.", "One more night; library (study and workbook)"],
+                     ["Review of OC Vibe's white paper", "Oct. 9", "Pending a draft", "Visit Anaheim BI will check each figure against its source and return comments with source and date.", "Questions answered (OC Vibe requests)"],
+                     ["Orange County arrivals, origins, seasonality, visitor profile and hotels (five questions)", "Oct. 19", "Answered, with named gaps", f"{v25[2]}M visitors (2025); 55.4% from Southern California (2019); July peak; 37.0% with children (2019); {H26[2]:,} rooms at {H26[3]}% (2026 YTD).", "Orange County tourism; library (CIC 2019 and 11 new files)"]],
+               src=f"{S_TEFC}; Tourism Economics, Economic Impact of Visitors 2025 (pub. Apr.-May 2026); Visit Anaheim BI, Extra Night study; {S_CIC}; {S_CS}", wide=True)
+    T.insert(1, REQ)
     sec["tables"] = T
+    ocv = next(s for s in SECTIONS if s["id"] == "p-ocv")
+    if not any(x["title"] == REQ["title"] for x in ocv["tables"]):
+        ocv["tables"].append(dict(REQ))
     sec["kind"] = "News report"
     sec["dateline"] = f"ANAHEIM, Calif. ({ASOF}):"
     sec["nut"] = (f"Entertainment + Culture Advisors asked five questions for OCVIBE's market study. The answers come from five sources with different methods: "

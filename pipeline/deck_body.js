@@ -389,6 +389,10 @@ pres.addSection({ title: 'Orange County tourism' });
 newsSlides('p-octour');
 {
   const oc = sec('p-octour'), oT = t => oc.tables.find(x => x.title.startsWith(t)), TAB = 'Orange County tourism';
+  const rq = oT("OC Vibe's requests");
+  s = content(TAB, "OC Vibe's requests and where each is answered", 'OC Vibe follow-up (Oct. 9, 2026) and ECA for OCVIBE (Oct. 19, 2026) · status as of Oct. 19, 2026', '');
+  table(s, rq.cols, rq.rows, M, 1.55, W - 2 * M, { colW: [2.6, 0.8, 1.3, 4.6, 2.833], rowH: 0.8, fs: 9, hi: -1 });
+  source(s, rq.src);
   const fq = oT('The five questions');
   s = content(TAB, 'The five questions and where each is answered', 'Sent by Entertainment + Culture Advisors for OCVIBE, Oct. 19, 2026 · every gap paired with a solution', oc.notes.join('\n'));
   table(s, fq.cols, fq.rows, M, 1.55, W - 2 * M, { colW: [1.4, 3.0, 3.8, 1.7, 2.233], rowH: 0.78, fs: 8, hi: -1 });

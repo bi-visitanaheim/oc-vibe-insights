@@ -139,8 +139,8 @@ function igDraw(t, g, X, Y, Wd, Hd) {
       const cx = X + i * cw + cw * 0.15, w = cw * 0.7;
       t.addShape(R, { x: cx, y: y0, w, h: th, fill: { color: H.light }, line: { color: H.e4, width: 1 } });
       const fh = th * nt.v / 100; t.addShape(R, { x: cx, y: y0 + th - fh, w, h: fh, fill: { color: nt.hi ? H.e1 : H.e4 }, line: { color: nt.hi ? H.e1 : H.e4, width: 0 } });
-      t.addText(nt.v + '%', ft({ x: X + i * cw, y: y0 + th + 0.05, w: cw, h: 0.3, fontSize: 11, bold: true, color: H.dark, align: 'center' }));
-      t.addText(nt.l.toUpperCase(), ft({ x: X + i * cw, y: y0 + th + 0.33, w: cw, h: 0.25, fontSize: 9, bold: true, color: H.dark, align: 'center' }));
+      t.addText(nt.v + '%', ft({ x: X + i * cw, y: y0 + th + 0.05, w: cw, h: 0.3, fontSize: n > 7 ? 6.5 : 11, bold: true, color: H.dark, align: 'center' }));
+      t.addText(nt.l.toUpperCase(), ft({ x: X + i * cw, y: y0 + th + 0.33, w: cw, h: 0.25, fontSize: n > 7 ? 6.5 : 9, bold: true, color: H.dark, align: 'center' }));
     });
   } else if (g.kind === 'share') {
     t.addShape(R, { x: X, y: y0 + 0.1, w: Wd, h: 0.8, fill: { color: H.e4 }, line: { color: H.e4, width: 0 } });

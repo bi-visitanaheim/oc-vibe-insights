@@ -392,7 +392,28 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
             (f"{AVG3[6]}%", "July hotel occupancy, 2023-2025 average", S_CS), ("37.0%", "of 2019 visitors traveled with children", S_CIC),
             (f"{H26[2]:,}", "Orange County hotel rooms, Sept. 2026", S_CS), (f"{H26[3]}%", "hotel occupancy, Jan.-Aug. 2026", S_CS)]
     sec["details"] = [dict(k=k.capitalize(), text=sec["w5h"][k], fig=f, fig_l=fl, src=s) for k, (f, fl, s) in zip(("who", "what", "when", "where", "why", "how"), figs)]
-    sec["info"] = []
+    ov_pct = round(v25[1] / v25[2] * 100, 1)
+    sec["info"] = [
+        dict(kind="share", title="Four in ten Orange County visitors stay overnight", sub="Overnight and day visitors, calendar 2025",
+             part=dict(v=f"{v25[1]}M", n=v25[1], l="overnight visitors"), whole=dict(v=f"{v25[2]}M", n=v25[2], l=f"all visitors ({v25[0]}M day visitors)"),
+             pct=ov_pct, calc=f"{v25[1]}M / {v25[2]}M = {ov_pct}%; day visitors {v25[0]}M / {v25[2]}M = {round(v25[0] / v25[2] * 100, 1)}%", src=S_TEOC),
+        dict(kind="waffle", title="Of every 100 Orange County visitors", sub="Each square is one visitor in 100 · CIC Research, calendar 2019 (latest county profile)",
+             items=[dict(pct=81.2, l="came for leisure or to see friends and relatives", src=S_CIC),
+                    dict(pct=55.4, l="live in Southern California", src=S_CIC),
+                    dict(pct=37.0, l="traveled with children", src=S_CIC)], src=S_CIC),
+        dict(kind="towers", title="Orange County hotels fill most in July", sub="Hotel occupancy by month, 2023-2025 average · July highlighted",
+             nights=[dict(l=MON[i][:3], v=AVG3[i], hi=(i == PEAK_I)) for i in range(12)], src=S_CS)]
+    sec["maps"] = [
+        dict(kind="us", title="Where domestic trips to Anaheim and Garden Grove come from",
+             sub="Share of domestic trips by home metro area, Jan. 1, 2023-Aug. 31, 2026 · circle area shows share · the Los Angeles metro includes Orange County",
+             points=[dict(name=n, v=v, t=f"{v}%") for n, v in [("Los Angeles\u2013Long Beach\u2013Anaheim", 44.7), ("Riverside\u2013San Bernardino\u2013Ontario", 26.1),
+                     ("San Diego\u2013Chula Vista\u2013Carlsbad", 4.1), ("Phoenix\u2013Mesa\u2013Chandler", 2.3), ("Las Vegas\u2013Henderson\u2013Paradise", 1.9),
+                     ("San Francisco\u2013Oakland\u2013Berkeley", 1.3)]],
+             unit="share", home="Anaheim", src=S_AZ),
+        dict(kind="world", title="International visitors to Anaheim and Garden Grove, by home country",
+             sub="Visitors in calendar 2025, thousands · circle area shows visitors",
+             points=[dict(name=n, v=v, t=f"{v:,}K") for n, v in TE_INTL_MKT if n in ("Mexico", "Canada", "United Kingdom", "Australia")],
+             unit="count", home="Anaheim", src=S_TEFC)]
     # place after the opening section and rebuild the reading chain
     i = next(n for n, s in enumerate(SECTIONS) if s["id"] == "p-ocv")
     SECTIONS.insert(i + 1, sec)

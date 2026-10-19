@@ -743,7 +743,7 @@ BODY = f"""<meta charset="utf-8">
       <div class="logo-chip">{logo_img}</div>
       <div class="titles">
         <h1>OC Vibe Insights</h1>
-        <p id="periodLine">Prepared by Visit Anaheim for OC Vibe · Visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly; next update {SC.NEXT_S}</p>
+        <p id="periodLine">Prepared by Visit Anaheim for OC Vibe · Orange County tourism, visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly; next update {SC.NEXT_S}</p>
       </div>
     </div>
     <div class="hdr-ctl" id="hdrCtl">

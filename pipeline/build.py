@@ -8,7 +8,7 @@ css = open(BASE + '/assets/css.txt').read()
 logo_line = open(BASE + '/assets/logo.txt').read().strip()
 logo_img = re.search(r'<img [^>]+>', logo_line).group(0)
 
-PREP = "Oct. 13, 2026"
+PREP = "Oct. 19, 2026"
 import ocv_content as OCVC
 import schedule as SC   # Oct. 14, 2026: quarterly update schedule and planned sources
 DATA = dict(main=C.DATA_EXTRA['main'], tags=C.DATA_EXTRA['tags'], sections=C.SECTIONS, stories=C.STORIES, takeaways=C.TAKEAWAYS, sources=C.SOURCES, prepared=PREP, register=OCVC.REGISTER, schedule=SC.SCHEDULE, ask=C.DATA_EXTRA['ask'], lib=C.DATA_EXTRA['lib'])

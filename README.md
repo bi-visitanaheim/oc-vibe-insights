@@ -40,7 +40,8 @@ The **Overview** opens with **Key takeaways**: one card per section with its hea
 
 | Tab | Question it answers | Main sources |
 |---|---|---|
-| Questions answered | 21 general questions (average spend, one more night, transportation impact, District 5, jobs, taxes, hotels, outlook), each for Anaheim, Orange County and the U.S. (California where that is the closest published level) | Tourism Economics, Visit California, U.S. Travel Association, BTS, Azira, Datafy, Visa, CoStar, STR, LARC |
+| Questions answered | 26 general questions (average spend, one more night, transportation impact, District 5, jobs, taxes, hotels, outlook), each for Anaheim, Orange County and the U.S. (California where that is the closest published level) | Tourism Economics, Visit California, U.S. Travel Association, BTS, Azira, Datafy, Visa, CoStar, STR, LARC |
+| Orange County tourism | ECA's five questions for OCVIBE: visitor arrivals (2009-2026), origins, seasonality, visitor profile, hotel inventory, occupancy and ADR | CIC Research (2019), Tourism Economics (2025), Dean Runyan (2025p), Azira, CoStar |
 | Anaheim and OC Vibe today | Where do Anaheim's visitor economy and the OC Vibe area stand today? | Tourism Economics (2025; 2026 forecast), Datafy, Azira |
 | Who visits | Who visits District 5 and the OC Vibe area? | Azira, Datafy, Visa |
 | Visitor spending | How much does each visitor spend, and how is that changing? | Tourism Economics, Visa |
@@ -258,6 +259,7 @@ The report is updated quarterly because Tourism Economics data, the core of the 
 - Confirm the concert hall capacity with OC Vibe.
 - Set up a quarterly data exchange with OC Vibe for ticket-buyer ZIP codes and hotel results once venues open (concert hall early 2027; first hotel 2028).
 - Planned sources: request Ticketmaster ticketing data for Honda Center from OC Vibe (data-sharing agreement; summaries only) and confirm who holds a Placer.ai license. Add each at the next quarterly update after it arrives.
+- Request Orange County visitor estimates for 2019-2020 and 2026 year to date from Tourism Economics, and consider a new Orange County visitor survey (the latest profile is CIC 2019).
 - Get post-2017 Orange County transit ridership, if available.
 - Get Tourism Economics transportation impact data (not yet received). The Questions answered page uses the transportation rows of the 2025 Economic Impact reports until it arrives.
 - Add Datafy's original calendar 2024 visitor report (the source of the 5.2% OC Vibe share) to the library; the library holds Datafy's calendar 2025 tables export, which uses a different basis and will be reconciled at the next quarterly update.

@@ -475,4 +475,7 @@ _ig.attach(SECTIONS); _nr.no_em(SECTIONS)
 import maps as _mp   # Oct. 13, 2026: map visuals for geographic data
 _mp.attach(SECTIONS); _nr.no_em(SECTIONS)
 import ask as _ask   # Oct. 14, 2026: questions answered (Anaheim, County, U.S.) and the reports and data library
+import octour as _oct   # Orange County tourism statistics (Oct. 19, 2026): library files and questions before ask, section after
+_oct.prep()
 _ask.attach(SECTIONS, SOURCES, DQ, _ocv.REGISTER, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)
+_oct.attach(SECTIONS, SOURCES, DQ, _ocv.REGISTER, TAKEAWAYS, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)

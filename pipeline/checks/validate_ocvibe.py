@@ -292,7 +292,7 @@ check("H. Report text", "Every number in key insights, OC Vibe sections and the 
 # Newsroom structure and house style (added Oct. 13, 2026)
 _news = [x for x in CT.SECTIONS if x.get("kind") == "News report"]
 _bad = [x["id"] for x in _news if not (x.get("dateline") and x.get("ans") and x.get("nut") and len(x.get("details") or []) == 6 and all(d.get("fig") and d.get("src") for d in x["details"]))]
-check("H. Report text", "Every section is a news report (dateline, lede, nut graph, six sourced detail cards) followed by analysis", len(_news) == 9 and not _bad, f"{len(_news)} news reports; incomplete: {_bad or 'none'}")
+check("H. Report text", "Every section is a news report (dateline, lede, nut graph, six sourced detail cards) followed by analysis", len(_news) == 10 and not _bad, f"{len(_news)} news reports; incomplete: {_bad or 'none'}")
 _all = json.dumps([CT.SECTIONS, CT.TAKEAWAYS, CT.DQ, CT.RECS, CT.DATA_EXTRA], ensure_ascii=False, default=str)
 check("H. Report text", "House style: no em dashes anywhere in the report content", "\u2014" not in _all, f"{_all.count(chr(0x2014))} em dashes")
 _ap = _re.findall(r"\b(?:January|February|August|September|October|November|December|Sep|Sept(?!\.)|Aug(?!\.)|Oct(?!\.)|Nov(?!\.)|Dec(?!\.)|Jan(?!\.)|Feb(?!\.)) \d{1,2}, 20\d\d", _all)
@@ -300,7 +300,7 @@ check("H. Report text", "AP style: months with a specific date are abbreviated (
 _fp = [t for x in _news for t in [x["nut"]] + [d["fig_l"] for d in x["details"]] if _re.search(r"\b(I|we|our|us)\b", t)]
 check("H. Report text", "Attribution and objectivity: no first person in news-report nut graphs or detail cards", not _fp, f"{len(_fp)} exceptions" + (f": {_fp[0][:80]}" if _fp else ""))
 _order = [x["id"] for x in CT.SECTIONS]
-check("H. Report text", "Reading order: each section links to the next with a bridge", _order[:3] == ["p-ocv", "p-d5", "p-spend"] and all(x.get("next", {}).get("bridge") for x in CT.SECTIONS), " → ".join(_order))
+check("H. Report text", "Reading order: each section links to the next with a bridge", _order[:4] == ["p-ocv", "p-octour", "p-d5", "p-spend"] and all(x.get("next", {}).get("bridge") for x in CT.SECTIONS), " → ".join(_order))
 _ig = [(x["id"], g) for x in CT.SECTIONS for g in (x.get("info") or [])]
 _igbad = [f"{sid}:{g['kind']}" for sid, g in _ig if not (g.get("title") and g.get("src") and _re.search(r"20\d\d", g["src"]))]
 _igcalc = [f"{sid}:{g['kind']}" for sid, g in _ig if g["kind"] in ("receipt", "share", "chain") and not (g.get("lines") and all(l.get("calc") for l in g["lines"]) or g.get("calc") or g.get("links"))]

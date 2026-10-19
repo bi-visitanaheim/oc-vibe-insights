@@ -384,6 +384,56 @@ source(s, otT('Figures OC Vibe').src + '.');
 calcSlide('p-ocv', 'How the numbers are calculated: Anaheim and OC Vibe today');
 ocvSlide('p-ocv');
 
+/* Orange County tourism statistics (Oct. 19, 2026): the five questions from Entertainment + Culture Advisors */
+pres.addSection({ title: 'Orange County tourism' });
+newsSlides('p-octour');
+{
+  const oc = sec('p-octour'), oT = t => oc.tables.find(x => x.title.startsWith(t)), TAB = 'Orange County tourism';
+  const fq = oT('The five questions');
+  s = content(TAB, 'The five questions and where each is answered', 'Sent by Entertainment + Culture Advisors for OCVIBE, Oct. 19, 2026 · every gap paired with a solution', oc.notes.join('\n'));
+  table(s, fq.cols, fq.rows, M, 1.55, W - 2 * M, { colW: [1.4, 3.0, 3.8, 1.7, 2.233], rowH: 0.78, fs: 8, hi: -1 });
+  source(s, fq.src);
+  const v = oT('1. Visitor arrivals');
+  s = content(TAB, 'Question 1. Visitor arrivals to Orange County, 2009–2026', 'Millions · CIC Research 2009–2019 and Tourism Economics 2021–2025 are separate methods', '');
+  const keep = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026 YTD'];
+  const vr = v.rows.filter(r => keep.includes(r[0]));
+  table(s, v.cols, vr, M, 1.55, W - 2 * M, { colW: [1.0, 1.3, 1.1, 1.1, 1.5, 6.133], rowH: 0.36, fs: 9.5, hi: vr.findIndex(r => r[0] === '2025') });
+  source(s, v.src + '. 2009–2014 in the dashboard.');
+  const sp = oT('1b.');
+  s = content(TAB, 'Question 1. Orange County visitor spending, including 2020', 'Dean Runyan Associates for Visit California · $ millions · spending, not visitor counts', '');
+  table(s, sp.cols, sp.rows, M, 1.55, 8.0, { colW: [1.2, 1.8, 1.6, 1.6, 1.8], rowH: 0.42, fs: 11, hi: 6 });
+  rich(s, 'Orange County visitor spending in 2020 fell to 46.7% of its 2019 level and passed 2019 in 2022. In 2025p it was 21.5% above 2019. Tourism Economics and CIC do not publish 2020 county visitor counts; this series fills the year.', { x: M + 8.3, y: 1.55, w: W - 2 * M - 8.3, h: 3.5, fontSize: 12 });
+  source(s, sp.src);
+  const o1 = oT('2. Where'), o2 = oT('2b.');
+  s = content(TAB, 'Question 2. Where visitors come from', 'Orange County 2019 (CIC) · Anaheim and Garden Grove 2023–2026 (Azira) · LA metro includes Orange County', '');
+  table(s, o1.cols, o1.rows, M, 1.55, 7.4, { colW: [2.1, 1.3, 3.0, 1.0], rowH: 0.36, fs: 9, hi: 0 });
+  table(s, o2.cols, o2.rows, M + 7.6, 1.55, W - 2 * M - 7.6, { colW: [1.2, 0.9, 1.3, 1.133], rowH: 0.42, fs: 8.5, hi: 0 });
+  rich(s, 'No ZIP codes in Azira: the metro area cannot be split into Anaheim and outside Anaheim. Solution: a custom Symphony pull or a new visitor survey.', { x: M + 7.6, y: 4.6, w: W - 2 * M - 7.6, h: 1.6, fontSize: 10.5 });
+  source(s, o1.src + '; ' + o2.src);
+  const se = oT('3. Seasonality'), ad = oT('3b.');
+  s = content(TAB, 'Question 3. Seasonality: Orange County hotel occupancy by month', 'CoStar, % of rooms sold · no monthly county visitor counts are published, so hotel occupancy is the measure', '');
+  table(s, se.cols, se.rows.filter(r => !['2020', '2021'].includes(r[0])), M, 1.55, W - 2 * M, { colW: [1.333].concat(Array(12).fill(0.9)), rowH: 0.34, fs: 9.5, hi: 6 });
+  table(s, ad.cols, ad.rows.filter(r => ['2019', '2025', '2026', '2023-25 avg.'].includes(r[0])), M, 4.45, W - 2 * M, { colW: [1.333].concat(Array(12).fill(0.9)), rowH: 0.34, fs: 9.5, hi: 3 });
+  source(s, se.src + '. Lower table: average daily rate. 2020–2021 in the dashboard.');
+  const pf = oT('4. Visitor profile'), pr = oT('4b.');
+  s = content(TAB, 'Question 4. Visitor profile: purpose, party size, children and stay', 'CIC Research, Orange County visitors by type of stay, 2019 · the latest county visitor profile', '');
+  table(s, pf.cols, pf.rows, M, 1.55, W - 2 * M, { colW: [4.133, 1.6, 1.6, 1.6, 1.6, 1.6], rowH: 0.32, fs: 9.5, hi: -1 });
+  source(s, pf.src);
+  s = content(TAB, 'Question 4. More recent visitor indicators', 'Each row names its geography and period · none is a full Orange County profile', '');
+  table(s, pr.cols, pr.rows, M, 1.55, W - 2 * M, { colW: [2.8, 2.6, 3.4, 3.333], rowH: 0.55, fs: 9.5, hi: -1 });
+  source(s, pr.src);
+  const ht5 = oT('5. Orange County hotel');
+  s = content(TAB, 'Question 5. Orange County hotel inventory, occupancy and ADR', 'CoStar · 2026 is Jan.–Aug. · revenue per available room = occupancy x ADR', '');
+  table(s, ht5.cols, ht5.rows, M, 1.55, W - 2 * M, { colW: [1.6, 2.3, 2.0, 1.7, 1.8, 2.733], rowH: 0.4, fs: 10.5, hi: 7 });
+  source(s, ht5.src);
+  const cc = oT('Compare and contrast');
+  s = content(TAB, 'Compare and contrast: how the visitor sources differ', 'Why figures differ by source, and which to use', '');
+  table(s, cc.cols, cc.rows, M, 1.55, W - 2 * M, { colW: [1.7, 2.0, 1.9, 2.0, 2.4, 2.133], rowH: 0.7, fs: 9.5, hi: -1 });
+  source(s, cc.src);
+}
+calcSlide('p-octour');
+ocvSlide('p-octour');
+
 pres.addSection({ title: 'Who visits' });
 newsSlides('p-d5');
 s = content('Who visits', 'District 5 profile: income, busiest day and the places visitors also go', 'Symphony | Azira POI analysis, District 5 · Jan. 1–May 31, 2026', wv.notes.join('\n'));

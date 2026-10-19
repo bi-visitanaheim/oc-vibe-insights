@@ -5,7 +5,7 @@ The report is refreshed quarterly because Tourism Economics delivers its Anaheim
 The next scheduled update is computed: the first 15th of January, April, July or October after LAST_UPDATE."""
 import datetime as _dt
 
-LAST_UPDATE = _dt.date(2026, 10, 13)       # data last updated (prepared date of this edition)
+LAST_UPDATE = _dt.date(2026, 10, 19)       # data last updated (prepared date of this edition)
 RUN_MONTHS, RUN_DAY = (1, 4, 7, 10), 15    # scheduled task "OC Vibe Insights quarterly refresh", about 9 a.m. Pacific
 SCHED_SRC = "Visit Anaheim BI, quarterly refresh runbook (Oct. 13, 2026; cadence confirmed Oct. 14, 2026)"
 CONTACT = "bi@visitanaheim.org"

@@ -124,7 +124,7 @@ GLOSSARY_ADD = [
 METHOD_ADD = [["Newsroom structure", "Each section is written as a broadsheet news report (dateline, lede, nut graph and six detail cards) followed by analysis. No editorial or opinion content.", "Visit Anaheim BI, Oct. 13, 2026; AP Stylebook conventions"]]
 
 # Reading order (Oct. 13, 2026, per John Picou): each section answers the question the previous one raises.
-ORDER = ["p-ocv", "p-d5", "p-spend", "p-impact", "p-hotel", "p-night", "p-transport", "p-media", "p-larc", "p-appx"]
+ORDER = ["p-ocv", "p-octour", "p-d5", "p-spend", "p-impact", "p-hotel", "p-night", "p-transport", "p-media", "p-larc", "p-appx"]
 BRIDGE = {
  "p-ocv": "The baseline counts visitors; the next question is who they are. Origin, overnight share and first-time share show which audiences the OC Vibe area already reaches.",
  "p-d5": "Knowing who visits leads to what each visitor is worth. Spending per visitor converts audience size into economic value.",

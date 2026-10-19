@@ -375,4 +375,4 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, DATA_EXTRA):
                geos=[dict(g="Anaheim", total=A['sp25'], parts=[["Recreation", A['rec']], ["Lodging", A['lodging']], ["Retail", A['retail']], ["Food and beverage", A['fb']], ["Transportation", A['transport']]]),
                      dict(g="Orange County", total=O['sp25'], parts=[["Recreation", O['rec']], ["Lodging", O['lodging']], ["Retail", O['retail']], ["Food and beverage", O['fb']], ["Transportation", O['transport']]])])
     DATA_EXTRA['ask'] = dict(items=ASK, order=QORDER, core=CORE, compare=COMPARE, mix=MIX)
-    DATA_EXTRA['lib'] = dict(files=lib, topics=L.TOPICS, links=L.LINKS, asof='Oct. 14, 2026')
+    DATA_EXTRA['lib'] = dict(files=lib, topics=L.TOPICS, links=L.LINKS, asof='Oct. 19, 2026')

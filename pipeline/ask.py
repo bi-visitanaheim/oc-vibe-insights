@@ -214,7 +214,7 @@ q(id="getting-here", topic="Transportation", q="How do people get to the OCVIBE 
   a=f"Mostly by car: 74.0% of domestic trips to Anaheim and Garden Grove start within 50 miles, and SR-57 beside OCVIBE carries about 275,000 vehicles a weekday. ARTIC adds {TRANSIT['wk']} weekday bus trips, Amtrak (191,153 passengers in 2024) and Metrolink.",
   key="275,000", key_l="vehicles a weekday on SR-57 beside OCVIBE",
   geo=[["OCVIBE area", "275,000 vehicles", "SR-57, Ball Rd to Katella Ave (Caltrans 2024 count)", "OCTA 2026 Traffic Flow Map (Aug. 2026)"],
-       ["ARTIC", f"{TRANSIT['wk']} weekday bus trips", "Routes 50, 53 and 553; Saturday 182, Sunday 181", "OCTA schedules (Aug. 9–Nov. 7, 2026)"],
+       ["ARTIC", f"{TRANSIT['wk']} weekday bus trips", "Routes 50, 53 and 553; Saturday 182, Sunday 181", "OCTA schedules (Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026)"],
        ["Rail at ARTIC", "191,153 Amtrak passengers", "2024; Metrolink Orange County Line 5,116 weekday riders (FY26 Q2)", "Rail Passengers Association; Metrolink"],
        ["Orange County residents", f"{BTS['modes'][0][1]/BTS['workers']*100:.1f}% drive alone", f"{BTS['modes'][0][1]:,} of {BTS['workers']:,} workers; public transportation {BTS['modes'][4][1]/BTS['workers']*100:.1f}%", "U.S. BTS County Transportation Profile"]],
   viz=dict(kind="bars", title="How Orange County workers commute (%)", unit="%", rows=[

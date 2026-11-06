@@ -36,7 +36,7 @@ function newsSlides(id) {
   KIND = '';
   const x = sec(id); if (!x || !x.details) { KIND = 'Analysis'; return; }
   const prev = D.sections[D.sections.indexOf(x) - 1];
-  let t = content(x.tab, x.head, 'News report · ' + x.tab + ' · ' + x.period, (prev && prev.next ? 'Why this section follows ' + prev.tab + ': ' + prev.next.bridge + '\n\n' : '') + x.notes.join('\n'));
+  let t = content(x.tab, x.head, 'News report · ' + x.tab + ' · ' + x.period + (x.conf ? ' · Contains confidential data (shareable summary in the dashboard)' : ''), (prev && prev.next ? 'Why this section follows ' + prev.tab + ': ' + prev.next.bridge + '\n\n' : '') + x.notes.join('\n'));
   const lw = 7.75;
   t.addText('THE LEDE', ft({ x: M, y: 1.62, w: lw, h: 0.25, fontSize: 10, bold: true, color: H.e3, charSpacing: 1 }));
   t.addText([{ text: x.dateline + ' ', options: { bold: true, color: H.e3 } }, ...runs(x.ans)], ft({ x: M, y: 1.9, w: lw, h: 2.15, fontSize: 13.5, color: H.dark, valign: 'top' }));
@@ -660,6 +660,17 @@ for (let i = 0; i < ccSecs.length; i += 2) {
 /* Reports and data library (Oct. 14, 2026) */
 pres.addSection({ title: 'Reports and data library' });
 libSlides('Reports and data library');
+
+/* Confidential data: shareable summaries (Nov. 5, 2026) */
+if (D.conf && D.conf.recap && D.conf.recap.length) {
+  pres.addSection({ title: 'Confidential: shareable summaries' });
+  const R = D.conf.recap, per = 7;
+  for (let i = 0; i < R.length; i += per) {
+    s = content('Confidential: shareable summaries', 'Confidential data: what to share with outside representatives' + (i ? ' (continued)' : ''), 'Full figures stay in the dashboard for OCVIBE\'s use · share these summaries, not the figures or the source files', '');
+    table(s, [['Question', 0], ['Shareable summary (no figures)', 0], ['Confidential source', 0]], R.slice(i, i + per).map(r => [r[0], r[1], r[2]]), M, 1.55, W - 2 * M, { colW: [3.3, 6.6, 2.233], rowH: 0.66, fs: 9, hi: -1 });
+    source(s, 'Visit Anaheim Business Intelligence (Nov. 5, 2026). Confidential sources: Visit Anaheim-owned studies and licensed data (STR, CoStar, Azira and Visa via Symphony, Datafy, LARC). Published sources can be quoted with their source and date.');
+  }
+}
 
 pres.addSection({ title: 'Next steps' });
 s = content('Next steps', 'How Visit Anaheim data can help OCVIBE succeed', 'Recommendations from Visit Anaheim BI · for discussion', '');

@@ -8,7 +8,7 @@ q2pv, q2pv_ly = 1.76e3 / 6.74, 1.63e3 / 6.55
 q2pv_chg = pct(q2pv, q2pv_ly)
 SRC.update({
   "adt": "Orange County Transportation Authority (OCTA), 2026 Traffic Flow Map (published Aug. 2026; weekday average daily traffic)",
-  "gtfs": "OCTA bus schedules (GTFS), service Aug. 9–Nov. 7, 2026; Visit Anaheim BI analysis",
+  "gtfs": "OCTA bus schedules (GTFS), service from Aug. 9, 2026; Routes 50, 53 and 553 are not among the routes changed on Nov. 8, 2026 (octa.net service change page, checked Nov. 5, 2026); Visit Anaheim BI analysis",
   "datafy": "Datafy, Anaheim visitor report, calendar 2024 (visitors traveling 50+ miles; employees excluded)",
   "tet": "U.S. Bureau of Transportation Statistics, Transportation Economic Trends, Tables 3.1, 3.4 and 6.6 (data 2019–2025; accessed Oct. 12, 2026)",
   "bts": "U.S. Bureau of Transportation Statistics, County Transportation Profile: Orange County, CA (American Community Survey commute data; file provided Oct. 12, 2026; data year not stated in the file)",
@@ -422,7 +422,7 @@ SOURCES = [
   ("Tourism Economics: Economic Impact of Visitors, 2025", "Anaheim (Apr. 2026), Garden Grove and Orange County (May 2026). Visitors, spending by category, jobs (including food and beverage), income and taxes."),
   ("Visit Anaheim BI: Extra Night study", "One-more-night scenarios using 2025 Tourism Economics spending and Azira length of stay; TID incentive group bookings (Simpleview)."),
   ("U.S. Bureau of Transportation Statistics", "Transportation Economic Trends: gasoline prices, domestic airfares and per-mile car costs, 2019–2025. County Transportation Profile, Orange County: commute mode, transportation facilities, population, jobs and households."),
-  ("OCTA: 2026 Traffic Flow Map and bus schedules", "Weekday average daily traffic (Caltrans freeway counts and city arterial counts); OCTA GTFS bus schedules for Aug. 9–Nov. 7, 2026."),
+  ("OCTA: 2026 Traffic Flow Map and bus schedules", "Weekday average daily traffic (Caltrans freeway counts and city arterial counts); OCTA GTFS bus schedules for Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026."),
   ("Symphony | Tourism Economics (Azira)", "District 5 POI analysis (Jan.–May 2026), domestic visitors to Anaheim and Garden Grove (Aug. 2026), media attribution (Jan.–Aug. 2026)."),
   ("Datafy", "Anaheim visitor report, calendar 2024: clusters including OCVIBE, length of stay, origins and demographics."),
   ("CoStar Group", "Orange County Hospitality Market, Disneyland Hospitality Submarket and Orange County Hospitality Capital Markets reports, pulled Oct. 12, 2026 (data through Aug. 2026): hotel performance by submarket, construction, hotel sales and pricing, hotel revenue mix, and Orange County economy (Oxford Economics)."),
@@ -482,3 +482,5 @@ _oct.attach(SECTIONS, SOURCES, DQ, _ocv.REGISTER, TAKEAWAYS, DATA_EXTRA); _nr.no
 import clarity as _cl   # Nov. 5, 2026 (OCVIBE feedback): every comparison names the latest period and what it is compared with
 _cl.attach(SECTIONS, STORIES, TAKEAWAYS, RECS, DQ, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)
 _cl._walk(SOURCES, [0] * len(_cl.PHRASES)); _cl._walk(_ocv.REGISTER, [0] * len(_cl.PHRASES))   # source lists read the same way (2025 preliminary)
+import confidential as _cf   # Nov. 5, 2026: Visit Anaheim-owned and licensed data marked Confidential, with shareable summaries
+_cf.attach(SECTIONS, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)

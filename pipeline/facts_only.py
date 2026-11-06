@@ -43,10 +43,10 @@ T_AREA = dict(title="The OCVIBE area today, before the new venues open", sub="Me
                     ["District 5 domestic visitors from outside California", f"{100-D.D5_STATE[0][1]:.0f}%", "Jan.–May 2026", "Azira via Symphony"],
                     ["Busiest day for District 5 visits", "Saturday (15.9%)", "Jan.–May 2026", "Azira via Symphony"],
                     ["Vehicles on SR-57 beside the district", "275,000 a weekday", "Caltrans 2024 count", "OCTA Traffic Flow Map (Aug. 2026)"],
-                    ["Weekday OCTA bus trips stopping at ARTIC", "277 (11 leave after 10 p.m.)", "Schedules Aug.–Nov. 2026", "OCTA"],
+                    ["Weekday OCTA bus trips stopping at ARTIC", "277 (11 leave after 10 p.m.)", "Schedules from Aug. 9, 2026; ARTIC routes unchanged in the Nov. 8, 2026 service change", "OCTA"],
                     ["Amtrak passengers at Anaheim (ARTIC)", "191,153", "2024", "Rail Passengers Association"],
                     ["Honda Center seats", "18,300+", "2026", "LARC (Sept. 2026)"],
-                    ["Concert hall capacity", "5,000 (OCVIBE) / 5,613 (City)", "Mar. 2026 / 2026", "OCVIBE release; City of Anaheim"],
+                    ["Concert hall capacity", "5,000 (OCVIBE) / 5,613 (City)", "Nov. 2026 / 2026", "OCVIBE concert hall page (accessed Nov. 5, 2026; opens March 2027); City of Anaheim"],
                     ["Planned hotel rooms at OCVIBE", "550 (two hotels)", "2026", "City of Anaheim OCVIBE page"],
                     ["Planned parking spaces", "12,369–12,823", "2026", "City of Anaheim OCVIBE page"]],
               hi=0, wide=True, src="Datafy (2024); Azira via Symphony (Jan.–May 2026); OCTA (2026); Rail Passengers Association (2024 data); LARC (Sept. 2026); OCVIBE (Mar. 2026); City of Anaheim (2026)")

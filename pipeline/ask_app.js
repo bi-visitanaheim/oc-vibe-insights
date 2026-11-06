@@ -33,11 +33,11 @@
     const geo = `<table class="ask-geo"><thead><tr><th scope="col">Geography</th><th scope="col">Value</th><th scope="col">Detail and source</th></tr></thead><tbody>${q.geo.map(g =>
       `<tr><th scope="row">${esc(g[0])}</th><td class="v">${esc(g[1])}</td><td>${emph(g[2])}<span class="s">Source: ${esc(g[3])}</span></td></tr>`).join('')}</tbody></table>`;
     return `<details class="ask-item" id="q-${q.id}" data-topic="${esc(q.topic)}">
-      <summary><span><span class="ask-q">${esc(q.q)}</span><span class="ask-a t8x" data-t8="${esc(q.a)}">${emph(q.a)}</span></span>
+      <summary><span><span class="ask-q">${esc(q.q)}${q.conf ? '<span class="conf-b" title="Visit Anaheim proprietary or licensed data: share the summary, not the figures">Confidential</span>' : ''}</span><span class="ask-a t8x" data-t8="${esc(q.a)}">${emph(q.a)}</span></span>
         <span class="ask-v"><b>${esc(q.key)}</b><small>${esc(q.key_l)}</small></span><span class="ask-tog" aria-hidden="true">›</span></summary>
       <div class="ask-body">
         <div class="ask-grid"><div class="ask-geo-w" tabindex="0" aria-label="Figures by geography">${geo}</div><div>${vizHtml(q.viz)}</div></div>
-        <div class="ask-notes"><div class="ask-note"><h4>How it is calculated</h4>${emph(q.how)}</div>${q.caveat ? `<div class="ask-note"><h4>Keep in mind</h4>${emph(q.caveat)}</div>` : ''}</div>
+        <div class="ask-notes"><div class="ask-note"><h4>How it is calculated</h4>${emph(q.how)}</div>${q.caveat ? `<div class="ask-note"><h4>Keep in mind</h4>${emph(q.caveat)}</div>` : ''}${q.share ? `<details class="ask-note conf conf-note"><summary><h4 style="display:inline">Confidential: shareable summary for outside representatives</h4></summary><p style="margin:6px 0 0;white-space:pre-line">${esc(q.share)}</p><button type="button" class="fbtn" data-copy-share="${esc(q.id)}">Copy summary</button></details>` : ''}</div>
         <div class="ask-files">${q.files.length ? `<span class="lbl">Read the files</span>${fileBtns(q.files)}` : ''}${(q.links || []).length ? `<span class="lbl">Public sources</span>${linkBtns(q.links)}` : ''}
           <button type="button" class="fbtn go" data-ask-go="${esc(q.go)}">Go deeper: ${esc(SEC_T[q.go] || 'section')} <span aria-hidden="true">→</span></button></div>
       </div></details>`;
@@ -81,7 +81,7 @@
     return `<article class="lib-file" id="f-${f.id}" data-topic="${f.topic}">
       <span class="ext${extCls(f.ext)}">${esc(f.ext)}</span>
       <div><h4>${esc(f.title)}</h4>
-        <div class="meta">${esc(f.publisher)} · ${esc(f.kind)} · Covers ${esc(f.period)} · Published ${esc(f.published)}${f.pages ? ` · ${f.pages} page${f.pages > 1 ? 's' : ''}` : ''}${f.bytes ? ` · ${mb(f.bytes)}` : ''}</div>
+        <div class="meta">${f.conf ? '<span class="conf-b" style="margin:0 6px 0 0">Confidential</span>' : ''}${esc(f.publisher)} · ${esc(f.kind)} · Covers ${esc(f.period)} · Published ${esc(f.published)}${f.pages ? ` · ${f.pages} page${f.pages > 1 ? 's' : ''}` : ''}${f.bytes ? ` · ${mb(f.bytes)}` : ''}</div>
         <p>${emph(f.summary)}</p>${f.note ? `<p class="note">${esc(f.note)}</p>` : ''}
         <details class="lib-more"><summary>${[qs.length ? `Answers ${qs.length} question${qs.length > 1 ? 's' : ''}` : '', `used in ${secs.length} section${secs.length > 1 ? 's' : ''}`, 'geography'].filter(Boolean).join(' · ')}</summary>
         ${qs.length ? `<div class="tags"><b>Answers</b>${qs.map(q => `<button type="button" class="tag ltag" data-ask-open="${q.id}">${esc(q.q)}</button>`).join('')}</div>` : ''}

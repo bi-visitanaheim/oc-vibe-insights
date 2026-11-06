@@ -11,7 +11,7 @@ logo_img = re.search(r'<img [^>]+>', logo_line).group(0)
 PREP = "Oct. 19, 2026"
 import ocv_content as OCVC
 import schedule as SC   # Oct. 14, 2026: quarterly update schedule and planned sources
-DATA = dict(main=C.DATA_EXTRA['main'], tags=C.DATA_EXTRA['tags'], sections=C.SECTIONS, stories=C.STORIES, takeaways=C.TAKEAWAYS, sources=C.SOURCES, prepared=PREP, register=OCVC.REGISTER, schedule=SC.SCHEDULE, ask=C.DATA_EXTRA['ask'], lib=C.DATA_EXTRA['lib'])
+DATA = dict(main=C.DATA_EXTRA['main'], tags=C.DATA_EXTRA['tags'], sections=C.SECTIONS, stories=C.STORIES, takeaways=C.TAKEAWAYS, sources=C.SOURCES, prepared=PREP, register=OCVC.REGISTER, schedule=SC.SCHEDULE, ask=C.DATA_EXTRA['ask'], lib=C.DATA_EXTRA['lib'], conf=C.DATA_EXTRA['conf'])
 
 EXTRA_CSS = r"""
 
@@ -677,6 +677,11 @@ details.ask-item[open] .ask-tog{transform:rotate(90deg)}
 @media (max-width:760px){.ask-notes{grid-template-columns:1fr}}
 .ask-note{background:var(--surface-page);border:1px solid var(--border-subtle);border-radius:var(--r-sm);padding:10px 12px;font-size:14px;line-height:1.5}
 .ask-note h4{margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--heading)}
+/* Confidential data and shareable summaries (Nov. 5, 2026): same card styles; shown folded, opened only when needed */
+.conf-b{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--heading);border:1px solid var(--heading);border-radius:var(--pill);padding:1px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+details.conf-note{margin-top:10px}details.conf-note>summary{cursor:pointer;list-style:none}details.conf-note>summary::-webkit-details-marker{display:none}
+details.conf-note>summary::after{content:' +';font-weight:800}details.conf-note[open]>summary::after{content:' \2212'}
+.conf-note .fbtn{margin-top:8px}.ask-note.conf{grid-column:1/-1}
 .ask-files{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
 .ask-files .lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--heading);margin-right:4px}
 .fbtn{font:inherit;font-size:13px;font-weight:700;color:var(--heading);background:var(--surface-card);border:1.5px solid var(--ESC1);border-radius:var(--r-sm);padding:5px 9px;cursor:pointer;text-decoration:none}

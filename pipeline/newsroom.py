@@ -23,7 +23,7 @@ AZ_DOM = "Azira via Symphony (domestic visitors, Aug. 2026)"
 VISA = "Visa Destination Insights via Symphony (Aug. 2026 vs. Aug. 2025)"
 XN = "Visit Anaheim BI, Extra Night study (2025 inputs; recalculated Oct. 12, 2026)"
 OCTA_MAP = "OCTA Traffic Flow Map (pub. Aug. 2026)"
-OCTA_BUS = "OCTA bus schedules (Aug. 9–Nov. 7, 2026)"
+OCTA_BUS = "OCTA bus schedules (Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026)"
 AMTRAK = "Amtrak ANA fact sheet (2024 data; pub. Oct. 27, 2025)"
 AZ_MEDIA = "Azira media attribution via Symphony (ad exposures Jan. 1–Aug. 31, 2026)"
 COSTAR = "CoStar reports and export (data through Aug. 2026; pulled Oct. 12, 2026)"
@@ -72,7 +72,7 @@ NEWS = {
    nut="Access decides how many visitors OCVIBE can host on peak nights. Most visitors arrive by car, and SR-57 beside OCVIBE carries about 275,000 vehicles a day; ARTIC adds bus and rail service, though only 11 weekday buses leave after 10 p.m.",
    details=D(("74.0%", "of domestic trips start within 50 miles; most arrive by car", AZ_DOM),
              ("275,000", "vehicles a day on SR-57 beside OCVIBE", OCTA_MAP),
-             ("Aug. 9–Nov. 7, 2026", "current OCTA bus schedule", OCTA_BUS),
+             ("Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026", "current OCTA bus schedule", OCTA_BUS),
              ("ARTIC", "2626 E. Katella Ave., beside OCVIBE", OCTA_BUS),
              ("11", "weekday buses leave ARTIC after 10 p.m.", OCTA_BUS),
              ("277", "weekday bus trips at ARTIC: 100 + 102 + 75 (routes 50, 53 and 553)", OCTA_BUS))),

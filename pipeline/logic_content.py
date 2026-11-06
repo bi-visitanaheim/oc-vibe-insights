@@ -14,7 +14,7 @@ V = I.VIEWS["Base"]; B = I.RES[1]
 S_TE_EI = "Tourism Economics, Economic Impact 2025 (pub. Apr.–May 2026)"
 S_TE_FC = "Tourism Economics, Travel Forecast (pub. Sept. 2026; data to Aug. 31, 2026)"
 S_NIGHT = "Visit Anaheim BI, Extra Night study (2025 inputs; recalculated Oct. 12, 2026)"
-S_OCTA = "OCTA Traffic Flow Map (pub. Aug. 2026) and bus schedules (Aug. 9–Nov. 7, 2026)"
+S_OCTA = "OCTA Traffic Flow Map (pub. Aug. 2026) and bus schedules (Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026)"
 S_AZIRA = "Azira via Symphony (District 5, Jan. 1–May 31, 2026; domestic visitors, Aug. 2026)"
 S_DATAFY = "Datafy Anaheim visitor report (calendar 2024)"
 S_MEDIA = "Azira media attribution via Symphony (ad exposures Jan. 1–Aug. 31, 2026)"
@@ -66,7 +66,7 @@ W5H = {
  "p-transport": dict(
    who="Visitors arriving by car, bus, Amtrak and Metrolink; OCTA, the City and OCVIBE as operators.",
    what="SR-57 carries about 275,000 vehicles a day beside OCVIBE; 277 weekday buses stop at ARTIC (11 leave after 10 p.m.); 191,153 Amtrak passengers used the station in 2024.",
-   when="Traffic counts 2021–2024 (2026 map); bus schedules Aug. 9–Nov. 7, 2026; Amtrak 2024; Metrolink Oct.–Dec. 2025.",
+   when="Traffic counts 2021–2024 (2026 map); bus schedules Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026; Amtrak 2024; Metrolink Oct.–Dec. 2025.",
    where="SR-57, Katella Ave, Ball Rd, State College Blvd and ARTIC (2626 E. Katella Ave).",
    why="Access shapes how many visitors OCVIBE can host on peak nights and how easily resort guests reach it.",
    how="BI analysis of OCTA's traffic map and raw bus schedules, recounted independently; rail station and line reports.",
@@ -275,7 +275,7 @@ METHODS = [
  ("Visitor location data", "Mobile device panels matched to places; visitors defined by distance and dwell time.", "Azira via Symphony (2026); Datafy (2024)"),
  ("Card spending", "Reported Visa card transactions, classified by cardholder origin and merchant category.", "Visa via Symphony (Aug. 2026)"),
  ("Hotel performance", "Census and sample of hotel-reported rooms, rates and revenue.", "STR (2026); CoStar (through Aug. 2026)"),
- ("Bus service", "Raw GTFS schedules for a typical weekday (Wed. Oct. 14, 2026); trips stopping at ARTIC docks 1–7.", "OCTA (Aug. 9–Nov. 7, 2026)"),
+ ("Bus service", "Raw GTFS schedules for a typical weekday (Wed. Oct. 14, 2026); trips stopping at ARTIC docks 1–7.", "OCTA (Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026)"),
  ("Traffic", "Weekday average daily traffic from Caltrans and city counts on the OCTA map.", "OCTA (pub. Aug. 2026)"),
  ("Media attribution", "Exposed devices matched to later visits at least three days after exposure.", "Azira via Symphony (2026)"),
 ]

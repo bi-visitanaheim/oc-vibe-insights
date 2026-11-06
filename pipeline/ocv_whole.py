@@ -70,6 +70,7 @@ FACTS_TABLE = dict(title="OCVIBE in recent public sources", sub="Phasing and ven
                    cols=[["Item", 0], ["As reported", 0], ["Source and date", 0]],
                    rows=[["Phase 1", "Opens early 2027: concert hall, Katella Commons market hall, The Weave office and Urban Park", S_OCBJ26],
                          ["Concert hall", "5,000 capacity; concerts, comedy, televised and award shows, esports and private events", S_PR],
+                         ["Concert hall opening", "Opens March 2027 with a 5,000-person capacity (latest OCVIBE statement)", "OCVIBE concert hall page, ocvibe.com/concerthall (accessed Nov. 5, 2026)"],
                          ["Katella Commons", "50,000 sq ft food hall with 21 culinary concepts and six bars", S_OCBJ26],
                          ["Parking", "Two of three new garages open; parking in the two new garages is free", S_OCBJ26],
                          ["2028", "Honda Center hosts LA28 indoor volleyball; first hotel and Katella bridge to ARTIC", S_OCBJ26 + "; " + L.S_LARC],

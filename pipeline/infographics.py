@@ -73,11 +73,11 @@ def build(S):
                             pct=round(8.6 / 26.5 * 100, 1), calc="8.6M ÷ 26.5M = 32.5%; day visitors 17.9M ÷ 26.5M = 67.5%",
                             src=TE + "; Visit Anaheim BI, Extra Night study (Oct. 12, 2026)")]
 
-    INFO["p-transport"] = [dict(kind="board", title="ARTIC departures: weekday OCTA bus trips", sub="OCTA schedules, Aug. 9–Nov. 7, 2026 · beside OCVIBE at 2626 E. Katella Ave.",
+    INFO["p-transport"] = [dict(kind="board", title="ARTIC departures: weekday OCTA bus trips", sub="OCTA schedules, Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026 · beside OCVIBE at 2626 E. Katella Ave.",
         rows=[dict(r=r[0], d=r[1], n=int(r[2])) for r in _t(tr, "OCTA bus service at ARTIC")["rows"] if r[0] != "All"],
         total=dict(l="All routes", n=277, calc="100 + 102 + 75"),
         extra=[dict(v="11", l="weekday buses leave after 10 p.m."), dict(v="275,000", l="vehicles a weekday on SR-57 (Caltrans 2024)"), dict(v="191,153", l="Amtrak passengers at Anaheim, 2024")],
-        src="OCTA bus schedules (Aug. 9–Nov. 7, 2026); OCTA Traffic Flow Map (Aug. 2026); Amtrak ANA fact sheet (2024 data)")]
+        src="OCTA bus schedules (Aug. 9, 2026 onward; ARTIC routes unchanged Nov. 8, 2026); OCTA Traffic Flow Map (Aug. 2026); Amtrak ANA fact sheet (2024 data)")]
 
     INFO["p-media"] = [dict(kind="funnel", title="From ad impressions to visits in Anaheim", sub="Visit Anaheim paid media, ad exposures Jan. 1–Aug. 31, 2026",
         stages=[dict(v="31.0M", n=31.0, suf="M", l="measurable impressions"), dict(v="368,416", n=368416, l="observed visits (first visit 3+ days after exposure)")],

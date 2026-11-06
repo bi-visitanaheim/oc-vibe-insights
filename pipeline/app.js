@@ -203,7 +203,7 @@ function renderSection(s) {
     ${segH('1', 'The story', 'The question and its short answer, why it matters and the headline numbers.')}
     <div class="art-lede-wrap">
       <div class="answer art-lede qa-sec reveal" id="ans-${s.id}"><div class="answer-t"><span class="answer-l">The question</span><p class="qs-q">${esc(s.q)}</p><span class="answer-l qs-al">Short answer</span><p>${s.dateline ? `<span class="dline">${esc(s.dateline)}</span> ` : ''}<span class="t8x" data-t8="${esc(s.ans)}">${emph(s.ans)}</span></p>${s.ans_src ? `<span class="src-inline">Source: ${esc(s.ans_src)}</span>` : ''}</div><div class="answer-key" aria-label="Key number"><span class="ak-v">${esc(s.hv)}</span><span class="ak-l">${esc(s.hl)}</span></div></div>
-      ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p class="t8x" data-t8="${esc(s.nut)}">${emph(s.nut)}</p></div>` : ''}
+      ${s.nut ? `<div class="nut reveal" id="${s.id}-nut"><span class="nut-l">Why it matters</span><p class="t8x" data-t8="${esc(s.nut)}">${emph(s.nut)}</p>${s.conf ? `<details class="conf-note" id="${s.id}-conf"><summary class="nut-l">Contains confidential data · shareable summary</summary><p style="font-size:15px"><b>Confidential in this section:</b> ${esc(s.conf.what)}</p><p style="font-size:15px"><b>Share this instead of the figures:</b> ${esc(s.conf.share)}</p><button type="button" class="fbtn" data-copy-sec="${s.id}">Copy summary</button></details>` : ''}</div>` : ''}
     </div>
     <section class="art-nums reveal" aria-label="By the numbers"><h3>By the numbers</h3><div class="nums">${stats}</div></section>
     <button type="button" class="data-jump seg-chip" data-seg="${s.id}-s${hasGlance ? '3' : '2'}">See the data: ${nData} charts and tables <span aria-hidden="true">↓</span></button>
@@ -473,6 +473,19 @@ async function copyText(t, input) {
   try { await navigator.clipboard.writeText(t); return true; } catch (_) {}
   try { input.focus(); input.select(); return document.execCommand('copy'); } catch (_) { return false; }
 }
+/* Confidential data (Nov. 5, 2026): copy the shareable summary, never the figures */
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy-share],[data-copy-sec]'); if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  let txt = '';
+  if (b.dataset.copySec) { const s = S.find(x => x.id === b.dataset.copySec); txt = s && s.conf ? s.conf.share : ''; }
+  else { const q = (DATA.ask.items || []).find(x => x.id === b.dataset.copyShare); txt = q ? q.share : ''; }
+  if (!txt) return;
+  txt += '\n\nSource: Visit Anaheim Business Intelligence (summary of confidential Visit Anaheim data; figures not for redistribution).';
+  const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta);
+  const ok = await copyText(txt, ta); ta.remove();
+  const old = b.textContent; b.textContent = ok ? 'Copied' : 'Select and copy the text above'; setTimeout(() => { b.textContent = old; }, 1800);
+});
 /* The Export panel (one place for every file) is built in make_app.js. */
 /* ---------- init ---------- */
 setView(LONG && !matchMedia('(max-width:640px)').matches);

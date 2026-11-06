@@ -120,16 +120,29 @@ PHRASES = [
 GLOSSARY = [
     ["Baseline", "A reference period that a newer figure is compared against, such as 2019 (before the pandemic). The baseline is not the period being reported: the latest figure is shown first and the baseline second, for example \"51.3M in 2025 vs. the 2019 baseline of 50.21M\"."],
     ["Comparison (vs.)", "Every change in this report names both sides: the latest period first, then the period, place or baseline it is compared with (for example \"Q2 2026 vs. Q2 2025\" or \"Anaheim vs. U.S.\")."],
+    ["Preliminary (2025)", "A first estimate the publisher may revise when final data arrive. Dean Runyan Associates marks its 2025 California and county travel figures as preliminary (written \"2025p\" in its reports)."],
     ["Latest available survey", "The newest published survey on a topic. When the newest county visitor survey is from 2019, its figures are labeled \"latest county survey (2019)\" because no newer edition exists, not because 2019 is being compared."],
 ]
 METHOD = [["How comparisons are written", "Each comparison is stated in one place: latest figure and period, then \"vs.\" or \"compared with\" and the comparison period or baseline, then the change. Data cards that compare two years carry both values in the same card.", "Visit Anaheim BI (Nov. 5, 2026)"]]
 
 # Whole-string replacements (short labels that must match exactly).
-EXACT = {"Revenue per available room, Q2 2026": "Revenue per available room, Q2 2026 vs. Q2 2025"}
+EXACT = {"Revenue per available room, Q2 2026": "Revenue per available room, Q2 2026 vs. Q2 2025",
+         # Data cards: the comparison is named in the same card (Nov. 5, 2026)
+         "All Anaheim/Garden Grove visitors, Aug. 2026: $79.9K": "vs. $79.9K for all Anaheim and Garden Grove visitors (Aug. 2026)",
+         "▲ +3.1% vs. prior 12 months · Orange County 74.0%": "▲ +3.1% vs. prior 12 months · Orange County 74.0% in the same 12 months",
+         "▲ +10.9% vs. Jan.–Aug. 2025 · Orange County ▲ +9.9%": "▲ +10.9% vs. Jan.–Aug. 2025 · Orange County ▲ +9.9% over the same months",
+         "2026 3.3% · 2027 3.5% · U.S. 5-year 2.3%": "Anaheim forecast 2026 3.3% · 2027 3.5% vs. U.S. 5-year average 2.3%",
+         "32.8% of all jobs · F&B 16.8%": "32.8% of all Anaheim jobs · 16.8% of these in food and beverage",
+         "11.8% of all jobs · F&B 40.6%": "11.8% of all Garden Grove jobs · 40.6% of these in food and beverage",
+         "7.4% of all jobs · F&B 29.1%": "7.4% of all Orange County jobs · 29.1% of these in food and beverage",
+         "Anaheim hotel revenue per room, Q2 2026": "Anaheim hotel revenue per room, Q2 2026 vs. Q2 2025",
+         "Convention Center room nights on the books, 2027": "Convention Center room nights on the books for 2027 vs. the same point last year",
+         "Meeting services: 3.4% · Disneyland: 74.4%": "Compared with other clusters: Disneyland 74.4% · meeting services 3.4%"}
 
 UNUSED = []
 
 
+_PRELIM = re.compile(r"(?<![A-Za-z]-)(?<![\w])(20\d\d)p\b(?![.\w-])")   # skips file names and ids such as vca-ei-2025p
 _ORDER = sorted(range(len(PHRASES)), key=lambda i: -len(PHRASES[i][0]))   # longest first, so short phrases never split a longer one
 
 
@@ -145,6 +158,7 @@ def _walk(o, hits):
     if isinstance(o, tuple):
         return tuple(_walk(x, hits) for x in o)
     if isinstance(o, str):
+        o = _PRELIM.sub(r"\1 (preliminary)", o).replace(" (preliminary))", ", preliminary)")   # "2025p" reads as "2025 (preliminary)" (Nov. 5, 2026)
         if o in EXACT:
             return EXACT[o]
         for i in _ORDER:

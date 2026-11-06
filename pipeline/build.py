@@ -743,7 +743,7 @@ BODY = f"""<meta charset="utf-8">
       <div class="logo-chip">{logo_img}</div>
       <div class="titles">
         <h1>OCVIBE Insights</h1>
-        <p id="periodLine">Prepared by Visit Anaheim for OCVIBE · Orange County tourism, visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly; next update {SC.NEXT_S}</p>
+        <p id="periodLine">Prepared by Visit Anaheim for OCVIBE · Orange County tourism, visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly</p>
       </div>
     </div>
     <div class="hdr-ctl" id="hdrCtl">
@@ -786,7 +786,7 @@ BODY = f"""<meta charset="utf-8">
           <div class="find-row">
             <button type="button" class="find-link" data-go="p-ask"><b>Questions answered</b><span>Average spend, one more night, transportation, District 5 and 17 more</span><span class="go" aria-hidden="true">→</span></button>
             <button type="button" class="find-link" data-go="p-library"><b>Reports and data library</b><span>Open or download the source files</span><span class="go" aria-hidden="true">→</span></button>
-            <button type="button" class="find-link" data-go="p-notes" data-target="updSched"><b>Updated quarterly</b><span>Last update {SC.LAST_S} · next {SC.NEXT_S}</span><span class="go" aria-hidden="true">→</span></button>
+            <button type="button" class="find-link" data-go="p-notes" data-target="updSched"><b>Updated quarterly</b><span>Last update {SC.LAST_S}</span><span class="go" aria-hidden="true">→</span></button>
           </div>
         </section>
         <section class="page" id="p-ask" data-title="Questions answered">

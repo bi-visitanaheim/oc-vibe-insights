@@ -318,7 +318,7 @@ _nx = min(d for d in _cands if d > _SC.LAST_UPDATE)
 _html = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "oc-vibe-insights.html")).read()
 _spl = [c for r in _SC.PLANNED["rows"] for c in r if _re.search(r"[$%]|\b\d[\d,.]*\s*(visits|tickets|people|M|K)\b", c)]
 _sem = [t for t in [_SC.LEDE, _SC.LINE] + [d["text"] for d in _SC.DETAILS] + [c for r in _SC.TABLE["rows"] + _SC.PLANNED["rows"] for c in r] if "\u2014" in t]
-check("H. Report text", "Update schedule: next update is the first 15th of Jan., April, July or Oct. after the last update, shown in the header, overview and footer; planned sources show no figures", _SC.NEXT == _nx and _html.count(_SC.NEXT_S) >= 3 and _SC.LINE in _html and len(_SC.DETAILS) == 6 and not _spl and not _sem, f"last {_SC.LAST_S}, next {_SC.NEXT_S} (expected {_nx:%b. %-d, %Y}); next date shown {_html.count(_SC.NEXT_S)} times; planned sources with figures: {_spl or 'none'}; em dashes: {len(_sem)}")
+check("H. Report text", "Update schedule: last update shown in the header, overview and footer; no next-update date is shown (Nov. 5, 2026: the next update may come early); planned sources show no figures", _html.count(_SC.NEXT_S) == 0 and _SC.LINE in _html and len(_SC.DETAILS) == 6 and not _spl and not _sem, f"last {_SC.LAST_S}, next {_SC.NEXT_S} (expected {_nx:%b. %-d, %Y}); next date shown {_html.count(_SC.NEXT_S)} times; planned sources with figures: {_spl or 'none'}; em dashes: {len(_sem)}")
 import zipfile as _zf
 _bd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _pm = json.load(open(os.path.join(_bd, "deck_pages.json")))

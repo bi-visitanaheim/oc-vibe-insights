@@ -481,3 +481,4 @@ _ask.attach(SECTIONS, SOURCES, DQ, _ocv.REGISTER, DATA_EXTRA); _nr.no_em(SECTION
 _oct.attach(SECTIONS, SOURCES, DQ, _ocv.REGISTER, TAKEAWAYS, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)
 import clarity as _cl   # Nov. 5, 2026 (OCVIBE feedback): every comparison names the latest period and what it is compared with
 _cl.attach(SECTIONS, STORIES, TAKEAWAYS, RECS, DQ, DATA_EXTRA); _nr.no_em(SECTIONS); _nr.no_em(DATA_EXTRA)
+_cl._walk(SOURCES, [0] * len(_cl.PHRASES)); _cl._walk(_ocv.REGISTER, [0] * len(_cl.PHRASES))   # source lists read the same way (2025 preliminary)

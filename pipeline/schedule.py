@@ -27,11 +27,10 @@ def next_update(after=LAST_UPDATE):
 
 NEXT = next_update()
 LAST_S, NEXT_S = ap(LAST_UPDATE), ap(NEXT)
-LINE = f"Updated quarterly · Data last updated {LAST_S} · Next scheduled update {NEXT_S}"
+LINE = f"Updated quarterly · Data last updated {LAST_S}"   # Nov. 5, 2026: no next-update date is shown (the next update may come early)
 
-LEDE = (f"Visit Anaheim Business Intelligence updates OCVIBE Insights each quarter, on the 15th of January, April, July and "
-        f"October, after Tourism Economics delivers its quarterly Anaheim Travel Forecast. The data was last updated {LAST_S}; "
-        f"the next scheduled update is {NEXT_S}.")
+LEDE = (f"Visit Anaheim Business Intelligence updates OCVIBE Insights each quarter, after Tourism Economics delivers "
+        f"its quarterly Anaheim Travel Forecast, and sooner when new data arrives. The data was last updated {LAST_S}.")
 
 # Who, what, when, where, why and how of the update (same card format as each section's "The details").
 DETAILS = [
@@ -41,8 +40,8 @@ DETAILS = [
     dict(k="What", fig="Changed figures only", fig_l="New published or measured values",
          text="Each update replaces only figures that have a new published or measured value, with the new period and publication date, and rewrites any sentence that cites them. A source with nothing new keeps its current, dated figures; no figure is estimated to fill a gap.",
          src=SCHED_SRC),
-    dict(k="When", fig="Quarterly", fig_l="15th of Jan., April, July and Oct.",
-         text=f"Updates run on a fixed schedule at about 9 a.m. Pacific. Data last updated {LAST_S}; next scheduled update {NEXT_S}.",
+    dict(k="When", fig="Quarterly", fig_l="Each quarter, or sooner when new data arrives",
+         text=f"Updates follow Tourism Economics' quarterly forecast and are posted as soon as new data is received and checked. Data last updated {LAST_S}.",
          src=SCHED_SRC),
     dict(k="Where", fig="3 formats", fig_l="Dashboard, deck and data tables",
          text="Each update is published to the dashboard (oc-vibe-insights.vercel.app and the claude.ai dashboard), the downloadable PowerPoint deck and the data tables (Excel and CSV).",
@@ -91,8 +90,8 @@ PLANNED = dict(
     src="Visit Anaheim BI, data plan (Oct. 14, 2026)",
 )
 
-GLOSSARY = [["Quarterly update", f"The scheduled refresh of this report on the 15th of January, April, July and October, after Tourism Economics' quarterly forecast. Only figures with a new published value change. Next scheduled update: {NEXT_S}."]]
+GLOSSARY = [["Quarterly update", f"The quarterly refresh of this report, after Tourism Economics' quarterly forecast or sooner when new data arrives. Only figures with a new published value change."]]
 METHOD = [["Quarterly update", "Quarterly because Tourism Economics, the core of the report, delivers quarterly; weekly and monthly sources (STR, CoStar, Visa, Azira) are pulled at the same time so all figures share one as-of date. Each quarter, BI finds the newest file from each source, replaces only figures with a new published or measured value (with the new period and publication date), checks every number against its source, and republishes the dashboard, deck and data tables. Sources with nothing new keep their dated figures.", SCHED_SRC]]
 
-SCHEDULE = dict(last=LAST_S, next=NEXT_S, line=LINE, lede=LEDE, details=DETAILS, table=TABLE, planned=PLANNED, contact=CONTACT,
+SCHEDULE = dict(last=LAST_S, next=None, line=LINE, lede=LEDE, details=DETAILS, table=TABLE, planned=PLANNED, contact=CONTACT,
                 months="15th of January, April, July and October", src=SCHED_SRC)

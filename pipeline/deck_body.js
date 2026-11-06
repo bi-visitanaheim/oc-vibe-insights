@@ -294,7 +294,7 @@ s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 0.7, w: 3.0, h: 3.0 / LOGO_
 s.addImage({ data: LOGO, x: M + 0.15, y: 0.85, w: 2.7, h: 2.7 / LOGO_AR, altText: 'Visit Anaheim' });
 s.addText('Visitor insights for OCVIBE', { placeholder: 'title' });
 s.addText('How Anaheim visitors spend, stay, travel and choose where to go, and what the market outlook means for OCVIBE. Anaheim, Orange County and U.S. data through September 2026.', { placeholder: 'sub' });
-s.addText('Prepared by Visit Anaheim Business Intelligence · October 2026 · Updated quarterly; next update ' + D.schedule.next, ft({ x: M, y: 6.6, w: 11, h: 0.4, fontSize: 12, color: H.white }));
+s.addText('Prepared by Visit Anaheim Business Intelligence · November 2026 · Updated quarterly', ft({ x: M, y: 6.6, w: 11, h: 0.4, fontSize: 12, color: H.white }));
 s.addNotes('Prepared by Visit Anaheim Business Intelligence for OCVIBE (BIREPORTS-966).');
 
 /* Main announcement (mirrors the dashboard overview) and summary of findings */
@@ -406,7 +406,7 @@ newsSlides('p-octour');
   const sp = oT('1b.');
   s = content(TAB, 'Question 1. Orange County visitor spending, including 2020', 'Dean Runyan Associates for Visit California · $ millions · spending, not visitor counts', '');
   table(s, sp.cols, sp.rows, M, 1.55, 8.0, { colW: [1.2, 1.8, 1.6, 1.6, 1.8], rowH: 0.42, fs: 11, hi: 6 });
-  rich(s, 'Orange County visitor spending in 2025p was 21.5% above the 2019 baseline ($15.39B vs. $12.67B). Compared with the 2019 baseline, spending fell to 46.7% in 2020 and passed it in 2022. Tourism Economics and CIC do not publish 2020 county visitor counts; this series fills the year.', { x: M + 8.3, y: 1.55, w: W - 2 * M - 8.3, h: 3.5, fontSize: 12 });
+  rich(s, 'Orange County visitor spending in 2025 (preliminary) was 21.5% above the 2019 baseline ($15.39B vs. $12.67B). Compared with the 2019 baseline, spending fell to 46.7% in 2020 and passed it in 2022. Tourism Economics and CIC do not publish 2020 county visitor counts; this series fills the year.', { x: M + 8.3, y: 1.55, w: W - 2 * M - 8.3, h: 3.5, fontSize: 12 });
   source(s, sp.src);
   const o1 = oT('2. Where'), o2 = oT('2b.');
   s = content(TAB, 'Question 2. Where visitors come from', 'Orange County, latest county survey (2019, CIC) · Anaheim and Garden Grove, Jan. 2023–Aug. 2026 (Azira) · LA metro includes Orange County', '');

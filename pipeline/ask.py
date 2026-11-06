@@ -320,8 +320,8 @@ q(id="reports", topic="About this report", q="Where can I get the full reports a
   caveat="Third-party reports remain the work of their publishers; cite the publisher and date when quoting.", files=["te-ei-ana", "te-ei-gg", "te-ei-oc", "te-fc-sep", "va-night"], go="p-library")
 
 q(id="updates", topic="About this report", q="How often is this updated, and what is coming next?",
-  a="Quarterly, on the 15th of January, April, July and October, after Tourism Economics' quarterly forecast. Planned additions: Ticketmaster data from Honda Center, Placer.ai foot traffic and a Tourism Economics transportation impact analysis.",
-  key="Quarterly", key_l="next updates Jan. 15, Apr. 15, July 15 and Oct. 15",
+  a="Quarterly, after Tourism Economics' quarterly forecast, and sooner when new data arrives. Planned additions: Ticketmaster data from Honda Center, Placer.ai foot traffic and a Tourism Economics transportation impact analysis.",
+  key="Quarterly", key_l="or sooner when new data arrives",
   geo=[["Core data", "Tourism Economics", "Quarterly forecast and annual economic impact", "Visit Anaheim BI"],
        ["Pulled each update", "STR, CoStar, Visa, Azira", "Weekly or monthly sources pulled together so every figure shares one as-of date", "Visit Anaheim BI"],
        ["Planned", "3 new sources", "Ticketmaster (Honda Center), Placer.ai, Tourism Economics transportation impact; no figures until received and checked", "Visit Anaheim BI"]],

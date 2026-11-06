@@ -260,7 +260,7 @@ const MAIN = DATA.main;
 let ANN = null;
 function renderAnn() {
   const lead = 'main', st = MAIN, today = new Date();   // the overview's main announcement (facts only)
-  const prepared = `Prepared by Visit Anaheim Business Intelligence with data through Sept. 2026, ${DATA.prepared}. Updated quarterly; next scheduled update ${DATA.schedule.next}.`;
+  const prepared = `Prepared by Visit Anaheim Business Intelligence with data through Sept. 2026, ${DATA.prepared}. Updated quarterly.`;
   ANN = {st, lead, hl: 'OCVIBE market update', dateline: `ANAHEIM, Calif. (${apDate(today)}):`, prepared};
   const max = Math.max(...st.chart.rows.map(r => Math.abs(r[1])), 1e-9);
   const bars = st.chart.rows.map(([l,v,t,hi]) => `<div class="ann-bar${hi?' hi':''}${v<0?' neg':''}" data-tip="${esc(l)}: ${esc(t)}" tabindex="0"><span class="l">${esc(l)}</span><span class="t" aria-hidden="true"><span class="f" style="width:${Math.max(2, Math.abs(v)/max*100).toFixed(1)}%"></span></span><span class="v">${v>0?'▲':v<0?'▼':'▶'}&#8239;${esc(t.replace(/^\+/, '+'))}</span></div>`).join('');

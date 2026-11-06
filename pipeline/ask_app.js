@@ -43,7 +43,7 @@
       </div></details>`;
   }
   $('askCoreGrid').innerHTML = AQ.core.map(id => QS[id]).map(q =>
-    `<button type="button" class="ask-k" data-ask-open="${q.id}"><span class="kk">${esc(q.topic)}</span><b class="kv">${esc(q.key)}</b><span class="kl">${esc(q.key_l)}</span><span class="kq">${esc(q.q)}</span></button>`).join('');
+    `<button type="button" class="ask-k" data-ask-open="${q.id}"><span class="kk">${esc(q.topic)}</span><b class="kv">${esc(q.key)}</b><span class="kl">${esc(q.key_l)}</span><span class="kq">${esc(q.q)}${q.conf ? '<span class="conf-b">Confidential</span>' : ''}</span></button>`).join('');
   $('askList').innerHTML = AQ.order.map(t => {
     const items = AQ.items.filter(q => q.topic === t);
     return items.length ? `<div class="ask-group" data-topic="${esc(t)}"><h4 class="ask-topic">${esc(t)}</h4><div class="ask-list">${items.map(itemHtml).join('')}</div></div>` : '';

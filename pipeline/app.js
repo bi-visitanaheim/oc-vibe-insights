@@ -1,4 +1,4 @@
-/* OC Vibe Insights: built on the BI Pulse dashboard template (nav, sidebar, BI Pulse Summary, full screen, PDF export). */
+/* OCVIBE Insights: built on the BI Pulse dashboard template (nav, sidebar, BI Pulse Summary, full screen, PDF export). */
 const store = { get(k){ try { return JSON.parse(localStorage.getItem('va-ocvibe-'+k)); } catch(_) { return null; } }, set(k,v){ try { localStorage.setItem('va-ocvibe-'+k, JSON.stringify(v)); } catch(_) {} } };
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -179,9 +179,9 @@ function renderSection(s) {
   const NX = s.next ? `<nav class="upnext2" aria-label="Next section"><div class="un2-prog" aria-hidden="true"><span style="width:${((si + 2) / (S.length + 1) * 100).toFixed(1)}%"></span></div><span class="un2-k">Up next · section ${si + 2} of ${S.length + 1}</span><h3 class="un2-h">${esc(nxS ? (nxS.head || nxS.q) : s.next.tab)}</h3>${s.next.bridge ? `<p class="un2-p">${emph(s.next.bridge)}</p>` : ''}<button type="button" class="un2-b" data-go="${s.next.id}">Continue to ${esc(s.next.tab)} <span aria-hidden="true">→</span></button></nav>` : '';
   const isNews = s.kind === 'News report';
   const item = x => `<li><span class="otag">${esc(x.tag)}</span> ${emph(x.text)}${calcLine(x.calc)}<span class="src-inline">Source: ${esc(x.src)}</span></li>`;
-  const F = s.for_ocv ? `<div class="ocv-whole reveal" id="${s.id}-ocv"><h3>What it means for OC Vibe</h3><div class="ow-grid">
+  const F = s.for_ocv ? `<div class="ocv-whole reveal" id="${s.id}-ocv"><h3>What it means for OCVIBE</h3><div class="ow-grid">
       <div class="ow-col"><h4>What it enhances</h4><ul>${s.for_ocv.enhance.map(item).join('')}</ul></div>
-      <div class="ow-col"><h4>What OC Vibe needs</h4><ul>${s.for_ocv.need.map(item).join('')}</ul></div></div></div>` : '';
+      <div class="ow-col"><h4>What OCVIBE needs</h4><ul>${s.for_ocv.need.map(item).join('')}</ul></div></div></div>` : '';
   const CC = s.cc ? `<div class="cc-box reveal" id="${s.id}-cc"><h3>Compare and contrast</h3><div class="scroll" tabindex="0" aria-label="Compare and contrast"><table class="cc-t2"><thead><tr><th scope="col">Type</th><th scope="col">Point</th><th scope="col">Solution</th><th scope="col">Source and date</th></tr></thead><tbody>${s.cc.map(c => `<tr class="cc-${c.type.toLowerCase().replace(/\s+/g,'-')}"><th scope="row"><span class="cc-t">${esc(c.type)}</span></th><td>${emph(c.point)}${calcLine(c.calc)}</td><td>${c.solution ? emph(c.solution) : '<span class="muted">None needed</span>'}</td><td class="src-cell">${esc(c.src)}</td></tr>`).join('')}</tbody></table></div></div>` : '';
   const nMore = more.length + 1;
   /* Oct. 14, 2026: each section reads in five clear segments; the summary, visuals and data stay open, supporting detail folds away */
@@ -216,7 +216,7 @@ function renderSection(s) {
     <figure class="art-fig tbl reveal" id="${s.id}-t0">${tableHtml(t0, s.id+'-t0')}</figure>
     ${more.length ? `<div class="more-prev"><h4 class="mp-h">More from this data <span class="mp-c">${more.length} more chart${more.length > 1 ? 's and tables' : ' or table'}</span></h4><div class="sec-more">${more.slice(0, 2).join('')}</div></div>` : ''}
     ${fold(s.id + '-more', more.length > 2 ? `See all ${more.length} charts and tables, plus notes` : 'Notes and data quality', more.length > 2 ? `${more.length - 2} more not shown above, and the notes and data-quality caveats. Read these before you quote a number.` : 'The notes and data-quality caveats behind this section. Read these before you quote a number.', `${more.length > 2 ? `<div class="sec-more">${more.slice(2).join('')}</div>` : ''}<div class="notes-box" id="${s.id}-notes"><h3>Notes and data quality</h3><ul>${s.notes.map(n => `<li>${emph(n)}</li>`).join('')}</ul></div>`).replace('class="fold"', 'class="fold strong"')}
-    ${segH(hasGlance ? '4' : '3', 'What it means', 'For OC Vibe as a whole, then how this compares.')}
+    ${segH(hasGlance ? '4' : '3', 'What it means', 'For OCVIBE as a whole, then how this compares.')}
     ${F}
     ${CC ? fold(s.id + '-ccf', 'Compare and contrast', `Growth, opportunities, quick wins, early hurdles, pitfalls and explanations, each with a solution (${s.cc.length} points).`, CC) : ''}
     ${segH(hasGlance ? '5' : '4', 'Behind the numbers', 'How each figure is built, step by step, and the full who, what, when, where, why and how.')}
@@ -261,11 +261,11 @@ let ANN = null;
 function renderAnn() {
   const lead = 'main', st = MAIN, today = new Date();   // the overview's main announcement (facts only)
   const prepared = `Prepared by Visit Anaheim Business Intelligence with data through Sept. 2026, ${DATA.prepared}. Updated quarterly; next scheduled update ${DATA.schedule.next}.`;
-  ANN = {st, lead, hl: 'OC Vibe market update', dateline: `ANAHEIM, Calif. (${apDate(today)}):`, prepared};
+  ANN = {st, lead, hl: 'OCVIBE market update', dateline: `ANAHEIM, Calif. (${apDate(today)}):`, prepared};
   const max = Math.max(...st.chart.rows.map(r => Math.abs(r[1])), 1e-9);
   const bars = st.chart.rows.map(([l,v,t,hi]) => `<div class="ann-bar${hi?' hi':''}${v<0?' neg':''}" data-tip="${esc(l)}: ${esc(t)}" tabindex="0"><span class="l">${esc(l)}</span><span class="t" aria-hidden="true"><span class="f" style="width:${Math.max(2, Math.abs(v)/max*100).toFixed(1)}%"></span></span><span class="v">${v>0?'▲':v<0?'▼':'▶'}&#8239;${esc(t.replace(/^\+/, '+'))}</span></div>`).join('');
   $('annPaper').innerHTML = `
-    <div class="ann-mast"><span class="np">BI Pulse Summary</span><span class="e">Visit Anaheim Business Intelligence · Data through Sept. 2026 · Prepared for OC Vibe</span></div>
+    <div class="ann-mast"><span class="np">BI Pulse Summary</span><span class="e">Visit Anaheim Business Intelligence · Data through Sept. 2026 · Prepared for OCVIBE</span></div>
     <div class="ann-meta"><span class="over">For immediate release</span></div>
     <p class="ann-kick">Highlight: <b>${esc(ANN.hl)}</b></p>
     <h2 class="ann-h" id="annHead">${esc(st.head)}</h2>
@@ -431,7 +431,7 @@ function csvFor(ids) {
 async function xlsxFor(ids) {
   const z = new JSZip(), xe = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
   const cv = v => v && typeof v === 'object' ? v.t : v;
-  const sheets = [{ name: 'About', rows: [[{ v: 'OC Vibe Insights: data tables', s: 1 }], [`Visit Anaheim Business Intelligence · prepared ${DATA.prepared} · data through Sept. 2026`], ['Contact: bi@visitanaheim.org'], [DATA.schedule.line], [],
+  const sheets = [{ name: 'About', rows: [[{ v: 'OCVIBE Insights: data tables', s: 1 }], [`Visit Anaheim Business Intelligence · prepared ${DATA.prepared} · data through Sept. 2026`], ['Contact: bi@visitanaheim.org'], [DATA.schedule.line], [],
     ['Each sheet is one section. Every table is followed by its source and period. Values marked F are forecasts.'], ['Every source file behind these tables can be viewed or downloaded in the app: Reports and data library.']] }];
   const used = new Set(['About']);
   S.filter(sec => ids.includes(sec.id)).forEach(sec => {

@@ -1,4 +1,4 @@
-/* PDF export (Oct. 14, 2026): build a PDF holding only the chosen sections from the full OC Vibe Insights deck PDF,
+/* PDF export (Oct. 14, 2026): build a PDF holding only the chosen sections from the full OCVIBE Insights deck PDF,
    the same cut as the PowerPoint export. Works in the browser (window.PDFLib) and in Node (require('pdf-lib')).
    The title page is always kept. Pages are renumbered "n of N" over the deck's slide number so the cut reads in order. */
 async function pdfSubset(PDFLib, data, keepNames, MAP) {
@@ -8,8 +8,8 @@ async function pdfSubset(PDFLib, data, keepNames, MAP) {
   pages.sort((a, b) => a - b);
   const src = await PDFLib.PDFDocument.load(data);
   const out = await PDFLib.PDFDocument.create();
-  out.setTitle('OC Vibe Insights: ' + keepNames.join(', '));
-  out.setAuthor('Visit Anaheim Business Intelligence'); out.setCreator('OC Vibe Insights'); out.setProducer('Visit Anaheim BI');
+  out.setTitle('OCVIBE Insights: ' + keepNames.join(', '));
+  out.setAuthor('Visit Anaheim Business Intelligence'); out.setCreator('OCVIBE Insights'); out.setProducer('Visit Anaheim BI');
   const copied = await out.copyPages(src, pages);
   const font = await out.embedFont(PDFLib.StandardFonts.Helvetica);
   const ink = PDFLib.rgb(0x23 / 255, 0x1F / 255, 0x20 / 255), white = PDFLib.rgb(1, 1, 1), N = pages.length;

@@ -39,7 +39,7 @@
     const lib = libFor(src, sid);
     const period = d.period || (s && s.period) || '';
     const rows = (d.ctx || []).filter(r => r && r[1]);
-    pn.innerHTML = `<div class="dp-h"><span class="dp-k">${esc(page ? page.dataset.title : 'OC Vibe Insights')}</span><button type="button" class="dp-x" aria-label="Close">×</button></div>
+    pn.innerHTML = `<div class="dp-h"><span class="dp-k">${esc(page ? page.dataset.title : 'OCVIBE Insights')}</span><button type="button" class="dp-x" aria-label="Close">×</button></div>
       <p class="dp-v">${esc(d.value)}</p>${d.label ? `<p class="dp-l">${esc(d.label)}</p>` : ''}
       ${rows.length ? `<dl class="dp-dl">${rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : ''}
       ${period ? `<p class="dp-p"><b>Period:</b> ${esc(period)}</p>` : ''}
@@ -51,7 +51,7 @@
     const phone = window.innerWidth < 640;
     pn.classList.toggle('sheet', phone);
     if (!phone) place(x, y); else { pn.style.left = ''; pn.style.top = ''; }
-    const line = `${d.label ? d.label + ': ' : ''}${d.value}${rows.length ? ' (' + rows.map(r => r[1]).join('; ') + ')' : ''}${period ? ', ' + period : ''}. Source: ${src || 'OC Vibe Insights, Visit Anaheim Business Intelligence'}.`;
+    const line = `${d.label ? d.label + ': ' : ''}${d.value}${rows.length ? ' (' + rows.map(r => r[1]).join('; ') + ')' : ''}${period ? ', ' + period : ''}. Source: ${src || 'OCVIBE Insights, Visit Anaheim Business Intelligence'}.`;
     pn.querySelector('.dp-x').onclick = close;
     pn.querySelector('[data-dp="copy"]').onclick = async () => { try { await navigator.clipboard.writeText(line); toast('Copied: ' + line.slice(0, 120) + (line.length > 120 ? '…' : '')); } catch (_) { toast(line); } };
     const lb = pn.querySelector('[data-dp="lib"]'); if (lb) lb.onclick = () => { close(); location.hash = '#library/' + lib.id; };

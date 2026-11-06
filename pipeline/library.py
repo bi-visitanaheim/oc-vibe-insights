@@ -1,4 +1,4 @@
-"""Reports and data library (Oct. 14, 2026): every source file behind OC Vibe Insights, viewable and downloadable in the app.
+"""Reports and data library (Oct. 14, 2026): every source file behind OCVIBE Insights, viewable and downloadable in the app.
 
 Decision recorded Oct. 14, 2026: John Picou (BI & Technology Director) cleared all source files used to build the app
 for public sharing in the app and on the public website. Files are served from public/library/ (website) and the same
@@ -20,7 +20,7 @@ TOPICS = [
     ("outlook", "Market outlook", "LARC Market Intelligence Reports for the Anaheim market."),
     ("transport", "Getting here and transportation", "Traffic, transit, rail and travel-cost data."),
     ("program", "Destination program", "Visit Anaheim's 2027 program of experiences."),
-    ("report", "This report", "The full OC Vibe Insights report and the questions-answered deck."),
+    ("report", "This report", "The full OCVIBE Insights report and the questions-answered deck."),
 ]
 
 F = []
@@ -78,7 +78,7 @@ add("va-night-wb", "visit-anaheim-extra-night-workbook.xlsx", "TID Request_1_20_
 # ---- Who visits ----
 add("az-d5", "azira-district-5-poi-analysis-2026-01-05.pdf", "POI Analysis.pdf", "visitors",
     "District 5 visitor profile (POI Analysis)", "Symphony | Tourism Economics (Azira)", "Data report", "Jan. 1–May 31, 2026", "Exported 2026",
-    "District 5, where OC Vibe is being built: 85.8% overnight, 43.8% new visitors, sample 1,003,735 devices; origin states and metros, cross-visited places, visits by day, household income and age.",
+    "District 5, where OCVIBE is being built: 85.8% overnight, 43.8% new visitors, sample 1,003,735 devices; origin states and metros, cross-visited places, visits by day, household income and age.",
     ["District 5"], ["p-d5", "p-ocv"])
 add("az-geo", "azira-domestic-visitors-2026-08.pdf", "Domestic Visitors by Geography.pdf", "visitors",
     "Domestic visitors to Anaheim and Garden Grove", "Symphony | Tourism Economics (Azira)", "Data report", "Aug. 2026", "Exported 2026",
@@ -92,8 +92,8 @@ add("visa-intl", "visa-international-2026-08.pdf", "International.pdf", "visitor
     "International card spending $17.9M (−5.0%) by category and country (Mexico, Canada, Japan lead).", ["Anaheim area", "International"], ["p-d5", "p-spend"])
 add("datafy-25", "datafy-anaheim-tables-export-2025.xlsx", "Datafy Tables Export_2_17_26.xlsx", "visitors",
     "Datafy tables export, Anaheim, calendar 2025", "Datafy", "Data", "Jan. 1–Dec. 31, 2025 (trends 2023–2025)", "Exported Feb. 17, 2026",
-    "Domestic visitation by month and day, origin states, DMAs, metros, counties and cities, demographics, points of interest and clusters (including OC Vibe and District 5), length of stay and repeat visits.",
-    ["Anaheim", "District 5"], ["p-d5"], "Calendar 2025 export. The report's 5.2% OC Vibe share comes from Datafy's calendar 2024 visitor report (visitors traveling 50+ miles); 2025 values will be reconciled at the next quarterly update.")
+    "Domestic visitation by month and day, origin states, DMAs, metros, counties and cities, demographics, points of interest and clusters (including OCVIBE and District 5), length of stay and repeat visits.",
+    ["Anaheim", "District 5"], ["p-d5"], "Calendar 2025 export. The report's 5.2% OCVIBE share comes from Datafy's calendar 2024 visitor report (visitors traveling 50+ miles); 2025 values will be reconciled at the next quarterly update.")
 
 # ---- Marketing ----
 add("az-media", "azira-media-attribution-2026-01-08.pdf", "Media Attribution.pdf", "media",
@@ -135,13 +135,13 @@ for mo, mon, f in [("01", "Jan.", "01 January 2026 Market Intelligence Report.pd
                    ("09", "Sept.", "09 September 2026 Market Intelligence Report.pdf")]:
     add(f"larc-mir-{mo}", f"larc-market-intelligence-report-2026-{mo}.pdf", f, "outlook",
         f"Anaheim Market Intelligence Report, {mon} 2026", "Lodging Analytics Research & Consulting (LARC)", "Report", f"Data to {mon} 2026 edition", f"{mon} 2026",
-        "Hotel performance and forecasts, Anaheim vs. U.S., Convention Center pace, OC Vibe and area developments, local economy and inflation.",
+        "Hotel performance and forecasts, Anaheim vs. U.S., Convention Center pace, OCVIBE and area developments, local economy and inflation.",
         ["Anaheim", "U.S."], ["p-larc", "p-hotel"])
 
 # ---- Getting here ----
 add("octa-adt", "octa-traffic-flow-map-2026.pdf", "2026-ADT.pdf", "transport",
     "2026 Traffic Flow Map", "Orange County Transportation Authority (OCTA)", "Map", "Counts 2021–2024", "Aug. 2026",
-    "Weekday average daily traffic on freeways and arterials, including SR-57 beside OC Vibe (275,000 vehicles).", ["Orange County"], ["p-transport"])
+    "Weekday average daily traffic on freeways and arterials, including SR-57 beside OCVIBE (275,000 vehicles).", ["Orange County"], ["p-transport"])
 add("octa-gtfs", "octa-bus-schedules-gtfs.zip", "google_transit.zip", "transport",
     "OCTA bus schedules (GTFS feed)", "Orange County Transportation Authority (OCTA)", "Data", "Service Aug. 9–Nov. 7, 2026", "Provided Oct. 12, 2026",
     "The raw schedule files used to count 277 weekday bus trips stopping at ARTIC, late-night service and travel times.", ["Orange County"], ["p-transport"])
@@ -178,9 +178,9 @@ add("va-poe", "visit-anaheim-program-of-experiences-2027.pdf", "Visit-Anaheim-Pr
     "Visit Anaheim's 2027 program of experiences.", ["Anaheim"], ["p-larc"])
 
 # ---- This report (built by the pipeline; no `orig`) ----
-add("ocv-report", "OC_Vibe_Insights.pdf", None, "report", "OC Vibe Insights, full report (PDF)", "Visit Anaheim Business Intelligence",
+add("ocv-report", "OC_Vibe_Insights.pdf", None, "report", "OCVIBE Insights, full report (PDF)", "Visit Anaheim Business Intelligence",
     "Report", "Data through Sept. 2026", "Updated quarterly", "Every section of this app as report pages.", ["Anaheim", "Orange County", "California", "U.S."], ["p-summary"])
-add("ocv-deck", "OC_Vibe_Insights.pptx", None, "report", "OC Vibe Insights, full deck (PowerPoint)", "Visit Anaheim Business Intelligence",
+add("ocv-deck", "OC_Vibe_Insights.pptx", None, "report", "OCVIBE Insights, full deck (PowerPoint)", "Visit Anaheim Business Intelligence",
     "Deck", "Data through Sept. 2026", "Updated quarterly", "The same report as editable slides.", ["Anaheim", "Orange County", "California", "U.S."], ["p-summary"])
 add("ocv-qa", "OC_Vibe_Questions_Answered.pptx", None, "report", "Questions answered: Anaheim, Orange County and U.S. (PowerPoint)", "Visit Anaheim Business Intelligence",
     "Deck", "Data through Sept. 2026", "Oct. 14, 2026", "Average spend, one more night, transportation impact and District 5, each with a summary, visual and method.",

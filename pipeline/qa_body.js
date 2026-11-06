@@ -1,12 +1,12 @@
 /* Focused deck (Oct. 14, 2026): questions answered for Anaheim, Orange County and the U.S. */
-pres.title = 'OC Vibe Insights: Questions answered';
+pres.title = 'OCVIBE Insights: Questions answered';
 pres.addSection({ title: 'Introduction' });
 let s = pres.addSlide({ masterName: 'VA Title', sectionTitle: 'Introduction' });
 s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 0.7, w: 3.0, h: 3.0 / LOGO_AR + 0.3, fill: { color: H.light }, line: { color: H.light }, rectRadius: 0.1, objectName: 'logo-plate' });
 s.addImage({ data: LOGO, x: M + 0.15, y: 0.85, w: 2.7, h: 2.7 / LOGO_AR, altText: 'Visit Anaheim' });
 s.addText('Questions answered: Anaheim, Orange County and U.S.', { placeholder: 'title' });
 s.addText('Average spend, one more night, transportation impact and District 5, each with a short answer, a visual, the method and the reports behind it. Data through September 2026.', { placeholder: 'sub' });
-s.addText('Prepared by Visit Anaheim Business Intelligence · October 2026 · Companion to the OC Vibe Insights app and report', ft({ x: M, y: 6.6, w: 11, h: 0.4, fontSize: 12, color: H.white }));
+s.addText('Prepared by Visit Anaheim Business Intelligence · October 2026 · Companion to the OCVIBE Insights app and report', ft({ x: M, y: 6.6, w: 11, h: 0.4, fontSize: 12, color: H.white }));
 qaCoreSlide('Introduction');
 qaIndexSlide('Introduction');
 pres.addSection({ title: 'The four core questions' });

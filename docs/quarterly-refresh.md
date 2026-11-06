@@ -1,6 +1,6 @@
 # Quarterly refresh runbook
 
-Set up Oct. 13, 2026 at John Picou's request. Tourism Economics (TE) data is the core of the report and its Anaheim Travel Forecast arrives each quarter, so OC Vibe Insights is refreshed each quarter (confirmed Oct. 14, 2026). STR, CoStar and Visa are available weekly or monthly and Azira monthly; they are pulled at the same time so every figure in an edition shares one as-of date. A scheduled task named "OC Vibe Insights quarterly refresh" runs this runbook on the 15th of January, April, July and October at about 9 a.m. Pacific. Anyone can also run it by hand.
+Set up Oct. 13, 2026 at John Picou's request. Tourism Economics (TE) data is the core of the report and its Anaheim Travel Forecast arrives each quarter, so OCVIBE Insights is refreshed each quarter (confirmed Oct. 14, 2026). STR, CoStar and Visa are available weekly or monthly and Azira monthly; they are pulled at the same time so every figure in an edition shares one as-of date. A scheduled task named "OCVIBE Insights quarterly refresh" runs this runbook on the 15th of January, April, July and October at about 9 a.m. Pacific. Anyone can also run it by hand.
 
 The refresh only uses measured or published data. If a source has nothing new, the run keeps the current figures and says so. It never estimates a missing figure.
 
@@ -10,7 +10,7 @@ Search in this order, newest first, and note the file name, date and location of
 
 | Source | What to look for | Where |
 |---|---|---|
-| Tourism Economics | "Anaheim Travel Forecast - MM-YYYY" PDF (quarterly); "Economic Impact of Visitors" (annual, spring) | OC Vibe (Reporting) Claude project files; BI SharePoint (`data.py` `SP`); Outlook attachments from Tourism Economics |
+| Tourism Economics | "Anaheim Travel Forecast - MM-YYYY" PDF (quarterly); "Economic Impact of Visitors" (annual, spring) | OCVIBE (Reporting) Claude project files; BI SharePoint (`data.py` `SP`); Outlook attachments from Tourism Economics |
 | LARC | "MM Month YYYY Market Intelligence Report" PDF (monthly); "Visit Anaheim Forecasts Combined for Distro nQ-YY" workbook (quarterly) | Project files; SharePoint; Outlook |
 | STR | "Daily Data" export for the Visit Anaheim hotel sets | BI OneDrive folder; project files |
 | CoStar | Orange County market, Disneyland submarket and capital markets reports; "DataExport" workbook | Project files; SharePoint |
@@ -35,7 +35,7 @@ Rules:
 - If a planned source has arrived (Ticketmaster data from Honda Center, Placer.ai), check it, confirm it is cleared for sharing, add it as summaries only, and move it from `PLANNED` to `TABLE`.
 - Change only figures that have a new published value; update the period and publication date with each one.
 - Update any sentence whose number changed (headlines, ledes, nut graphs, detail cards, infographics, compare and contrast). The number-trace check fails if text cites a number that is no longer in a table.
-- Keep Tourism Economics figures as City of Anaheim totals; never allocate them to OC Vibe.
+- Keep Tourism Economics figures as City of Anaheim totals; never allocate them to OCVIBE.
 - House style: no em dashes, AP style, attribution on every fact, no first person, no opinion.
 
 ## 3. Rebuild and check
@@ -51,7 +51,7 @@ From the repository root (Python 3.11+, Node 18+; in a Claude session set `PPTX_
 
 1. Republish `pipeline/oc-vibe-insights.html` to the claude.ai artifact (same URL; README lists it).
 2. Commit on the OneDrive copy: `Quarterly refresh: <quarter> data (validation-NNN)`. Pushing to GitHub needs John's sign-in, so the run tells him to run `git push`; Vercel then redeploys.
-3. Add a line to `docs/activity-log.md` and the project doc "OC Vibe Insights - build notes and activity log".
+3. Add a line to `docs/activity-log.md` and the project doc "OCVIBE Insights - build notes and activity log".
 
 ## 5. Report and approvals
 

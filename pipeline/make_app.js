@@ -15,9 +15,9 @@
   const CONTACT = 'visitanaheim.org · bi@visitanaheim.org';
 
   /* ---------- the data pool: sections, areas, measures, charts ---------- */
-  const GEOS = [['ana', 'Anaheim'], ['d5', 'OC Vibe area and District 5'], ['gg', 'Garden Grove'], ['oc', 'Orange County'], ['ca', 'California'], ['us', 'U.S.']];
+  const GEOS = [['ana', 'Anaheim'], ['d5', 'OCVIBE area and District 5'], ['gg', 'Garden Grove'], ['oc', 'Orange County'], ['ca', 'California'], ['us', 'U.S.']];
   const GEO_N = Object.fromEntries(GEOS);
-  const geoOf = w => /^Garden Grove/.test(w) ? 'gg' : /^Orange County/.test(w) ? 'oc' : /^(District 5|OC Vibe area|SR-57 beside OC Vibe)/.test(w) ? 'd5' : /^(California|West Coast)/.test(w) ? 'ca' : /^U\.S\./.test(w) ? 'us' : 'ana';
+  const geoOf = w => /^Garden Grove/.test(w) ? 'gg' : /^Orange County/.test(w) ? 'oc' : /^(District 5|OCVIBE area|SR-57 beside OCVIBE)/.test(w) ? 'd5' : /^(California|West Coast)/.test(w) ? 'ca' : /^U\.S\./.test(w) ? 'us' : 'ana';
   const SHORT = { 'avg-spend': 'Spending per visitor', 'spend-growth': 'Visitor spending growth, 2025', 'q2-report': 'Q2 2026 visitors and spending', 'spend-mix': 'Largest share of visitor spending',
     jobs: 'Jobs supported by visitors', 'fb-jobs': 'Food and beverage share of visitor jobs', impact: 'Total economic impact', taxes: 'State and local taxes from visitors',
     'night-value': 'One more night', 'night-1pct': 'Each 1% of visitors adding a day', 'transport-impact': 'Visitor transportation spending and jobs', 'getting-here': 'Getting here',
@@ -66,7 +66,7 @@
   const featured = (st = ST, n = 6, list = null) => { const ms = list || chosen(st), by = st.secs.map(id => ms.filter(m => m.sec === id)), out = [];
     for (let k = 0; out.length < n && by.some(g => g[k]); k++) by.forEach(g => { if (g[k] && out.length < n) out.push(g[k]); }); return out; };
   const chartsFor = (sid, st = ST) => (CHARTS[sid] || []).slice(0, st.charts);
-  const titleOf = (st = ST) => st.title.trim() || (st.secs.length === 1 ? SEC[st.secs[0]].head : st.secs.length ? 'OC Vibe Insights: ' + listJoin(st.secs.map(id => SEC[id].tab.toLowerCase().replace(/^anaheim and oc vibe today$/, 'Anaheim and OC Vibe today'))) : 'OC Vibe Insights');
+  const titleOf = (st = ST) => st.title.trim() || (st.secs.length === 1 ? SEC[st.secs[0]].head : st.secs.length ? 'OCVIBE Insights: ' + listJoin(st.secs.map(id => SEC[id].tab.toLowerCase().replace(/^anaheim and oc vibe today$/, 'Anaheim and OCVIBE today'))) : 'OCVIBE Insights');
   const subOf = (st = ST) => st.sub.trim() || (st.geos.length ? listJoin(st.geos.map(g => GEO_N[g])) + ' · ' + ASOF : ASOF);
   function listJoin(a) { a = a.map(x => x.charAt(0).toUpperCase() === x.charAt(0) ? x : x); return a.length < 3 ? a.join(' and ') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
   const uniq = a => [...new Set(a.filter(Boolean))];
@@ -236,7 +236,7 @@
   $('mkTheme').onchange = e => { ST.theme = e.target.value; refresh(); };
   $('xpCancel').onclick = () => close();
   $('xpClose').onclick = () => close();
-  $('xpShare').onclick = async () => { try { await navigator.share({ title: 'OC Vibe Insights', url: shareUrl(ST.pages) }); close(); } catch (_) {} };
+  $('xpShare').onclick = async () => { try { await navigator.share({ title: 'OCVIBE Insights', url: shareUrl(ST.pages) }); close(); } catch (_) {} };
   $('xpGo').onclick = () => save($('xpGo'));
   dlg.addEventListener('close', () => { if (MOT) { MOT.stop(); MOT = null; } });
   function open(tool) { if (tool && TOOL[tool]) ST.tool = tool; refresh(true); if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); }
@@ -273,22 +273,22 @@
   }
   function docHtml(st) {
     const d = docModel(st);
-    return `<header class="mkd-h"><img src="${LOGO}" alt="Visit Anaheim" class="mkd-logo"><div><p class="mkd-kick">OC Vibe Insights · ${esc(d.date)}</p><h1>${esc(d.title)}</h1><p class="mkd-sub">${esc(d.sub)}</p></div></header>
+    return `<header class="mkd-h"><img src="${LOGO}" alt="Visit Anaheim" class="mkd-logo"><div><p class="mkd-kick">OCVIBE Insights · ${esc(d.date)}</p><h1>${esc(d.title)}</h1><p class="mkd-sub">${esc(d.sub)}</p></div></header>
       <h2>Summary</h2><ul class="mkd-sum">${d.summary.map(x => `<li><b>${esc(x.tab)}:</b> ${emph(x.ans)}</li>`).join('')}</ul>
       ${d.secs.map(s => `<section class="mkd-s"><p class="mkd-kick">${esc(s.tab)} · ${esc(s.period)}</p><h2>${esc(s.head)}</h2><p>${emph(s.nut || s.lede)}</p>
         ${s.ms.length ? `<table class="mkd-t"><caption>Key figures</caption><thead><tr><th>Area and period</th><th>Measure</th><th class="n">Value</th><th>Detail</th></tr></thead><tbody>${s.ms.map(m => `<tr><td>${esc(m.where)}</td><td>${esc(m.label)}</td><td class="n"><b>${esc(m.value)}</b></td><td>${esc(m.detail)}<span class="mkd-src">Source: ${esc(m.src)}</span></td></tr>`).join('')}</tbody></table>` : ''}
         ${s.charts.map(c => `<figure class="mkd-f"><figcaption><b>${esc(c.title)}</b><span>${esc(c.sub || '')}</span></figcaption>${chartSvg(c, 760, c.kind === 'bars' ? Math.max(140, c.rows.length * 34) : 300, null, 14)}<p class="mkd-src">Source: ${esc(c.src || s.period)}</p></figure>`).join('')}
-        ${s.means.length ? `<h3>What it means for OC Vibe</h3><ul>${s.means.map(x => `<li><b>${esc(x.tag)}.</b> ${emph(x.text)} <span class="mkd-src">(${esc(x.src)})</span></li>`).join('')}</ul>` : ''}</section>`).join('')}
+        ${s.means.length ? `<h3>What it means for OCVIBE</h3><ul>${s.means.map(x => `<li><b>${esc(x.tag)}.</b> ${emph(x.text)} <span class="mkd-src">(${esc(x.src)})</span></li>`).join('')}</ul>` : ''}</section>`).join('')}
       <h2>Sources</h2><ol class="mkd-srcs">${d.sources.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
-      <p class="mkd-foot">${PREP} · ${esc(d.date)} · ${ASOF} · ${CONTACT}. Figures are as published by each source; the full tables and source files are in the OC Vibe Insights app.</p>`;
+      <p class="mkd-foot">${PREP} · ${esc(d.date)} · ${ASOF} · ${CONTACT}. Figures are as published by each source; the full tables and source files are in the OCVIBE Insights app.</p>`;
   }
   function docMd(st) {
-    const d = docModel(st), L = [`# ${d.title}`, '', `*${d.sub}*  `, `OC Vibe Insights · ${PREP} · ${d.date}`, '', '## Summary', '', ...d.summary.map(x => `- **${x.tab}:** ${x.ans}`), ''];
+    const d = docModel(st), L = [`# ${d.title}`, '', `*${d.sub}*  `, `OCVIBE Insights · ${PREP} · ${d.date}`, '', '## Summary', '', ...d.summary.map(x => `- **${x.tab}:** ${x.ans}`), ''];
     d.secs.forEach(s => {
       L.push(`## ${s.head}`, '', `*${s.tab} · ${s.period}*`, '', s.nut || s.lede, '');
       if (s.ms.length) { L.push('| Area and period | Measure | Value | Detail | Source |', '|---|---|---:|---|---|'); s.ms.forEach(m => L.push(`| ${[m.where, m.label, '**' + m.value + '**', m.detail, m.src].map(x => String(x).replace(/\|/g, '/')).join(' | ')} |`)); L.push(''); }
       s.charts.forEach(c => { L.push(`**${c.title}**${c.sub ? ' (' + c.sub + ')' : ''}`, '', '| | Value |', '|---|---:|', ...chartRows(c).map(r => `| ${r[0]} | ${r[1]} |`), '', `Source: ${c.src || s.period}`, ''); });
-      if (s.means.length) { L.push('### What it means for OC Vibe', '', ...s.means.map(x => `- **${x.tag}.** ${x.text} (${x.src})`), ''); }
+      if (s.means.length) { L.push('### What it means for OCVIBE', '', ...s.means.map(x => `- **${x.tag}.** ${x.text} (${x.src})`), ''); }
     });
     L.push('## Sources', '', ...d.sources.map((x, i) => `${i + 1}. ${x}`), '', `${PREP} · ${ASOF} · ${CONTACT}`);
     return L.join('\n');
@@ -308,7 +308,7 @@
       for (let i = 0; i < rest.length; i += 8) out.push({ t: 'table', title: s.tab + ': more key figures' + (i ? ' (continued)' : ''), kicker: 'Area, period, value and source', rows: rest.slice(i, i + 8), src: uniq(rest.slice(i, i + 8).map(m => m.src)).join('; ') });
     });
     const means = st.secs.flatMap(id => ((SEC[id].for_ocv || {}).enhance || []).slice(0, 2).map(x => ({ tab: SEC[id].tab, ...x }))).slice(0, 8);
-    if (means.length) out.push({ t: 'means', title: 'What it means for OC Vibe', kicker: 'By topic, from the sections chosen', items: means, src: uniq(means.map(x => x.src)).join('; ') });
+    if (means.length) out.push({ t: 'means', title: 'What it means for OCVIBE', kicker: 'By topic, from the sections chosen', items: means, src: uniq(means.map(x => x.src)).join('; ') });
     const srcs = sourcesOf(st);
     for (let i = 0; i < srcs.length; i += 10) out.push({ t: 'sources', title: 'Sources' + (i ? ' (continued)' : ''), kicker: ASOF + ' · ' + CONTACT, items: srcs.slice(i, i + 10) });
     return out;
@@ -418,7 +418,7 @@
     const ph = Math.round(78 * u), pw = Math.round(ph * LOGO_AR * 0.92) + Math.round(28 * u);
     g += `<rect x="${pad}" y="${pad}" width="${pw}" height="${ph}" rx="${Math.round(12 * u)}" fill="${T.plate}"/><image href="${LOGO}" x="${pad + 14 * u}" y="${pad + 8 * u}" width="${pw - 28 * u}" height="${ph - 16 * u}" preserveAspectRatio="xMidYMid meet"/>`;
     const kx = W - pad, ky = pad + ph / 2;
-    g += `<text x="${kx}" y="${ky - 6 * u}" text-anchor="end" font-size="${Math.round(20 * u)}" font-weight="700" letter-spacing="${2 * u}" fill="${T.kick}">OC VIBE INSIGHTS</text><text x="${kx}" y="${ky + 22 * u}" text-anchor="end" font-size="${Math.round(18 * u)}" font-weight="350" fill="${T.ink}">${xesc(ASOF)}</text>`;
+    g += `<text x="${kx}" y="${ky - 6 * u}" text-anchor="end" font-size="${Math.round(20 * u)}" font-weight="700" letter-spacing="${2 * u}" fill="${T.kick}">OCVIBE INSIGHTS</text><text x="${kx}" y="${ky + 22 * u}" text-anchor="end" font-size="${Math.round(18 * u)}" font-weight="350" fill="${T.ink}">${xesc(ASOF)}</text>`;
     let y = pad + ph + Math.round(36 * u) + Math.round((wide ? 64 : 70) * u);
     const tw = W - 2 * pad, hs = Math.round((wide ? 64 : st.fmt === 'letter' ? 60 : 70) * u);
     const hl = wrap(titleOf(st), tw, hs, 900, 3);
@@ -428,7 +428,7 @@
     sl.forEach((l, i) => { g += `<text x="${pad}" y="${y + i * 36 * u}" font-size="${Math.round(28 * u)}" font-weight="350" fill="${T.muted}">${xesc(l)}</text>`; });
     y += (sl.length - 1) * 36 * u + Math.round(44 * u);
     // footer
-    const fs = Math.round(15 * u), srcs = srcList(ms.map(m => m.src).concat(ch ? [ch.src] : [])), fl = wrap('Sources: ' + (srcs.join('; ') || 'OC Vibe Insights'), tw, fs, 350, wide ? 2 : 3);
+    const fs = Math.round(15 * u), srcs = srcList(ms.map(m => m.src).concat(ch ? [ch.src] : [])), fl = wrap('Sources: ' + (srcs.join('; ') || 'OCVIBE Insights'), tw, fs, 350, wide ? 2 : 3);
     const fy = H - pad - fl.length * fs * 1.35 - Math.round(34 * u);
     g += `<line x1="${pad}" x2="${W - pad}" y1="${fy}" y2="${fy}" stroke="${T.kick}" stroke-width="${2 * u}"/>`;
     fl.forEach((l, i) => { g += `<text x="${pad}" y="${fy + Math.round(30 * u) + i * fs * 1.35}" font-size="${fs}" fill="${T.muted}">${xesc(l)}</text>`; });
@@ -470,14 +470,14 @@
   async function designPdf(st) {
     if (typeof PDFLib === 'undefined') throw Object.assign(new Error('unavailable'), { code: 'unavailable' });
     const d = designSvg(st, true), png = await svgToPng(d.svg, d.w, d.h, 2);
-    const doc = await PDFLib.PDFDocument.create(); doc.setTitle(titleOf(st)); doc.setAuthor('Visit Anaheim Business Intelligence'); doc.setCreator('OC Vibe Insights');
+    const doc = await PDFLib.PDFDocument.create(); doc.setTitle(titleOf(st)); doc.setAuthor('Visit Anaheim Business Intelligence'); doc.setCreator('OCVIBE Insights');
     const im = await doc.embedPng(await png.arrayBuffer()), pw = st.fmt === 'letter' ? 612 : d.w * 0.75, ph = st.fmt === 'letter' ? 792 : d.h * 0.75;
     doc.addPage([pw, ph]).drawImage(im, { x: 0, y: 0, width: pw, height: ph });
     return new Blob([await doc.save()], { type: 'application/pdf' });
   }
 
   function pageHtml(title, body, css) {
-    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${xesc(title)}</title><meta name="generator" content="OC Vibe Insights, Visit Anaheim BI"><style>${fontCss()}\n${css}</style></head><body>${body}</body></html>`;
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${xesc(title)}</title><meta name="generator" content="OCVIBE Insights, Visit Anaheim BI"><style>${fontCss()}\n${css}</style></head><body>${body}</body></html>`;
   }
   const DOC_CSS = `body{margin:0;background:${VA.light};color:${VA.dark};font-family:${FONT};font-weight:350;line-height:1.5}.mk-paper{max-width:860px;margin:24px auto;background:#fff;padding:40px 48px;border-top:6px solid ${VA.e3}}
 @media (max-width:700px){.mk-paper{padding:22px 16px}}h1{font-size:34px;font-weight:900;font-style:oblique;color:${VA.e3};margin:4px 0}h2{font-size:22px;color:${VA.e3};margin:28px 0 6px;font-weight:750}h3{font-size:16px;color:${VA.e3}}
@@ -505,17 +505,17 @@ b.kv{color:${VA.e3}}.mk-tx{fill:${VA.dark}}.mk-mu{fill:#4A4546}.mk-b{fill:${VA.e
       return P(`<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="${X(name)}" descr="${X(alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${id}" name="${fn}" descr="${X(alt)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rId${id}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`); };
     const logoBlob = await (await fetch(LOGO)).blob();
     let body = await img(logoBlob, 240, 240 / LOGO_AR, 'Visit Anaheim logo', 'Visit Anaheim');
-    body += P(run('OC VIBE INSIGHTS · ' + d.date.toUpperCase(), { b: true, c: '125C60', sz: 18 }));
+    body += P(run('OCVIBE INSIGHTS · ' + d.date.toUpperCase(), { b: true, c: '125C60', sz: 18 }));
     body += P(run(d.title), 'Title') + P(run(d.sub, { c: '231F20' }), 'Subtitle');
     body += P(run('Summary'), 'Heading1') + d.summary.map(x => bullet(run(x.tab + ': ', { b: true }) + runsKv(x.ans))).join('');
     for (const s of d.secs) {
       body += P(run(s.tab.toUpperCase() + ' · ' + s.period, { b: true, c: '125C60', sz: 17 }), null, '<w:spacing w:before="320"/>') + P(run(s.head), 'Heading1') + P(runsKv(s.nut || s.lede));
       if (s.ms.length) { body += P(run('Key figures'), 'Heading2'); body += tbl([['Area and period', 0], ['Measure', 0], ['Value', 1], ['Detail and source', 0]], s.ms.map(m => [m.where, m.label, m.value, [run(m.detail, { sz: 19 }), run(' Source: ' + m.src, { sz: 16, i: true })]]), [1900, 2100, 1400, 4200]); }
       for (const c of s.charts) { const ww = 760, hh = c.kind === 'bars' ? Math.max(140, c.rows.length * 34) : 300; body += P(run(c.title, { b: true, c: '125C60' })) + (c.sub ? P(run(c.sub, { sz: 18 })) : '') + await img(chartSvg(c, ww, hh, THEMES.light, 14), ww, hh, c.title, c.title + '. ' + chartAlt(c)) + P(run('Source: ' + (c.src || s.period), { i: true, sz: 16 })); }
-      if (s.means.length) { body += P(run('What it means for OC Vibe'), 'Heading2') + s.means.map(x => bullet(run(x.tag + '. ', { b: true }) + runsKv(x.text) + run(' (' + x.src + ')', { i: true, sz: 17 }))).join(''); }
+      if (s.means.length) { body += P(run('What it means for OCVIBE'), 'Heading2') + s.means.map(x => bullet(run(x.tag + '. ', { b: true }) + runsKv(x.text) + run(' (' + x.src + ')', { i: true, sz: 17 }))).join(''); }
     }
     body += P(run('Sources'), 'Heading1') + d.sources.map((x, i) => P(run(`${i + 1}. ${x}`, { sz: 18 }))).join('');
-    body += P(run(`${PREP} · ${d.date} · ${ASOF} · ${CONTACT}. Figures are as published by each source; the full tables and source files are in the OC Vibe Insights app.`, { sz: 17, i: true }), null, '<w:spacing w:before="320"/>');
+    body += P(run(`${PREP} · ${d.date} · ${ASOF} · ${CONTACT}. Figures are as published by each source; the full tables and source files are in the OCVIBE Insights app.`, { sz: 17, i: true }), null, '<w:spacing w:before="320"/>');
     const NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"';
     z.file('word/document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${NS}><w:body>${body}<w:sectPr><w:footerReference w:type="default" r:id="rId3"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1080" w:right="1080" w:bottom="1080" w:left="1080" w:header="540" w:footer="540" w:gutter="0"/></w:sectPr></w:body></w:document>`);
     z.file('word/footer1.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr ${NS}><w:p><w:pPr><w:pBdr><w:top w:val="single" w:sz="6" w:space="4" w:color="43A3A3"/></w:pBdr><w:tabs><w:tab w:val="right" w:pos="10080"/></w:tabs></w:pPr>${run('Visit Anaheim | visitanaheim.org', { sz: 16 })}<w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:tab/></w:r><w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>`);
@@ -561,7 +561,7 @@ b.kv{color:${VA.e3}}.mk-tx{fill:${VA.dark}}.mk-mu{fill:#4A4546}.mk-b{fill:${VA.e
     ctx.beginPath(); ctx.moveTo(W, 0); ctx.lineTo(W, H * 0.4); ctx.bezierCurveTo(W * 0.84, H * 0.26, W * 0.76, H * 0.12, W * 0.72, 0); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
     const lg = getLogo(), ph = 84, pw = ph * LOGO_AR * 0.92 + 28;
     ctx.fillStyle = T.plate; rr(ctx, pad, 70, pw, ph, 12); ctx.fill(); if (lg && lg.complete) ctx.drawImage(lg, pad + 14, 78, pw - 28, ph - 16);
-    ctx.textBaseline = 'alphabetic'; ctx.fillStyle = T.kick; ctx.textAlign = 'right'; ctx.font = `700 22px ${FONT}`; ctx.fillText('OC VIBE INSIGHTS', W - pad, 104); ctx.fillStyle = T.ink; ctx.font = `350 20px ${FONT}`; ctx.fillText(ASOF, W - pad, 134); ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic'; ctx.fillStyle = T.kick; ctx.textAlign = 'right'; ctx.font = `700 22px ${FONT}`; ctx.fillText('OCVIBE INSIGHTS', W - pad, 104); ctx.fillStyle = T.ink; ctx.font = `350 20px ${FONT}`; ctx.fillText(ASOF, W - pad, 134); ctx.textAlign = 'left';
     ctx.globalAlpha = a; ctx.translate(0, dy);
     const lines = (txt, x, y, mw, size, wt, col, lh, max, style = '') => { const l = wrap(txt, mw, size, wt, max); ctx.fillStyle = col; ctx.font = `${style}${wt} ${size}px ${FONT}`; l.forEach((q, i) => ctx.fillText(q, x, y + i * size * lh)); return l.length; };
     if (s.k === 'intro') {
@@ -594,7 +594,7 @@ b.kv{color:${VA.e3}}.mk-tx{fill:${VA.dark}}.mk-mu{fill:#4A4546}.mk-b{fill:${VA.e
       lines('Source: ' + (c.src || ''), pad, H - 130, W - 2 * pad, 22, 350, T.muted, 1.35, 2);
     } else {
       lines('Explore the data', pad, 420, W - 2 * pad, 96, 900, T.ink, 1.06, 1, 'oblique ');
-      lines('Every figure, its source and the full reports are in the OC Vibe Insights app.', pad, 520, W - 2 * pad - 200, 40, 350, T.muted, 1.3, 2);
+      lines('Every figure, its source and the full reports are in the OCVIBE Insights app.', pad, 520, W - 2 * pad - 200, 40, 350, T.muted, 1.3, 2);
       ctx.fillStyle = T.ink; ctx.font = `700 34px ${FONT}`; ctx.fillText(PREP, pad, 720); ctx.fillStyle = T.kick; ctx.fillText(CONTACT, pad, 772);
     }
     ctx.restore();

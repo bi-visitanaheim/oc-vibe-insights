@@ -1,4 +1,4 @@
-"""Independent validation of the OC Vibe Insights calculations (Visit Anaheim BI).
+"""Independent validation of the OCVIBE Insights calculations (Visit Anaheim BI).
 
 Run from the build folder:  python3 checks/validate_ocvibe.py <output_dir>
 Writes <output_dir>/results.json and <output_dir>/summary.md.
@@ -251,9 +251,9 @@ vb = I.VIEWS["Base"]; vd = vis25 * 10**6 * los
 ocv0 = Fr("0.052") * sp25 * 10**6
 ok3 = close(vb["ocv_today"]["spend"], ocv0) and close(vb["ana_live"]["spend"] - vb["ana_today"]["spend"], I.RES[1]["spend"]) \
       and close(vb["ocv_live"]["spend"] - vb["ocv_today"]["spend"], I.RES[1]["spend"]) and close(vb["ana_live"]["jobs"] - vb["ana_today"]["jobs"], I.RES[1]["ana_jobs"])
-check("A. Recomputation", "Three views: OC Vibe today, Anaheim with OC Vibe, OC Vibe when live", ok3,
-      f"OC Vibe area today ${float(ocv0)/1e6:,.1f}M associated spending; when live ${vb['ocv_live']['spend']/1e6:,.1f}M; Anaheim ${vb['ana_today']['spend']/1e9:.3f}B → ${vb['ana_live']['spend']/1e9:.3f}B")
-check("B. Invariants", "OC Vibe share of visitor days stays below 100% and rises when live", 0 < vb["ocv_today"]["share"] < vb["ocv_live"]["share"] < 100, f"{vb['ocv_today']['share']:.1f}% → {vb['ocv_live']['share']:.2f}%")
+check("A. Recomputation", "Three views: OCVIBE today, Anaheim with OCVIBE, OCVIBE when live", ok3,
+      f"OCVIBE area today ${float(ocv0)/1e6:,.1f}M associated spending; when live ${vb['ocv_live']['spend']/1e6:,.1f}M; Anaheim ${vb['ana_today']['spend']/1e9:.3f}B → ${vb['ana_live']['spend']/1e9:.3f}B")
+check("B. Invariants", "OCVIBE share of visitor days stays below 100% and rises when live", 0 < vb["ocv_today"]["share"] < vb["ocv_live"]["share"] < 100, f"{vb['ocv_today']['share']:.1f}% → {vb['ocv_live']['share']:.2f}%")
 
 # ---------------- G. Benchmarks ----------------
 hc_per_yr = 45e6 / (2025 - 1993); hc_per_ev = 45e6 / 4500
@@ -264,7 +264,7 @@ share_ana = I.RES[1]["spend"] / (A["sp25"] * 1e6)
 check("G. Benchmarks", "Base-case new spending is a small share of the city's visitor economy", share_ana < 0.03, f"{share_ana*100:.2f}% of Anaheim's 2025 visitor spending")
 check("G. Benchmarks", "Visitor-only estimate is below whole-district published estimates", I.RES[1]["ana_impact"] < 400e6,
       f"${I.RES[1]['ana_impact']/1e6:.0f}M vs DTA's >$400M recurring (whole district, 2020)")
-check("G. Benchmarks", "OC Vibe hotel occupancy assumption within observed market range", 0.70 <= 0.74 <= 0.784 and ND.STR["Anaheim+"]["occ"] / 100 >= 0.74,
+check("G. Benchmarks", "OCVIBE hotel occupancy assumption within observed market range", 0.70 <= 0.74 <= 0.784 and ND.STR["Anaheim+"]["occ"] / 100 >= 0.74,
       f"74% base vs CoStar OC 74.0%, Disneyland 78.4%, STR Anaheim+ {ND.STR['Anaheim+']['occ']:.1f}%")
 check("G. Benchmarks", "Multiplier and jobs ratios are consistent across geographies", max(mults.values()) / min(mults.values()) < 1.25,
       "impact per $1: " + ", ".join(f"{g} {m:.2f}" for g, m in mults.items()) + "; jobs per $1M: " + ", ".join(f"{g} {j:.1f}" for g, j in jobsr.items()))
@@ -288,7 +288,7 @@ for _t in _texts:
         if (len(_k.strip("$%MBK,.")) < 2 and not _k.endswith("%")) or _re.fullmatch(r"20\d\d", _k): continue
         _n += 1
         if _k not in _other: _miss.append(_k)
-check("H. Report text", "Every number in key insights, OC Vibe sections and the main announcement traces to a table, card, note or data note", not _miss and _n > 150, f"{_n} figures traced; {len(_miss)} not found" + (f": {_miss[:5]}" if _miss else ""))
+check("H. Report text", "Every number in key insights, OCVIBE sections and the main announcement traces to a table, card, note or data note", not _miss and _n > 150, f"{_n} figures traced; {len(_miss)} not found" + (f": {_miss[:5]}" if _miss else ""))
 # Newsroom structure and house style (added Oct. 13, 2026)
 _news = [x for x in CT.SECTIONS if x.get("kind") == "News report"]
 _bad = [x["id"] for x in _news if not (x.get("dateline") and x.get("ans") and x.get("nut") and len(x.get("details") or []) == 6 and all(d.get("fig") and d.get("src") for d in x["details"]))]
@@ -439,6 +439,24 @@ check("M. Page by page", "Page-by-page code adds no outside requests and no em d
       "\u2014" not in _pj and "\u2014" not in _pc and "http" not in _pj and "/p' + (i + 1)" in _pj and "ArrowRight" in _pj and "Element.prototype.scrollIntoView" in _pj,
       "em dashes 0; outside hosts none; deep links, keys and jump handling present")
 
+# ---------------- N. OCVIBE name and comparison clarity (Nov. 5, 2026, OCVIBE feedback) ----------------
+_KEEP_TITLES = ("First Phase of $4B OCVibe Takes Shape", "OCVibe Aims to be 365-Day-a-Year Destination", "The Weave Rises as OCVibe's Modern Office Hub")
+def _bad_ocv(t):
+    for k in _KEEP_TITLES: t = t.replace(k, "")
+    return sorted(set(m.group(0) for m in _re.finditer(r"\bOC[ \-]Vibe\b|\bOC VIBE\b|\bOCVibe\b|\bOc Vibe\b", t)))
+_b_app, _b_deck = _bad_ocv(_html), _bad_ocv(_decks_txt)
+check("N. OCVIBE name and comparisons", "The partner's name is written \"OCVIBE\" in the app and both decks (file names, web addresses and quoted article headlines stay as published)", not _b_app and not _b_deck,
+      f"other spellings in app: {_b_app or 'none'}; in decks: {_b_deck or 'none'}")
+import clarity as _cl
+_sec_all = CT.SECTIONS; _ask_all = CT.DATA_EXTRA["ask"]["items"]
+_card_bad = [c[0] for s_ in _sec_all for c in s_.get("cards", []) if isinstance(c, list) and c and "baseline" in c[0].lower() and "vs." not in c[0]]
+_y19 = [r[0] for q in _ask_all for r in (q.get("geo") or []) if isinstance(r, list) and "2019" in r[0] and not ("baseline" in r[0] or "latest" in r[0])] + \
+       [c[0] for s_ in _sec_all for c in s_.get("cards", []) if isinstance(c, list) and c and "2019" in c[0] and not ("baseline" in c[0] or "latest" in c[0])]
+_gl = next(s_ for s_ in _sec_all if s_["id"] == "p-appx")["tables"][1]["rows"]
+check("N. OCVIBE name and comparisons", "Every comparison names both sides in one place: no stand-alone baseline cards, every 2019 label reads as a baseline or the latest survey, all clarity rewrites applied, Baseline and Comparison defined in the glossary",
+      not _cl.UNUSED and not _card_bad and not _y19 and {"Baseline", "Comparison (vs.)", "Latest available survey"} <= {r[0] for r in _gl},
+      f"rewrites applied {len(_cl.PHRASES) - len(_cl.UNUSED)}/{len(_cl.PHRASES)}; stand-alone baseline cards {_card_bad or 'none'}; unlabeled 2019 rows {_y19 or 'none'}")
+
 # ---------------- write ----------------
 results["checks"] = checks; results["passed"] = sum(c_["ok"] for c_ in checks); results["total"] = len(checks)
 results["seed"] = SEED; results["generated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -449,7 +467,7 @@ def conv_(o):
     raise TypeError(type(o))
 json.dump(results, open(os.path.join(OUT, "results.json"), "w"), indent=1, default=conv_)
 with open(os.path.join(OUT, "summary.md"), "w") as fh:
-    fh.write(f"# OC Vibe calculation validation\n\n{results['passed']} of {results['total']} checks passed.\n\n")
+    fh.write(f"# OCVIBE calculation validation\n\n{results['passed']} of {results['total']} checks passed.\n\n")
     for c_ in checks: fh.write(f"- [{'PASS' if c_['ok'] else 'FAIL'}] {c_['group']} — {c_['name']}: {c_['detail']}\n")
 print(f"{results['passed']}/{results['total']} passed")
 for c_ in checks: print(("PASS " if c_["ok"] else "FAIL ") + c_["group"] + " | " + c_["name"] + " | " + c_["detail"])

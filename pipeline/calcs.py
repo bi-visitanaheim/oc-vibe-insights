@@ -2,8 +2,8 @@
 
 Adds:
  - s["calc_steps"]: step table under each section's key insight (calculated steps and reported inputs);
- - "calc" on each What-it-means-for-OC-Vibe item, compare-and-contrast item and By-the-numbers card that carries a derived number;
- - a "How it's calculated" column on the OC Vibe impact tables;
+ - "calc" on each What-it-means-for-OCVIBE item, compare-and-contrast item and By-the-numbers card that carries a derived number;
+ - a "How it's calculated" column on the OCVIBE impact tables;
  - calculations appended to the summary findings and the main announcement.
 All values come from the model modules, so the breakdown text always matches the numbers shown.
 """
@@ -47,7 +47,7 @@ CALC = dict(
   jobs=f"{m(B['spend'])} × {I.JOBS_ANA:.2f} jobs per $1M ({n0(A['jobs'])} jobs ÷ ${A['sp25']:,.0f}M visitor spending, 2025) = about {round(B['ana_jobs'],-1):,.0f} jobs",
   impact=f"{m(B['spend'])} × {I.MULT_ANA:.4f} (${A['impact']:,.0f}M total impact ÷ ${A['sp25']:,.0f}M visitor spending, 2025) = {m(B['ana_impact'],0)}",
   tax=f"{m(B['spend'])} × {I.TAX_ANA*100:.1f}% (${A['sl_tax']:,.0f}M state and local taxes ÷ ${A['sp25']:,.0f}M visitor spending) = {m(B['ana_tax'])}",
-  share1=f"({vd0/1e6:.2f}M OC Vibe area visitor days today + {nv_days/1e6:.2f}M from net-new visitors + {B['extra_days']/1e6:.2f}M extra days) ÷ {vd_live/1e6:.1f}M Anaheim visitor days = {ocv_vd1/vd_live*100:.1f}%",
+  share1=f"({vd0/1e6:.2f}M OCVIBE area visitor days today + {nv_days/1e6:.2f}M from net-new visitors + {B['extra_days']/1e6:.2f}M extra days) ÷ {vd_live/1e6:.1f}M Anaheim visitor days = {ocv_vd1/vd_live*100:.1f}%",
   growth=f"{m(B['spend'])} ÷ {bn(sp25)} = +{B['spend']/sp25*100:.1f}%",
   pv=f"{bn(sp25)} visitor spending ÷ {A['vis25']:.1f}M visitors = ${sp25/vis:.0f} per visitor",
   per1k="1,000 net-new visitors × $258 = $258,000",
@@ -95,9 +95,9 @@ KEY_STEPS = {
            R("6. Spending from longer stays", f"{n0(B['extra_days'])} × ${pd:.2f}", m(B["sp_stay"]), S_MODEL),
            R("7. New visitor spending", f"{m(B['sp_new'])} + {m(B['sp_stay'])}", m(B["spend"]), S_MODEL),
            R("8. Range", "5th to 95th percentile of 200,000 simulations, each varying the assumptions between the conservative and optimistic cases", "$71M–$122M", S_MODEL),
-           R("9. OC Vibe area today", f"5.2% of Anaheim visitor days (Datafy, 2024) × {bn(sp25,3)}", m(V["ocv_today"]["spend"],2), "Datafy (2024); Tourism Economics (2025)"),
-           R("10. Anaheim with OC Vibe", f"{bn(sp25,3)} + {m(B['spend'])}", bn(V["ana_live"]["spend"],3), S_MODEL),
-           R("11. OC Vibe when live", f"{m(V['ocv_today']['spend'],2)} + {m(B['spend'],2)}", m(V["ocv_live"]["spend"],2), S_MODEL)],
+           R("9. OCVIBE area today", f"5.2% of Anaheim visitor days (Datafy, 2024) × {bn(sp25,3)}", m(V["ocv_today"]["spend"],2), "Datafy (2024); Tourism Economics (2025)"),
+           R("10. Anaheim with OCVIBE", f"{bn(sp25,3)} + {m(B['spend'])}", bn(V["ana_live"]["spend"],3), S_MODEL),
+           R("11. OCVIBE when live", f"{m(V['ocv_today']['spend'],2)} + {m(B['spend'],2)}", m(V["ocv_live"]["spend"],2), S_MODEL)],
  "p-spend": [R("Spending per visitor, 2025", f"{bn(sp25)} visitor spending ÷ {A['vis25']:.1f}M visitors", f"${sp25/vis:.0f}", "Tourism Economics (2025)"),
              R("Forecast per visitor, 2028", REP, "$279", "Tourism Economics forecast (Sept. 2026)"),
              R("Visitor spending, Q2 2026", f"{REP}; vs. Q2 2025", "$1.76B (+7.8%)", "Tourism Economics (Sept. 2026)"),
@@ -111,11 +111,11 @@ KEY_STEPS = {
              R("Spending per visitor day", f"$258 ÷ {los:.2f} days", f"${pd:.2f}", "BI calculation"),
              R("Each 1% of visitors adding a day", f"{A['vis25']:.1f}M × 1% × ${pd:.2f}", m(I.PER_1PCT_DAY), S_MODEL)],
  "p-transport": [R("Domestic trips from within 50 miles", REP, "74.0%", "Azira (Aug. 2026)"),
-                 R("Vehicles on SR-57 beside OC Vibe", f"{REP} (Caltrans 2024 count on OCTA's map)", "275,000 a weekday", "OCTA (Aug. 2026)"),
+                 R("Vehicles on SR-57 beside OCVIBE", f"{REP} (Caltrans 2024 count on OCTA's map)", "275,000 a weekday", "OCTA (Aug. 2026)"),
                  R("Weekday bus trips stopping at ARTIC", CALC["bus"].rsplit(" = ", 1)[0], str(D.TRANSIT["wk"]), "OCTA schedules (Aug.–Nov. 2026); BI count")],
  "p-d5": [R("Overnight share, District 5", REP, "85.8%", "Azira (Jan.–May 2026)"),
           R("First-time visitors", REP, "43.8%", "Azira (Jan.–May 2026)"),
-          R("OC Vibe area share of Anaheim visitor days", REP, "5.2%", "Datafy (2024)")],
+          R("OCVIBE area share of Anaheim visitor days", REP, "5.2%", "Datafy (2024)")],
  "p-media": [R("Measurable impressions", REP, "31.0M", "Azira (Jan.–Aug. 2026)"),
              R("Observed visits", REP, "368,416", "Azira (Jan.–Aug. 2026)"),
              R("Visits per 1,000 impressions", CALC["per1k_media"].rsplit(" = ", 1)[0], str(D.MED["per1k"]), "BI calculation"),
@@ -129,7 +129,7 @@ KEY_STEPS = {
             R("Price and labor growth", REP, "About 3.2% and 6% a year", "LARC/Moody's (Sept. 2026)")],
 }
 
-# ---------------- calcs for What-it-means-for-OC-Vibe items: (section, kind, index) ----------------
+# ---------------- calcs for What-it-means-for-OCVIBE items: (section, kind, index) ----------------
 ITEM = {
  ("p-ocv", "enhance", 0): f"{CALC['ana1']}; {CALC['ocv0']}; {CALC['ocv1']}",
  ("p-ocv", "enhance", 1): f"Jobs: {CALC['jobs']}. Impact: {CALC['impact']}. Taxes: {CALC['tax']}",
@@ -179,18 +179,18 @@ CARD = {
  ("p-media", "34.4"): CALC["lux"].split(";")[0],
 }
 
-# ---------------- "How it's calculated" column for the OC Vibe impact tables ----------------
+# ---------------- "How it's calculated" column for the OCVIBE impact tables ----------------
 TABLE_CALC = {
- "Three views of impact: Anaheim, Anaheim with OC Vibe, and OC Vibe's own": {
+ "Three views of impact: Anaheim, Anaheim with OCVIBE, and OCVIBE's own": {
    "Visitors a year": f"View 2 = {A['vis25']:.1f}M + {n0(B['new_vis'])} net-new visitors",
    "Visitor days a year": f"Visitors × {los:.2f}-day stay; view 2 adds {nv_days/1e6:.2f}M days from net-new visitors and {B['extra_days']/1e6:.2f}M extra days; 3a = 5.2% of Anaheim visitor days; 3b = 3a + the same additions",
    "Visitor spending": f"View 2 = {bn(sp25)} + {m(B['spend'])}; 3a = 5.2% × {bn(sp25)}; 3b = 3a + {m(B['spend'])}",
    "Total economic impact": f"View 1 reported; others = spending × {I.MULT_ANA:.4f}",
    "Jobs supported": f"View 1 reported; others = spending ÷ $1M × {I.JOBS_ANA:.2f}",
    "State and local taxes": f"View 1 reported; others = spending × {I.TAX_ANA*100:.1f}%",
-   "OC Vibe share of Anaheim visitor days": "OC Vibe area visitor days ÷ Anaheim visitor days",
+   "OCVIBE share of Anaheim visitor days": "OCVIBE area visitor days ÷ Anaheim visitor days",
    "Simulation range for visitor spending (5th–95th percentile)": "5th–95th percentile of 200,000 simulations"},
- "OC Vibe visitor impact by scenario": {
+ "OCVIBE visitor impact by scenario": {
    "Concert hall, theater and club attendance": f"Concert hall events × {n0(I.HALL_CAP)} seats × fill + theater and club events × {n0(I.SMALL_CAP)} seats × fill",
    "Net-new visitors to Anaheim": "Attendance × net-new share (15% / 25% / 35%)",
    "Extra visitor days from longer stays": f"{A['vis25']:.1f}M visitors × share who add a day (0.5% / 1% / 2%)",
@@ -207,14 +207,14 @@ TABLE_CALC = {
    "California: new out-of-state visitor spending": f"New spending × {I.OUT_OF_STATE*100:.0f}% from outside California",
    "California: jobs supported": f"California spending ÷ $1M × {I.JOBS_CA:.2f} (Visit California 2025)",
    "California: state and local taxes": f"California spending × {I.TAX_CA*100:.1f}%",
-   "OC Vibe hotels: room nights a year": "550 rooms × 365 × occupancy (70% / 74% / 78.4%)",
-   "OC Vibe hotels: room revenue": f"Room nights × average rate ($218 / $218 / ${I.ASSUME['hotel_adr'][2]:.2f})",
-   "OC Vibe hotels: Anaheim hotel tax (15%)": "Room revenue × 15%"},
+   "OCVIBE hotels: room nights a year": "550 rooms × 365 × occupancy (70% / 74% / 78.4%)",
+   "OCVIBE hotels: room revenue": f"Room nights × average rate ($218 / $218 / ${I.ASSUME['hotel_adr'][2]:.2f})",
+   "OCVIBE hotels: Anaheim hotel tax (15%)": "Room revenue × 15%"},
  "What each lever is worth": {
    "Every 1% of Anaheim visitors who add a day": CALC["per1pct"],
    "Every 1,000 net-new visitors": CALC["per1k"],
    "Every 100 concert hall nights at 80% full": f"{CALC['per100']}; × 25% net-new × $258 = {m(I.PER_100_EVENTS*0.25*258)}",
-   "Each point of OC Vibe hotel occupancy": "550 rooms × 365 × 1% = 2,008 room nights; × $218 = $437,700; × 15% = $65,700",
+   "Each point of OCVIBE hotel occupancy": "550 rooms × 365 × 1% = 2,008 room nights; × $218 = $437,700; × 15% = $65,700",
    "Each $1M in new visitor spending": CALC["jobs_per1m"],
    "Each point of Sunday–Monday hotel occupancy citywide": CALC["pt_sunmon"]},
  "Transportation effects (base case)": {
@@ -231,8 +231,8 @@ TABLE_CALC = {
    "New visitor spending": CALC["ten"],
    "Anaheim total economic impact": f"{m(I.TEN['spend'],0)} × {I.MULT_ANA:.4f}",
    "State and local taxes": f"{m(I.TEN['spend'],0)} × {I.TAX_ANA*100:.1f}%",
-   "OC Vibe hotel room nights": "(230 rooms × 2 years + 550 rooms × 7 years) × 365 × 74%",
-   "Anaheim hotel tax from OC Vibe hotels (15%)": "Room nights × $218 × 15%"},
+   "OCVIBE hotel room nights": "(230 rooms × 2 years + 550 rooms × 7 years) × 365 × 74%",
+   "Anaheim hotel tax from OCVIBE hotels (15%)": "Room nights × $218 × 15%"},
 }
 
 TAKE = {0: f"{CALC['ana1']}; jobs {n0(A['jobs'])} + about {round(B['ana_jobs'],-1):,.0f}; {CALC['ocv0']}; {CALC['ocv1']}",

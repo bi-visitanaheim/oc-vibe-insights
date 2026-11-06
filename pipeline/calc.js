@@ -1,4 +1,4 @@
-/* ---------- OC Vibe staff inputs: live impact calculator (saved to the artifact's shared db when allowed) ---------- */
+/* ---------- OCVIBE staff inputs: live impact calculator (saved to the artifact's shared db when allowed) ---------- */
 (function initCalc(){
   const host = $('ocvCalc'); if (!host) return;
   const MD = MODEL, F = [
@@ -8,7 +8,7 @@
     ['small_fill','Theater and club seats filled','%', 1, MD.base.small_fill],
     ['other_att','Other new attendance a year (market hall, plazas, festivals)','', 1000, 0],
     ['net_new','Attendees who are net-new visitors to Anaheim','%', 1, MD.base.net_new],
-    ['add_day','Anaheim visitors who add a day because of OC Vibe','%', 0.1, MD.base.add_day],
+    ['add_day','Anaheim visitors who add a day because of OCVIBE','%', 0.1, MD.base.add_day],
     ['rooms','Hotel rooms open','', 10, MD.base.rooms],
     ['occ','Hotel occupancy','%', 1, MD.base.occ],
     ['adr','Hotel average nightly rate','$', 1, MD.base.adr],
@@ -23,17 +23,17 @@
       ['Attendance a year', fmtN(attend)], ['Net-new visitors', fmtN(nv)], ['Extra visitor days', fmtN(days)],
       ['New visitor spending', fmtM(spend)], ['Anaheim total economic impact', fmtM(spend*MD.mult_ana)], ['Anaheim jobs supported', fmtN(spend/1e6*MD.jobs_ana)],
       ['Anaheim state and local taxes', fmtM(spend*MD.tax_ana)], ['Orange County total economic impact', fmtM(spend*MD.mult_oc)],
-      ['California: new out-of-state visitor spending', fmtM(spend*MD.out_of_state)], ['OC Vibe hotel room nights', fmtN(rn)],
-      ['OC Vibe hotel room revenue', fmtM(rev)], ['Anaheim hotel tax (15%)', fmtM(rev*MD.tot)],
+      ['California: new out-of-state visitor spending', fmtM(spend*MD.out_of_state)], ['OCVIBE hotel room nights', fmtN(rn)],
+      ['OCVIBE hotel room revenue', fmtM(rev)], ['Anaheim hotel tax (15%)', fmtM(rev*MD.tot)],
     ];
   }
-  host.innerHTML = `<h3>Enter OC Vibe's own figures</h3>
-    <p class="calc-sub">OC Vibe staff can replace Visit Anaheim's assumptions with their own plans. Results update as you type and are compared with the BI base case. Saved figures are shared with everyone who can open this page.</p>
+  host.innerHTML = `<h3>Enter OCVIBE's own figures</h3>
+    <p class="calc-sub">OCVIBE staff can replace Visit Anaheim's assumptions with their own plans. Results update as you type and are compared with the BI base case. Saved figures are shared with everyone who can open this page.</p>
     <div class="calc-grid"><form class="calc-in" id="calcForm" autocomplete="off">${F.map(([k,l,u,st]) => `<label class="calc-f"><span>${esc(l)}</span><span class="calc-w">${u==='$'?'<i>$</i>':''}<input type="number" inputmode="decimal" min="0" step="${st}" name="${k}" id="cin-${k}">${u==='%'?'<i>%</i>':''}</span></label>`).join('')}
       <label class="calc-f calc-note"><span>Where these figures come from (optional)</span><input type="text" maxlength="300" name="note" id="cin-note" placeholder="For example: 2027 booking plan, Oct. 2026"></label>
       <div class="calc-acts"><button type="button" class="ctl accent" id="calcSave">Save for Visit Anaheim</button><button type="button" class="ctl" id="calcReset">Reset to BI base case</button><button type="button" class="ctl" id="calcDl">Download (.csv)</button></div>
       <p class="calc-status" id="calcStatus" aria-live="polite"></p></form>
-      <div class="calc-out"><div class="scroll" tabindex="0" aria-label="Calculated impact"><table><thead><tr><th scope="col">Measure</th><th scope="col" class="n">OC Vibe figures</th><th scope="col" class="n">BI base case</th></tr></thead><tbody id="calcBody"></tbody></table></div>
+      <div class="calc-out"><div class="scroll" tabindex="0" aria-label="Calculated impact"><table><thead><tr><th scope="col">Measure</th><th scope="col" class="n">OCVIBE figures</th><th scope="col" class="n">BI base case</th></tr></thead><tbody id="calcBody"></tbody></table></div>
       <p class="src">Method and ratios as in the scenario table above (Tourism Economics 2025 ratios; 2025 dollars; visitors only). Estimates, not forecasts.</p>
       <div id="calcHist"></div></div></div>`;
   const form = $('calcForm'), baseOut = calc(BASE);
@@ -45,7 +45,7 @@
   $('calcReset').onclick = () => { fill(BASE); form.elements.note.value = ''; render(); setStatus('Reset to the BI base case. Nothing is saved until you choose Save.'); };
   $('calcDl').onclick = async () => {
     const v = read(), o = calc(v), q = s => '"' + String(s).replace(/"/g,'""') + '"';
-    const lines = ['"OC Vibe impact: figures entered by OC Vibe staff"', '"Input","Value"', ...F.map(([k,l,u]) => [q(l + (u ? ' ('+u+')' : '')), q(v[k])].join(',')), [q('Note'), q(form.elements.note.value)].join(','), '', '"Measure","OC Vibe figures","BI base case"', ...o.map(([l,x],i) => [q(l), q(x), q(baseOut[i][1])].join(',')), '', q('Prepared with the Visit Anaheim BI OC Vibe impact method, ' + apDate(new Date()) + '. Estimates, not forecasts.')];
+    const lines = ['"OCVIBE impact: figures entered by OCVIBE staff"', '"Input","Value"', ...F.map(([k,l,u]) => [q(l + (u ? ' ('+u+')' : '')), q(v[k])].join(',')), [q('Note'), q(form.elements.note.value)].join(','), '', '"Measure","OCVIBE figures","BI base case"', ...o.map(([l,x],i) => [q(l), q(x), q(baseOut[i][1])].join(',')), '', q('Prepared with the Visit Anaheim BI OCVIBE impact method, ' + apDate(new Date()) + '. Estimates, not forecasts.')];
     try { await saveBlob(new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv'}), 'OC_Vibe_impact_inputs.csv'); toast('Download ready.'); } catch (err) { dlError(err, 'Download'); }
   };
   function setStatus(t) { $('calcStatus').textContent = t; }
@@ -57,7 +57,7 @@
     canWrite = U ? await U.can('data.write') : null;
     if (canWrite === false) { $('calcSave').hidden = true; setStatus('You can try figures here. To save them for Visit Anaheim, ask for edit access, or use Download.'); }
     DB.doc('ocvibe/inputs').onSnapshot(async snap => {
-      if (!snap.exists) { setStatus(canWrite === false ? $('calcStatus').textContent : 'No OC Vibe figures saved yet. The BI base case is shown.'); return; }
+      if (!snap.exists) { setStatus(canWrite === false ? $('calcStatus').textContent : 'No OCVIBE figures saved yet. The BI base case is shown.'); return; }
       const d = snap.data(); if (snap.metadata.hasPendingWrites) return;
       fill(d.values || BASE); form.elements.note.value = d.note || ''; render();
       const ps = d.by ? await names([d.by]) : {}; const who = (ps[d.by] && ps[d.by].name) || 'Someone';

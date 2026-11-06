@@ -1,11 +1,11 @@
-# OC Vibe Insights
+# OCVIBE Insights
 
-A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for OC Vibe (Jira BIREPORTS-966). It shows where Anaheim's visitor economy and the OC Vibe area stand today, using measured or published data only.
+A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for OCVIBE (Jira BIREPORTS-966). It shows where Anaheim's visitor economy and the OCVIBE area stand today, using measured or published data only.
 
 | | |
 |---|---|
 | **Owner** | Visit Anaheim Business Intelligence (John Picou, jpicou@visitanaheim.org) |
-| **Audience** | OC Vibe (external partner) and Visit Anaheim staff |
+| **Audience** | OCVIBE (external partner) and Visit Anaheim staff |
 | **Dashboard** | claude.ai artifact, version 25 (private until shared from its Share menu): https://claude.ai/artifact/QVGs5a6v3z4meGtc2XcZPB |
 | **Repository** | GitHub `bi-visitanaheim/oc-vibe-insights` (public) |
 | **Website** | https://oc-vibe-insights.vercel.app (public). Vercel project `oc-vibe-insights`, team "Visit Anaheim's projects" (Hobby plan). Deployment-specific URLs require a Vercel login |
@@ -19,8 +19,8 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 
 ## 1. Reporting rules this app follows
 
-1. **Facts only.** Every number is measured or published by a named source. The app has no Visit Anaheim BI estimate of OC Vibe's impact, because no OC Vibe attendance, ticketing or hotel data exists yet.
-2. **Tourism Economics covers the City of Anaheim only.** Its totals are never allocated to OC Vibe.
+1. **Facts only.** Every number is measured or published by a named source. The app has no Visit Anaheim BI estimate of OCVIBE's impact, because no OCVIBE attendance, ticketing or hotel data exists yet.
+2. **Tourism Economics covers the City of Anaheim only.** Its totals are never allocated to OCVIBE.
 3. **Years are labeled.** Calendar 2025 results (published 2026) appear beside Tourism Economics' 2026 forecast, and each is labeled.
 4. **Every calculated number shows its breakdown,** for example $6.832B ÷ 26.5M visitors = $258.
 5. **Every major point carries its source and date.**
@@ -30,7 +30,8 @@ A Visit Anaheim Business Intelligence dashboard and matching PowerPoint deck for
 9. **Internal checks stay internal.** Validation results are not shown in the report.
 10. **New customer-facing sections are confirmed with John Picou before publishing.**
 11. **House writing style:** no em dashes; PhD-level analysis and research rigor, written so the audience can digest and defend it.
-12. **Anaheim as a whole.** The report looks holistically at Anaheim; it has no calculator for individual events or for OC Vibe's own figures.
+12. **Comparisons are stated in one place.** Every change or comparison gives the latest figure first, then "vs." and the comparison period or baseline (for example "51.3M in 2025 vs. the 2019 baseline of 50.21M"). A baseline is a reference point, not the period being reported; figures from the newest available survey are labeled "latest ... (year)". `pipeline/clarity.py` applies the wording last.
+13. **Anaheim as a whole.** The report looks holistically at Anaheim; it has no calculator for individual events or for OCVIBE's own figures.
 
 ---
 
@@ -42,15 +43,15 @@ The **Overview** opens with **Key takeaways**: one card per section with its hea
 |---|---|---|
 | Questions answered | 26 general questions (average spend, one more night, transportation impact, District 5, jobs, taxes, hotels, outlook), each for Anaheim, Orange County and the U.S. (California where that is the closest published level) | Tourism Economics, Visit California, U.S. Travel Association, BTS, Azira, Datafy, Visa, CoStar, STR, LARC |
 | Orange County tourism | ECA's five questions for OCVIBE: visitor arrivals (2009-2026), origins, seasonality, visitor profile, hotel inventory, occupancy and ADR | CIC Research (2019), Tourism Economics (2025), Dean Runyan (2025p), Azira, CoStar |
-| Anaheim and OC Vibe today | Where do Anaheim's visitor economy and the OC Vibe area stand today? | Tourism Economics (2025; 2026 forecast), Datafy, Azira |
-| Who visits | Who visits District 5 and the OC Vibe area? | Azira, Datafy, Visa |
+| Anaheim and OCVIBE today | Where do Anaheim's visitor economy and the OCVIBE area stand today? | Tourism Economics (2025; 2026 forecast), Datafy, Azira |
+| Who visits | Who visits District 5 and the OCVIBE area? | Azira, Datafy, Visa |
 | Visitor spending | How much does each visitor spend, and how is that changing? | Tourism Economics, Visa |
 | Jobs and economy | What does the visitor economy support? | Tourism Economics |
 | Hotel market | How are hotels performing, and when is there room? | CoStar, STR |
 | One more night | What is one more night per visitor worth? | Visit Anaheim Extra Night study (TE, Azira) |
-| Getting here | How do people reach OC Vibe? | OCTA, Amtrak, Metrolink, BTS, California transit snapshots |
+| Getting here | How do people reach OCVIBE? | OCTA, Amtrak, Metrolink, BTS, California transit snapshots |
 | Marketing reach | Does Visit Anaheim's marketing bring visitors? | Azira media attribution |
-| Market outlook | What in the market will affect OC Vibe? | LARC, public OC Vibe sources |
+| Market outlook | What in the market will affect OCVIBE? | LARC, public OCVIBE sources |
 | Appendix | What do the terms, methods and formulas mean? | Visit Anaheim BI |
 | Reports and data library | Where can I read the full reports and data? | Every source file, as received (45 files), plus linked public sources |
 | Sources | Where does every number come from? | Source register (29 entries), data notes, recommendations |
@@ -70,7 +71,7 @@ Each section reads like a newspaper story, in this order:
 
 **Analysis** (feature)
 8. The question, maps (where the data is geographic), featured charts and the main table.
-9. What it means for OC Vibe: "What it enhances" and "What OC Vibe needs", tagged by topic, not by role.
+9. What it means for OCVIBE: "What it enhances" and "What OCVIBE needs", tagged by topic, not by role.
 10. Compare and contrast.
 11. "More data and notes": a highlighted callout with a count of the extra charts and tables and a reminder to read the notes and caveats before quoting a number (opens automatically in print and PDF).
 12. Up next: a full-width band with the section number, the next headline, why it follows and a Continue button.
@@ -125,13 +126,13 @@ The source register on the Sources page lists each source's document, period cov
 | CoStar reports and export | Through Aug. 2026 | Submarket performance, pipeline, investment |
 | LARC Market Intelligence Reports | Jan.–Sept. 2026 | Market outlook, convention pace, RevPAR |
 | Azira via Symphony | Jan.–Aug. 2026 | District 5 profile, origins, media attribution |
-| Datafy | Calendar 2024 | OC Vibe area share of Anaheim visitor days (5.2%) |
+| Datafy | Calendar 2024 | OCVIBE area share of Anaheim visitor days (5.2%) |
 | Visa Destination Insights via Symphony | Aug. 2026 | Card spending, origin markets |
 | OCTA (traffic map, bus schedules) | Aug.–Nov. 2026 | Traffic counts, ARTIC bus service |
 | Amtrak (Rail Passengers Association); Metrolink | 2018–2024; FY26 Q2 | Rail at ARTIC |
 | California's transit systems data snapshots | 2003–2017 | Orange County transit staff, costs, riders, fleet |
 | U.S. BTS | 2019–2025 | Travel costs, commute mode |
-| City of Anaheim; OCVIBE; OCBJ; PR Newswire; BizBash | 2024–2026 | OC Vibe phasing, venues, published figures |
+| City of Anaheim; OCVIBE; OCBJ; PR Newswire; BizBash | 2024–2026 | OCVIBE phasing, venues, published figures |
 | Visit Anaheim Extra Night study; Simpleview TID bookings | 2025 inputs; Jan. 2025 export | One more night; group bookings |
 
 ---
@@ -181,10 +182,10 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm i
    3. `views_valid.py`
    4. `logic_content.py` (who/what/when/where/why/how, compare and contrast, appendix)
    5. `roles_content.py` (California transit snapshots and the source-register additions)
-   6. `ocv_whole.py` ("What it means for OC Vibe", main announcement, hotel calendar, public facts)
+   6. `ocv_whole.py` ("What it means for OCVIBE", main announcement, hotel calendar, public facts)
    7. `calcs.py` (calculation breakdowns)
    8. `feature.py` (featured charts)
-   9. `facts_only.py` (removes estimates and rebuilds the "Anaheim and OC Vibe today" section)
+   9. `facts_only.py` (removes estimates and rebuilds the "Anaheim and OCVIBE today" section)
    10. `newsroom.py` (news report structure, reading order, house style)
    11. `infographics.py` ("At a glance" infographics)
    12. `maps.py` (maps for geographic data)
@@ -203,7 +204,7 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm i
 **Internal validation (not shown in the report).**
 
 - `pipeline/checks/validate_ocvibe.py` runs with `pipeline/checks/contract.json`.
-- The latest recorded run is `pipeline/computations/validation-021` (Oct. 15, 2026): 66 of 66 checks passed, including the Export panel checks and two new ones ("Visit Anaheim" written the same way everywhere in the app and decks; every chart mark, table cell, key figure and bold number opens a data card). The suite was re-run from this repository with the same result.
+- The latest recorded run is `pipeline/computations/validation-023` (Nov. 5, 2026): 70 of 70 checks passed, including group N (the partner's name written "OCVIBE" in the app and both decks; every comparison names the latest period and what it is compared with, and no stand-alone baseline cards).
 - The checks include:
   - every number in the report text traces to a table or data note;
   - no estimate wording remains;
@@ -229,11 +230,11 @@ Requirements: Python 3.11+ (`pip install -r requirements.txt`), Node 18+ (`npm i
 
 ### Quarterly refresh
 
-The report is updated quarterly because Tourism Economics data, the core of the report, arrives each quarter. STR, CoStar and Visa are available weekly or monthly and Azira monthly; they are pulled at the same time so every figure in an edition shares one as-of date. A scheduled task, "OC Vibe Insights quarterly refresh," runs on the 15th of January, April, July and October at about 9 a.m. Pacific, after Tourism Economics' quarterly forecast arrives. It looks for new TE, LARC, STR, CoStar, Azira and Visa files, updates only figures with a new published value, rebuilds the dashboard and deck, runs the checks, republishes the artifact, commits on the OneDrive copy and sends John a summary. John then runs `git push` so Vercel redeploys. Steps: `docs/quarterly-refresh.md`.
+The report is updated quarterly because Tourism Economics data, the core of the report, arrives each quarter. STR, CoStar and Visa are available weekly or monthly and Azira monthly; they are pulled at the same time so every figure in an edition shares one as-of date. A scheduled task, "OCVIBE Insights quarterly refresh," runs on the 15th of January, April, July and October at about 9 a.m. Pacific, after Tourism Economics' quarterly forecast arrives. It looks for new TE, LARC, STR, CoStar, Azira and Visa files, updates only figures with a new published value, rebuilds the dashboard and deck, runs the checks, republishes the artifact, commits on the OneDrive copy and sends John a summary. John then runs `git push` so Vercel redeploys. Steps: `docs/quarterly-refresh.md`.
 
 ## 6. Data notes to keep in mind
 
-- **Concert hall capacity** differs by source: 5,000 (OCVIBE, Mar. 2026) vs. 5,613 (City of Anaheim, 2026). Confirm with OC Vibe.
+- **Concert hall capacity** differs by source: 5,000 (OCVIBE, Mar. 2026) vs. 5,613 (City of Anaheim, 2026). Confirm with OCVIBE.
 - **STR vs. CoStar:** they use different hotel sets. Compare trends, not levels.
 - **Azira, Datafy and Visa** count visitors differently. Compare within each source.
 - **California transit snapshots:**
@@ -242,7 +243,7 @@ The report is updated quarterly because Tourism Economics data, the core of the 
   - Laguna Beach outliers are flagged.
   - Snapshots 3 and 4 were duplicates.
 - **Extra Night study:** it is a "what if every visitor stayed one more night" calculation that holds spending per day constant.
-- **OC Vibe cost and timeline** differ by source: CoStar $4B and 2028; LARC $5B and 2033; City $4B, through about 2030.
+- **OCVIBE cost and timeline** differ by source: CoStar $4B and 2028; LARC $5B and 2033; City $4B, through about 2030.
 
 ---
 
@@ -256,14 +257,14 @@ The report is updated quarterly because Tourism Economics data, the core of the 
 
 ## 8. Open items
 
-- Confirm the concert hall capacity with OC Vibe.
-- Set up a quarterly data exchange with OC Vibe for ticket-buyer ZIP codes and hotel results once venues open (concert hall early 2027; first hotel 2028).
-- Planned sources: request Ticketmaster ticketing data for Honda Center from OC Vibe (data-sharing agreement; summaries only) and confirm who holds a Placer.ai license. Add each at the next quarterly update after it arrives.
+- Confirm the concert hall capacity with OCVIBE.
+- Set up a quarterly data exchange with OCVIBE for ticket-buyer ZIP codes and hotel results once venues open (concert hall early 2027; first hotel 2028).
+- Planned sources: request Ticketmaster ticketing data for Honda Center from OCVIBE (data-sharing agreement; summaries only) and confirm who holds a Placer.ai license. Add each at the next quarterly update after it arrives.
 - Request Orange County visitor estimates for 2019-2020 and 2026 year to date from Tourism Economics, and consider a new Orange County visitor survey (the latest profile is CIC 2019).
 - Get post-2017 Orange County transit ridership, if available.
 - Get Tourism Economics transportation impact data (not yet received). The Questions answered page uses the transportation rows of the 2025 Economic Impact reports until it arrives.
-- Add Datafy's original calendar 2024 visitor report (the source of the 5.2% OC Vibe share) to the library; the library holds Datafy's calendar 2025 tables export, which uses a different basis and will be reconciled at the next quarterly update.
-- One OC Vibe request is on hold pending internal approval (tracked outside this repository).
+- Add Datafy's original calendar 2024 visitor report (the source of the 5.2% OCVIBE share) to the library; the library holds Datafy's calendar 2025 tables export, which uses a different basis and will be reconciled at the next quarterly update.
+- One OCVIBE request is on hold pending internal approval (tracked outside this repository).
 - Confirm California 2025 figures against Visit California's primary report.
 
-The full change history is in `docs/activity-log.md` and the project doc "OC Vibe Insights - build notes and activity log".
+The full change history is in `docs/activity-log.md` and the project doc "OCVIBE Insights - build notes and activity log".

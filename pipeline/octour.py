@@ -151,24 +151,23 @@ def prep():
 
     T = "Orange County tourism statistics"
     K.q(id="oc-arrivals", topic=T, q="How many visitors come to Orange County, and how many stay overnight?",
-        a=f"Orange County drew {TE_VOL[2025][2]}M visitors in 2025: {TE_VOL[2025][0]}M day and {TE_VOL[2025][1]}M overnight; {TE_INTL25[0]}M domestic and {TE_INTL25[1]}M international (Tourism Economics). CIC Research counted {CIC_VOL[2019][2]}M in 2019 with a different method. No 2026 year-to-date count is published for the county; Anaheim drew {h1_26:.1f}M in Jan.-June 2026, +{h1_chg:.1f}%.",
+        a=f"Orange County drew {TE_VOL[2025][2]}M visitors in 2025: {TE_VOL[2025][0]}M day and {TE_VOL[2025][1]}M overnight; {TE_INTL25[0]}M domestic and {TE_INTL25[1]}M international (Tourism Economics). For comparison, the 2019 baseline was {CIC_VOL[2019][2]}M (CIC Research, a different method). No 2026 year-to-date count is published for the county; Anaheim drew {h1_26:.1f}M in Jan.-June 2026, +{h1_chg:.1f}% vs. Jan.-June 2025.",
         key=f"{TE_VOL[2025][2]}M", key_l="Orange County visitors, 2025",
-        geo=[["Orange County, 2025", f"{TE_VOL[2025][2]}M", f"Day {TE_VOL[2025][0]}M + overnight {TE_VOL[2025][1]}M; domestic {TE_INTL25[0]}M (93.3%), international {TE_INTL25[1]}M (6.7%)", S_TEOC],
-             ["Orange County, 2019", f"{CIC_VOL[2019][2]}M", f"Day {CIC_VOL[2019][0]}M + overnight {CIC_VOL[2019][1]}M; international 9.1% (4.6M)", S_CIC],
-             ["Orange County, 2020", "Not published", f"Visitor spending fell to ${DR_SP[2020]/1000:.2f}B, {dr_20:.1f}% of 2019 ({S_DR.split(',')[0]})", S_DR],
-             ["Anaheim, Jan.-June 2026", f"{h1_26:.2f}M", f"Q1 {ANA_H1['y26'][0]}M + Q2 {ANA_H1['y26'][1]}M vs. {h1_25:.2f}M in Jan.-June 2025 (+{h1_chg:.1f}%)", S_TEFC],
-             ["California, 2025", "271.4M visits", "255.0M domestic, 16.4M international (2019: 285.6M)", S_VCFC]],
-        viz=dict(kind="bars", title="Orange County visitors, millions", rows=[
-            dict(l="2019 (CIC)", v=CIC_VOL[2019][2], t=f"{CIC_VOL[2019][2]}M"), dict(l="2023 (TE)", v=TE_VOL[2023][2], t=f"{TE_VOL[2023][2]}M"),
+        geo=[["Orange County, 2025 vs. 2019 baseline", f"{TE_VOL[2025][2]}M in 2025", f"2025: day {TE_VOL[2025][0]}M + overnight {TE_VOL[2025][1]}M; domestic {TE_INTL25[0]}M (93.3%), international {TE_INTL25[1]}M (6.7%). Compared with the 2019 baseline: {CIC_VOL[2019][2]}M (CIC Research, a different method)", f"{S_TEOC}; {S_CIC}"],
+             ["Orange County, 2020 vs. 2019 baseline", "Visitor count not published", f"Visitor spending fell to ${DR_SP[2020]/1000:.2f}B in 2020, {dr_20:.1f}% of the 2019 baseline (${DR_SP[2019]/1000:.2f}B) ({S_DR.split(',')[0]})", S_DR],
+             ["Anaheim, Jan.-June 2026 vs. Jan.-June 2025", f"{h1_26:.2f}M in Jan.-June 2026", f"Q1 {ANA_H1['y26'][0]}M + Q2 {ANA_H1['y26'][1]}M vs. {h1_25:.2f}M in Jan.-June 2025 (+{h1_chg:.1f}%)", S_TEFC],
+             ["California, 2025 vs. 2019 baseline", "271.4M visits in 2025", "2025: 255.0M domestic, 16.4M international. Compared with the 2019 baseline: 285.6M visits", S_VCFC]],
+        viz=dict(kind="bars", title="Orange County visitors, millions: 2023-2025 compared with the 2019 baseline", rows=[
+            dict(l="2019 baseline (CIC)", v=CIC_VOL[2019][2], t=f"{CIC_VOL[2019][2]}M"), dict(l="2023 (TE)", v=TE_VOL[2023][2], t=f"{TE_VOL[2023][2]}M"),
             dict(l="2024 (TE)", v=TE_VOL[2024][2], t=f"{TE_VOL[2024][2]}M"), dict(l="2025 (TE)", v=TE_VOL[2025][2], t=f"{TE_VOL[2025][2]}M", hi=True)]),
         how="Tourism Economics counts visitors who stay overnight or travel more than 50 miles. CIC Research estimated 2019 volume from visitor intercept surveys, a household panel and hotel data. Day + overnight = total.",
         caveat="CIC (2009-2019) and Tourism Economics (2021-2025) use different methods; compare each series within itself. Tourism Economics has not published Orange County visitors for 2019-2020 or a 2026 year-to-date count; both are on the request list for Tourism Economics.",
         files=["te-ei-oc", "cic-profile-2019", "vca-ei-2025p", "te-fc-sep"], go="p-octour", links=[])
     K.q(id="oc-origins", topic=T, q="Where do Orange County visitors come from?",
-        a="More than half (55.4%) of Orange County visitors in 2019 lived in Southern California: Los Angeles metro 26%, Riverside/San Bernardino 19% and San Diego 6%; 9.1% were international (CIC). Location data for Anaheim and Garden Grove (Jan. 2023-Aug. 2026) shows 44.7% of domestic trips from the Los Angeles-Long Beach-Anaheim metro area, which includes Orange County.",
-        key="55.4%", key_l="of Orange County visitors from Southern California, 2019",
-        geo=[["Orange County, 2019", "55.4% Southern California", "Los Angeles 26%, Riverside/San Bernardino 19%, San Diego 6%; international 9.1% (Mexico 848K, Canada 786K)", S_CIC],
-             ["Anaheim and Garden Grove", "44.7% Los Angeles-Long Beach-Anaheim", "Riverside-San Bernardino-Ontario 26.1%, San Diego 4.1%, Phoenix 2.3% (share of domestic trips)", S_AZ],
+        a="The latest Orange County visitor survey (CIC Research, 2019) found that more than half (55.4%) of visitors lived in Southern California: Los Angeles metro 26%, Riverside/San Bernardino 19% and San Diego 6%; 9.1% were international (CIC). Location data for Anaheim and Garden Grove (Jan. 2023-Aug. 2026) shows 44.7% of domestic trips from the Los Angeles-Long Beach-Anaheim metro area, which includes Orange County.",
+        key="55.4%", key_l="of Orange County visitors from Southern California (latest county survey, 2019)",
+        geo=[["Orange County, latest county survey (2019)", "55.4% Southern California", "Los Angeles 26%, Riverside/San Bernardino 19%, San Diego 6%; international 9.1% (Mexico 848K, Canada 786K)", S_CIC],
+             ["Anaheim and Garden Grove, Jan. 2023-Aug. 2026", "44.7% Los Angeles-Long Beach-Anaheim", "Riverside-San Bernardino-Ontario 26.1%, San Diego 4.1%, Phoenix 2.3% (share of domestic trips)", S_AZ],
              ["Anaheim and Garden Grove, international, 2025", "Mexico 766K", "Canada 254K, U.K. 123K, Australia 104K", "Tourism Economics, Travel Forecast (Sept. 2026)"]],
         viz=dict(kind="bars", title="Share of domestic trips by home metro area, Anaheim and Garden Grove", unit="%", rows=[
             dict(l=n.split(" (")[0], v=v, t=f"{v}%", hi=(i == 0)) for i, (n, v) in enumerate(AZ_MSA[:5])]),
@@ -187,23 +186,23 @@ def prep():
         caveat="Hotel occupancy measures overnight guests only; day visitors (57% of county visitors in 2025) are not in it.",
         files=["cs-mkt", "vca-lodging-fc"], go="p-octour", links=[])
     K.q(id="oc-profile", topic=T, q="Why do people visit Orange County, and who travels with them?",
-        a="In 2019, 81.2% of Orange County visitors came for pleasure or to see friends and relatives, 9.6% for business or conventions and 7.6% for special events. The average travel party was 2.8 people, 37.0% had children with them, and overnight visitors stayed 4.2 nights (CIC). It is the latest county visitor profile.",
-        key="37.0%", key_l="of Orange County visitors traveled with children, 2019",
-        geo=[["Orange County, all visitors, 2019", "Party of 2.8", "37.0% with children; 81.2% pleasure or VFR; 1.8 nights average (day visitors count as 0)", S_CIC],
-             ["Orange County hotel guests, 2019", "Party of 2.6", "28.7% with children; 29.0% business or convention; 3.8 nights", S_CIC],
-             ["Anaheim, all visitors, 2019", "Party of 3.0", "42.0% with children; 78.3% pleasure or VFR; 9.7% special events", S_CIC],
+        a="The latest Orange County visitor survey (CIC Research, 2019) found 81.2% of visitors came for pleasure or to see friends and relatives, 9.6% for business or conventions and 7.6% for special events. The average travel party was 2.8 people, 37.0% had children with them, and overnight visitors stayed 4.2 nights. No newer county survey has been published.",
+        key="37.0%", key_l="of Orange County visitors traveled with children (latest county survey, 2019)",
+        geo=[["Orange County, all visitors (latest county survey, 2019)", "Party of 2.8", "37.0% with children; 81.2% pleasure or VFR; 1.8 nights average (day visitors count as 0)", S_CIC],
+             ["Orange County hotel guests (latest county survey, 2019)", "Party of 2.6", "28.7% with children; 29.0% business or convention; 3.8 nights", S_CIC],
+             ["Anaheim, all visitors (latest county survey, 2019)", "Party of 3.0", "42.0% with children; 78.3% pleasure or VFR; 9.7% special events", S_CIC],
              ["Anaheim and Garden Grove, 2026", "1.28-1.46 days", "Average length of stay by month, Jan.-Aug. 2026; international 4.99 days (2023-2026)", S_AZ]],
-        viz=dict(kind="bars", title="Main purpose of trip, Orange County visitors, 2019", unit="%", rows=[
+        viz=dict(kind="bars", title="Main purpose of trip, Orange County visitors (latest county survey, 2019)", unit="%", rows=[
             dict(l="Pleasure or VFR", v=81.2, t="81.2%", hi=True), dict(l="Business or convention", v=9.6, t="9.6%"), dict(l="Special events", v=7.6, t="7.6%"), dict(l="Other", v=1.6, t="1.6%")]),
         how="CIC Research surveyed 4,040 visitor groups in 2019 (2,686 intercepts at 36 Orange County locations plus a panel of 2,087 households).",
         caveat="The 2019 profile predates the pandemic; no newer Orange County visitor survey was found (SharePoint and Visit California sources searched Oct. 19, 2026). A new survey would update purpose, party size and children.",
         files=["cic-profile-2019", "az-los", "az-intl-los", "vca-mti-2026-08"], go="p-octour", links=[])
     K.q(id="oc-hotels", topic=T, q="How many hotel rooms does Orange County have, and how full are they?",
-        a=f"Orange County had {H26[2]:,} hotel rooms in Sept. 2026. Hotels filled {H26[3]}% of rooms at ${H26[4]:.2f} a night in Jan.-Aug. 2026, up from {H25[3]}% and ${H25[4]:.2f} in 2025 and {H19[3]}% and ${H19[4]:.2f} in 2019 (CoStar).",
+        a=f"Orange County had {H26[2]:,} hotel rooms in Sept. 2026. Hotels filled {H26[3]}% of rooms at ${H26[4]:.2f} a night in Jan.-Aug. 2026, compared with {H25[3]}% and ${H25[4]:.2f} in full-year 2025 and the 2019 baseline of {H19[3]}% and ${H19[4]:.2f} (CoStar).",
         key=f"{H26[3]}%", key_l="Orange County hotel occupancy, Jan.-Aug. 2026",
-        geo=[["Orange County, 2026 YTD", f"{H26[3]}% · ${H26[4]:.2f}", f"Revenue per available room ${revpar(H26[3], H26[4]):.2f} ({H26[3]}% x ${H26[4]:.2f})", S_CS],
-             ["Orange County, 2025", f"{H25[3]}% · ${H25[4]:.2f}", f"{H25[1]:,} rooms available a night on average", S_CS],
-             ["Orange County, 2019", f"{H19[3]}% · ${H19[4]:.2f}", f"{H19[1]:,} rooms available a night on average", S_CS],
+        geo=[["Orange County, Jan.-Aug. 2026 (latest)", f"{H26[3]}% · ${H26[4]:.2f}", f"Revenue per available room ${revpar(H26[3], H26[4]):.2f} ({H26[3]}% x ${H26[4]:.2f})", S_CS],
+             ["Jan.-Aug. 2026 vs. full-year 2025", f"{H26[3] - H25[3]:+.1f} pts occupancy · {(H26[4] / H25[4] - 1) * 100:+.1f}% ADR", f"2026: {H26[3]}% · ${H26[4]:.2f} vs. 2025: {H25[3]}% · ${H25[4]:.2f} ({H25[1]:,} rooms available a night)", S_CS],
+             ["Jan.-Aug. 2026 vs. 2019 baseline", f"{H26[3] - H19[3]:+.1f} pts occupancy · {(H26[4] / H19[4] - 1) * 100:+.1f}% ADR", f"2026: {H26[3]}% · ${H26[4]:.2f} vs. 2019 baseline: {H19[3]}% · ${H19[4]:.2f} ({H19[1]:,} rooms available a night)", S_CS],
              ["Orange County, 2026 forecast", "75.9% · $221.61", "Tourism Economics lodging forecast for Visit California (CoStar basis)", S_LF]],
         viz=dict(kind="bars", title="Orange County hotel occupancy", unit="%", rows=[
             dict(l=str(r[0]), v=r[3], t=f"{r[3]}%", hi=(r[0] == "2026 YTD")) for r in HOT]),
@@ -213,11 +212,11 @@ def prep():
     if T not in K.QORDER:
         K.QORDER.insert(0, T)
 
-    # ---- OC Vibe's requests (Oct. 9, 2026 follow-up and Oct. 19, 2026 ECA request): one place that shows each request and its answer ----
-    R = "OC Vibe requests"
+    # ---- OCVIBE's requests (Oct. 9, 2026 follow-up and Oct. 19, 2026 ECA request): one place that shows each request and its answer ----
+    R = "OCVIBE requests"
     A = {x["id"]: x for x in K.ASK}
-    K.q(id="ocv-requests", topic=R, q="What has OC Vibe asked for, and where is each answered?",
-        a="Eight requests in two rounds, all answered in this app with their sources. OC Vibe's Oct. 9, 2026 follow-up asked for the Q2 2026 Tourism Economics report, the Anaheim, Garden Grove and Orange County economic impact reports with food and beverage job shares, and the One more night study. Entertainment + Culture Advisors (ECA), for OCVIBE, asked five Orange County tourism questions on Oct. 19, 2026.",
+    K.q(id="ocv-requests", topic=R, q="What has OCVIBE asked for, and where is each answered?",
+        a="Eight requests in two rounds, all answered in this app with their sources. OCVIBE's Oct. 9, 2026 follow-up asked for the Q2 2026 Tourism Economics report, the Anaheim, Garden Grove and Orange County economic impact reports with food and beverage job shares, and the One more night study. Entertainment + Culture Advisors (ECA), for OCVIBE, asked five Orange County tourism questions on Oct. 19, 2026.",
         key="8 of 8", key_l="requests answered in this app",
         geo=[["Q2 2026 Tourism Economics report (Oct. 9)", "Answered", A["q2-report"]["a"], S_TEFC + "; library: te-travel-forecast-2026-09-q2-results.pdf"],
              ["Anaheim, Garden Grove and Orange County reports with food and beverage job share (Oct. 9)", "Answered", A["fb-jobs"]["a"], "Tourism Economics, Economic Impact of Visitors 2025 (pub. Apr.-May 2026); all six reports and supplemental charts in the library"],
@@ -243,45 +242,45 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
         id="p-octour", tab="Orange County tourism",
         q="How many visitors come to Orange County, from where and when, who are they, and what hotel capacity serves them?",
         period="CIC Research 2009-2019; Tourism Economics 2021-2025; CoStar through Sept. 2026; Azira Jan. 2023-Aug. 2026",
-        ans=f"Orange County drew {v25[2]}M visitors in 2025, {v25[0]}M for the day and {v25[1]}M overnight, and 93.3% came from within the U.S. (Tourism Economics). Most come for leisure: in 2019, 81.2% traveled for pleasure or to see friends and relatives, in parties of 2.8, and 37.0% brought children (CIC Research). Hotels filled {H26[3]}% of {H26[2]:,} rooms at ${H26[4]:.2f} in Jan.-Aug. 2026, with July the busiest month (CoStar).",
+        ans=f"Orange County drew {v25[2]}M visitors in 2025, {v25[0]}M for the day and {v25[1]}M overnight, and 93.3% came from within the U.S. (Tourism Economics). Most come for leisure: the latest county visitor survey (CIC Research, 2019) found 81.2% traveled for pleasure or to see friends and relatives, in parties of 2.8, and 37.0% brought children (CIC Research). Hotels filled {H26[3]}% of {H26[2]:,} rooms at ${H26[4]:.2f} in Jan.-Aug. 2026, with July the busiest month (CoStar).",
         ans_src=f"{S_TEOC}; {S_CIC}; {S_CS}",
         hv=f"{v25[2]}M", hl="Orange County visitors, 2025 (Tourism Economics)",
         head=f"Orange County draws {v25[2]} million visitors a year; hotels fill {H26[3]:.0f}% of rooms in 2026",
         dek="Five questions from Entertainment + Culture Advisors for OCVIBE, answered with dated sources: arrivals, origins, seasonality, visitor profile and hotels.",
-        cards=[["Orange County, 2025", "Visitors", f"{v25[2]}M", f"{v25[0]}M day · {v25[1]}M overnight · 6.7% international", S_TEOC],
-               ["Orange County, 2019 baseline", "Visitors (different method)", f"{v19[2]}M", f"{v19[0]}M day · {v19[1]}M overnight · 9.1% international", S_CIC],
+        cards=[["Orange County, 2025 vs. 2019 baseline", "Visitors in 2025", f"{v25[2]}M", f"2025: {v25[0]}M day · {v25[1]}M overnight · 6.7% international. Compared with the 2019 baseline of {v19[2]}M (CIC Research, a different method)", f"{S_TEOC}; {S_CIC}"],
+               ["Orange County, 2025p vs. 2019 baseline", "Visitor spending in 2025p", f"${DR_SP[2025]/1000:.2f}B", f"▲ +{dr_vs19:.1f}% vs. the 2019 baseline of ${DR_SP[2019]/1000:.2f}B", S_DR],
                ["Orange County hotels, Jan.-Aug. 2026", "Occupancy", f"{H26[3]}%", f"ADR ${H26[4]:.2f} · {H26[2]:,} rooms (Sept. 2026)", S_CS],
-               ["Orange County visitors, 2019", "Traveled with children", "37.0%", "Party of 2.8 · 81.2% pleasure or VFR", S_CIC]],
-        card_calc=[None, None, f"Year to date Jan.-Aug. 2026; 2025 full year {H25[3]}%", None],
+               ["Orange County visitors, latest county survey (2019)", "Traveled with children", "37.0%", "Party of 2.8 · 81.2% pleasure or VFR · no newer county survey published", S_CIC]],
+        card_calc=[None, f"${DR_SP[2025]:,.1f}M (2025p) / ${DR_SP[2019]:,.1f}M (2019 baseline) - 1 = +{dr_vs19:.1f}%", f"Jan.-Aug. 2026: {H26[3]}% vs. full-year 2025: {H25[3]}%", None],
     )
     sec["notes"] = [
         "The five questions, as sent by Entertainment + Culture Advisors on Oct. 19, 2026: " + " ".join(f"({i + 1}) {t}" for i, (_, t) in enumerate(Q_TEXT)),
-        f"Two visitor series exist and are kept apart: CIC Research for Visit Anaheim (2009-2019, survey-based) and Tourism Economics (2021-2025, model-based). CIC counted {v19[2]}M visitors in 2019; Tourism Economics counted {v25[2]}M in 2025. Neither publishes 2020 for the county; Dean Runyan Associates shows county visitor spending fell to {dr_20:.1f}% of its 2019 level that year.",
+        f"Two visitor series exist and are kept apart: CIC Research for Visit Anaheim (2009-2019, survey-based) and Tourism Economics (2021-2025, model-based). Tourism Economics counted {v25[2]}M visitors in 2025, compared with the 2019 baseline of {v19[2]}M from CIC. Neither publishes 2020 for the county; Dean Runyan Associates shows county visitor spending in 2020 fell to {dr_20:.1f}% of the 2019 baseline.",
         "Origins can be shown at the metro-area level. The Los Angeles-Long Beach-Anaheim metro area includes all of Orange County, and Azira does not supply ZIP codes, so a split between Anaheim and the rest of the metro area is not available from current sources.",
         f"Monthly visitor counts are not published for Orange County. Hotel occupancy is the monthly measure: July averaged {AVG3[6]}% and January {AVG3[0]}% over 2023-2025 (CoStar).",
-        "The most recent Orange County visitor profile is CIC Research's 2019 study; no newer county survey was found in Visit Anaheim's SharePoint or in Visit California's research (searched Oct. 19, 2026).",
+        "The latest Orange County visitor profile is CIC Research's 2019 study, so profile figures are labeled \"latest county survey, 2019\"; no newer county survey was found in Visit Anaheim's SharePoint or in Visit California's research (searched Oct. 19, 2026).",
     ]
     sec["ocv"] = [
-        f"OC Vibe opens into a county of {v25[2]}M visitors, {v25[1]}M of them overnight (2025).",
-        "Family travel is a core audience: 37.0% of county visitors and 42.0% of Anaheim visitors traveled with children in 2019.",
-        f"Special events already draw 7.6% of county visitors and 10.5% of day visitors (2019), a base for arena and concert programming.",
+        f"OCVIBE opens into a county of {v25[2]}M visitors, {v25[1]}M of them overnight (2025).",
+        "Family travel is a core audience: 37.0% of county visitors and 42.0% of Anaheim visitors traveled with children (latest county survey, 2019).",
+        f"Special events already draw 7.6% of county visitors and 10.5% of day visitors (latest county survey, 2019), a base for arena and concert programming.",
         f"Hotel rooms are tightest in July ({AVG3[6]}%) and June ({AVG3[5]}%) and most open in January ({AVG3[0]}%), December ({AVG3[11]}%) and February ({AVG3[1]}%), CoStar 2023-2025 averages: event dates in the open months fill rooms that would otherwise sit empty.",
     ]
     sec["w5h"] = dict(
         who="Visitors to Orange County (staying overnight or traveling 50+ miles), the county's hotels, and ECA and OCVIBE as the requesters.",
-        what=f"{v25[2]}M visitors in 2025 ({v25[0]}M day, {v25[1]}M overnight; 93.3% domestic); 55.4% from Southern California (2019); July peak; 81.2% leisure, party of 2.8, 37.0% with children (2019); {H26[2]:,} hotel rooms at {H26[3]}% occupancy and ${H26[4]:.2f} ADR (2026 YTD).",
+        what=f"{v25[2]}M visitors in 2025 ({v25[0]}M day, {v25[1]}M overnight; 93.3% domestic); 55.4% from Southern California (latest county survey, 2019); July peak; 81.2% leisure, party of 2.8, 37.0% with children (latest county survey, 2019); {H26[2]:,} hotel rooms at {H26[3]}% occupancy and ${H26[4]:.2f} ADR (2026 YTD).",
         when="Visitors 2009-2019 (CIC) and 2021-2025 (Tourism Economics); hotels Jan. 2019-Sept. 2026 (CoStar); Azira Jan. 1, 2023-Aug. 31, 2026. Assembled Oct. 19, 2026.",
         where="Orange County; Anaheim where the county figure is not published; Anaheim and Garden Grove for Azira location data.",
         why="ECA's market study for OCVIBE needs a county baseline for audience size, origin, timing, visitor mix and lodging capacity.",
         how="Published figures from each source, kept as separate series; BI arithmetic shown for averages, revenue per available room and changes.",
         src=f"{S_TEOC}; {S_CIC}; {S_CS}; {S_AZ}")
     sec["cc"] = [
-        dict(type="Growth", point=f"Orange County visitors rose from {TE_VOL[2021][2]}M (2021) to {v25[2]}M (2025), +{te_chg:.1f}%; visitor spending in 2025p was {dr_vs19:.1f}% above 2019.",
+        dict(type="Growth", point=f"Orange County visitors rose from {TE_VOL[2021][2]}M (2021) to {v25[2]}M (2025), +{te_chg:.1f}%; visitor spending in 2025p was {dr_vs19:.1f}% above the 2019 baseline (${DR_SP[2025]/1000:.2f}B vs. ${DR_SP[2019]/1000:.2f}B).",
              solution=None, src=f"{S_TEOC}; {S_DR}"),
         dict(type="Opportunity", point=f"January ({AVG3[0]}%), December ({AVG3[11]}%) and February ({AVG3[1]}%) are the most open hotel months (2023-2025 averages).",
-             solution="Schedule OC Vibe events that draw overnight guests in those months and share dates with Visit Anaheim for hotel packages.", src=S_CS),
-        dict(type="Quick win", point="The 2019 CIC profile answers purpose, party size and children for both Orange County and Anaheim.",
-             solution="Use it now as the labeled 2019 baseline in ECA's study; it is in the Reports and data library.", src=S_CIC),
+             solution="Schedule OCVIBE events that draw overnight guests in those months and share dates with Visit Anaheim for hotel packages.", src=S_CS),
+        dict(type="Quick win", point="The latest county visitor survey (CIC Research, 2019) answers purpose, party size and children for both Orange County and Anaheim.",
+             solution="Use it now as the latest available profile, labeled 2019, in ECA's study; it is in the Reports and data library.", src=S_CIC),
         dict(type="Early hurdle", point="No Orange County visitor count is published for 2020 or 2026 year to date, and the two visitor series use different methods.",
              solution="Request 2019-2020 and 2026 county estimates from Tourism Economics; until they arrive, show Anaheim's Jan.-June 2026 count (+3.1%) and county hotel data as the current read.", src=f"{S_TEFC}; {S_CS}"),
         dict(type="Pitfall", point="The Los Angeles-Long Beach-Anaheim metro area includes Orange County, so its 44.7% share mixes local and Los Angeles County trips; Azira has no ZIP codes.",
@@ -291,37 +290,37 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     ]
     sec["for_ocv"] = dict(
         enhance=[dict(tag="Strategy", text=f"A sized market: {v25[2]}M county visitors and {v25[1]}M overnight visitors a year (2025).", src=S_TEOC),
-                 dict(tag="Programming", text="Family and leisure audiences dominate: 81.2% leisure, 37.0% with children, parties of 2.8 (2019).", src=S_CIC),
+                 dict(tag="Programming", text="Family and leisure audiences dominate: 81.2% leisure, 37.0% with children, parties of 2.8 (latest county survey, 2019).", src=S_CIC),
                  dict(tag="Hotels", text=f"{H26[2]:,} county hotel rooms at {H26[3]}% occupancy (2026 YTD); January, December and February have the most room.", src=S_CS)],
-        need=[dict(tag="Measurement", text="A current Orange County visitor survey (purpose, party size, children, origins by ZIP) to replace the 2019 baseline.", src=S_CIC),
+        need=[dict(tag="Measurement", text="A current Orange County visitor survey (purpose, party size, children, origins by ZIP) to replace the 2019 survey, the latest available.", src=S_CIC),
               dict(tag="Measurement", text="Tourism Economics county estimates for 2019-2020 and 2026 year to date (to be requested from Tourism Economics).", src=S_TEOC)])
     sec["calc_steps"] = [
         ["1. Orange County visitors, 2025", "Day 29.2M + overnight 22.1M", f"{v25[2]}M", S_TEOC],
         ["2. Change in visitors, 2021-2025", f"{v25[2]} / {TE_VOL[2021][2]} - 1", f"+{te_chg:.1f}%", S_TEOC],
-        ["3. Visitor spending vs. 2019", f"${DR_SP[2025]:,.1f}M / ${DR_SP[2019]:,.1f}M - 1", f"+{dr_vs19:.1f}%", S_DR],
+        ["3. Visitor spending, 2025p vs. 2019 baseline", f"${DR_SP[2025]:,.1f}M / ${DR_SP[2019]:,.1f}M - 1", f"+{dr_vs19:.1f}%", S_DR],
         ["4. Anaheim visitors, Jan.-June 2026 vs. 2025", f"({ANA_H1['y26'][0]} + {ANA_H1['y26'][1]}) / ({ANA_H1['y25'][0]} + {ANA_H1['y25'][1]}) - 1", f"+{h1_chg:.1f}%", S_TEFC],
         ["5. July occupancy, 2023-2025 average", f"({OCC[2023][6]} + {OCC[2024][6]} + {OCC[2025][6]}) / 3", f"{AVG3[6]}%", S_CS],
         ["6. Revenue per available room, 2026 YTD", f"{H26[3]}% x ${H26[4]:.2f}", f"${rp26:.2f}", S_CS],
-        ["7. ADR change, 2019 to 2026 YTD", f"${H26[4]:.2f} / ${H19[4]:.2f} - 1", f"+{adr_chg:.1f}%", S_CS],
+        ["7. ADR change, Jan.-Aug. 2026 vs. 2019 baseline", f"${H26[4]:.2f} / ${H19[4]:.2f} - 1", f"+{adr_chg:.1f}%", S_CS],
     ]
     vol_rows = [dict(l=str(y), v=t, t=f"{t}M", hi=False) for y, (d, o, t) in CIC_VOL.items()] + \
                [dict(l=f"{y}", v=t, t=f"{t}M", hi=(y == 2025)) for y, (d, o, t) in TE_VOL.items()]
     sec["charts"] = [
-        dict(kind="cols", title=f"Orange County visitors: {v19[2]}M in 2019 (CIC) and {v25[2]}M in 2025 (Tourism Economics)",
+        dict(kind="cols", title=f"Orange County visitors: {v25[2]}M in 2025 (Tourism Economics) compared with the 2019 baseline of {v19[2]}M (CIC)",
              sub="Millions · 2009-2019 CIC Research; 2021-2025 Tourism Economics; 2020 not published; methods differ", rows=vol_rows, src=f"{S_CIC}; {S_TEOC}"),
         dict(kind="bars", title="Orange County hotel occupancy by month, 2023-2025 average", sub="CoStar · July is the peak; January the low",
              rows=[dict(l=MON[i], v=AVG3[i], t=f"{AVG3[i]}%", hi=(i == PEAK_I)) for i in range(12)], src=S_CS),
         dict(kind="bars", title="Where domestic trips to Anaheim and Garden Grove come from", sub="Share of trips by home metro area, Jan. 2023-Aug. 2026 (Azira)",
              rows=[dict(l=n, v=v, t=f"{v}%", hi=(i == 0)) for i, (n, v) in enumerate(AZ_MSA)], src=S_AZ),
     ]
-    sec["feature"] = [dict(kind="line", title="Orange County hotel occupancy by month: 2026 runs above 2025 and 2019 in most months",
+    sec["feature"] = [dict(kind="line", title="Orange County hotel occupancy by month, 2026 compared with 2025 and the 2019 baseline: 2026 runs above both in most months",
                            sub="CoStar, Orange County market, occupancy %, Jan.-Sept. (2026 data through Sept.)", x=MON[:9],
-                           series=[dict(name="2019", v=OCC[2019][:9]), dict(name="2025", v=OCC[2025][:9]), dict(name="2026", v=OCC[2026], focal=True)],
+                           series=[dict(name="2019 baseline", v=OCC[2019][:9]), dict(name="2025", v=OCC[2025][:9]), dict(name="2026 (latest)", v=OCC[2026], focal=True)],
                            yfmt=dict(suf="%", dec=1), ymin=60, src=S_CS)]
     sec["more_charts"] = [
         dict(kind="cols", title="Orange County hotel occupancy by year", sub="CoStar · 2026 is Jan.-Aug.",
              rows=[dict(l=str(r[0]), v=r[3], t=f"{r[3]}%", hi=(r[0] == "2026 YTD"), fc=False) for r in HOT], src=S_CS),
-        dict(kind="bars", title="Main purpose of trip, Orange County visitors, 2019", sub="CIC Research, all visitors",
+        dict(kind="bars", title="Main purpose of trip, Orange County visitors (latest county survey, 2019)", sub="CIC Research, all visitors",
              rows=[dict(l="Pleasure or visiting friends and relatives", v=81.2, t="81.2%", hi=True), dict(l="Business or convention", v=9.6, t="9.6%"),
                    dict(l="Special events", v=7.6, t="7.6%"), dict(l="Other", v=1.6, t="1.6%")], src=S_CIC),
     ]
@@ -329,14 +328,14 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     T.append(dict(title="The five questions and where each is answered", hi=-1,
                   sub="Sent by Entertainment + Culture Advisors for OCVIBE, Oct. 19, 2026",
                   cols=[["Question", 0], ["What was asked", 0], ["Answer in brief", 0], ["Main source", 0], ["Gap and solution", 0]],
-                  rows=[[Q_TEXT[0][0], Q_TEXT[0][1], f"{v25[2]}M in 2025 ({v25[0]}M day, {v25[1]}M overnight; {TE_INTL25[0]}M domestic, {TE_INTL25[1]}M international); {v19[2]}M in 2019 (CIC); Anaheim Jan.-June 2026 {h1_26:.2f}M (+{h1_chg:.1f}%).", "Tourism Economics 2025; CIC 2019; Tourism Economics Sept. 2026", "County 2020 and 2026 YTD not published; request them from Tourism Economics."],
-                        [Q_TEXT[1][0], Q_TEXT[1][1], "55.4% Southern California (2019); 44.7% of Anaheim and Garden Grove domestic trips from the Los Angeles-Long Beach-Anaheim metro (2023-2026).", "CIC 2019; Azira", "No ZIP codes in Azira, so no Anaheim vs. outside-Anaheim split; a custom pull or survey would provide it."],
+                  rows=[[Q_TEXT[0][0], Q_TEXT[0][1], f"{v25[2]}M in 2025 ({v25[0]}M day, {v25[1]}M overnight; {TE_INTL25[0]}M domestic, {TE_INTL25[1]}M international), compared with the 2019 baseline of {v19[2]}M (CIC, a different method); Anaheim Jan.-June 2026 {h1_26:.2f}M (+{h1_chg:.1f}%).", "Tourism Economics 2025; CIC 2019; Tourism Economics Sept. 2026", "County 2020 and 2026 YTD not published; request them from Tourism Economics."],
+                        [Q_TEXT[1][0], Q_TEXT[1][1], "55.4% Southern California (latest county survey, 2019); 44.7% of Anaheim and Garden Grove domestic trips from the Los Angeles-Long Beach-Anaheim metro (2023-2026).", "CIC 2019; Azira", "No ZIP codes in Azira, so no Anaheim vs. outside-Anaheim split; a custom pull or survey would provide it."],
                         [Q_TEXT[2][0], Q_TEXT[2][1], f"Hotel occupancy peaks in July ({AVG3[6]}%) and is lowest in January ({AVG3[0]}%), 2023-2025 average.", "CoStar monthly", "No monthly county visitor counts; hotel occupancy is the monthly measure."],
-                        [Q_TEXT[3][0], Q_TEXT[3][1], "81.2% leisure, 9.6% business, 7.6% special events; party of 2.8; 37.0% with children; overnight stay 4.2 nights (2019).", "CIC 2019; Azira", "Latest county profile is 2019; a new survey would update it."],
+                        [Q_TEXT[3][0], Q_TEXT[3][1], "81.2% leisure, 9.6% business, 7.6% special events; party of 2.8; 37.0% with children; overnight stay 4.2 nights (latest county survey, 2019).", "CIC 2019; Azira", "Latest county profile is 2019; a new survey would update it."],
                         [Q_TEXT[4][0], Q_TEXT[4][1], f"{H26[2]:,} rooms (Sept. 2026); {H26[3]}% occupancy, ${H26[4]:.2f} ADR (Jan.-Aug. 2026).", "CoStar", "None."]],
                   src=f"{S_TEOC}; {S_CIC}; {S_CS}; {S_AZ}", wide=True))
     vrows = [[str(y), f"{t}M", f"{d}M", f"{o}M", "9.1% (4.6M)" if y == 2019 else "Not published", "CIC Research"] for y, (d, o, t) in CIC_VOL.items()]
-    vrows.append(["2020", "Not published", "Not published", "Not published", "Not published", f"Spending ${DR_SP[2020]/1000:.2f}B ({dr_20:.1f}% of 2019), Dean Runyan"])
+    vrows.append(["2020", "Not published", "Not published", "Not published", "Not published", f"Spending ${DR_SP[2020]/1000:.2f}B ({dr_20:.1f}% of the 2019 baseline), Dean Runyan"])
     vrows += [[str(y), f"{t}M", f"{d}M", f"{o}M", f"{TE_INTL25[1]}M (6.7%)" if y == 2025 else "Not published", "Tourism Economics"] for y, (d, o, t) in TE_VOL.items()]
     vrows.append(["2026 YTD", "Not published", "Not published", "Not published", "Not published", f"Anaheim only: {h1_26:.2f}M visitors Jan.-June (+{h1_chg:.1f}%), Tourism Economics"])
     T.append(dict(title="1. Visitor arrivals to Orange County, 2009-2026", hi=len(vrows) - 2,
@@ -345,7 +344,7 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
                   src=f"{S_CIC} (Figure 1, Table 3); {S_TEOC}; {S_DR}; {S_TEFC}"))
     T.append(dict(title="1b. Orange County visitor spending by type of stay, 2019-2025p", hi=6,
                   sub="$ millions, Dean Runyan Associates (spending, not visitor counts) · a third method; do not mix with Tourism Economics",
-                  cols=[["Year", 0], ["Visitor spending", 1], ["Day travel", 1], ["Day travel share", 1], ["Change vs. 2019", 1]],
+                  cols=[["Year", 0], ["Visitor spending", 1], ["Day travel", 1], ["Day travel share", 1], ["Change vs. 2019 baseline", 1]],
                   rows=[[str(y) + ("p" if y == 2025 else ""), f"${DR_SP[y]:,.1f}", f"${DR_DAY[y]:,.1f}", f"{DR_DAY[y] / DR_SP[y] * 100:.1f}%",
                          {"d": round((DR_SP[y] / DR_SP[2019] - 1) * 100, 1), "t": f"{(DR_SP[y] / DR_SP[2019] - 1) * 100:+.1f}%"}] for y in DR_SP],
                   src=S_DR + ", p. 67"))
@@ -353,14 +352,14 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     for i, (n, v) in enumerate(AZ_MSA):
         if i < len(orow): orow[i][2], orow[i][3] = n, f"{v}%"
     T.append(dict(title="2. Where visitors come from", hi=0,
-                  sub="Orange County 2019 (CIC, share of all visitors) and Anaheim and Garden Grove 2023-2026 (Azira, share of domestic trips by home metro area)",
-                  cols=[["Orange County origin, 2019", 0], ["Share", 1], ["Anaheim and Garden Grove origin metro", 0], ["Share", 1]], rows=orow,
+                  sub="Orange County, latest county survey (2019; CIC, share of all visitors) and Anaheim and Garden Grove 2023-2026 (Azira, share of domestic trips by home metro area)",
+                  cols=[["Orange County origin (latest county survey, 2019)", 0], ["Share", 1], ["Anaheim and Garden Grove origin metro", 0], ["Share", 1]], rows=orow,
                   src=f"{S_CIC}; {S_AZ}"))
     T.append(dict(title="2b. International and TV-market origins", hi=0,
                   sub="International visitors to Anaheim and Garden Grove, 2025 (Tourism Economics, thousands) and domestic trips by home TV market (Azira)",
                   cols=[["International market", 0], ["Visitors, 2025", 1], ["Home TV market (DMA)", 0], ["Share of domestic trips", 1]],
                   rows=[[TE_INTL_MKT[i][0], f"{TE_INTL_MKT[i][1]:,}K", AZ_DMA[i][0] if i < len(AZ_DMA) else "", f"{AZ_DMA[i][1]}%" if i < len(AZ_DMA) else ""] for i in range(len(TE_INTL_MKT))],
-                  src=f"{S_TEFC}; {S_AZ}. Orange County 2019 international leaders: Mexico 848K, Canada 786K ({S_CIC})."))
+                  src=f"{S_TEFC}; {S_AZ}. Orange County international leaders (latest county survey, 2019): Mexico 848K, Canada 786K ({S_CIC})."))
     T.append(dict(title="3. Seasonality: Orange County hotel occupancy by month, 2019-2026", hi=8,
                   sub="CoStar, Orange County market, % of rooms sold · monthly visitor counts are not published for the county",
                   cols=[["Year", 0]] + [[m, 1] for m in MON],
@@ -371,15 +370,15 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
                   cols=[["Year", 0]] + [[m, 1] for m in MON],
                   rows=[[str(y)] + [f"${v}" for v in ADR[y]] + [""] * (12 - len(ADR[y])) for y in ADR] + [["2023-25 avg."] + [f"${v}" for v in ADR3]],
                   src=S_CS, wide=True))
-    T.append(dict(title="4. Visitor profile: Orange County visitors by type of stay, 2019", hi=-1,
+    T.append(dict(title="4. Visitor profile: Orange County visitors by type of stay (latest county survey, 2019)", hi=-1,
                   sub="CIC Research, Table 3 · latest Orange County visitor profile · VFR = visiting friends or relatives",
                   cols=[["Measure", 0], ["Hotel guests", 1], ["Private home", 1], ["All overnight", 1], ["Day visitors", 1], ["All visitors", 1]],
                   rows=[list(r) for r in CIC_T3], src=S_CIC + ", Table 3", wide=True))
     T.append(dict(title="4b. Visitor profile: more recent indicators", hi=-1,
                   sub="Each row names its geography and period; none is a full Orange County profile",
                   cols=[["Measure", 0], ["Value", 1], ["Geography and period", 0], ["Source", 0]],
-                  rows=[["Anaheim visitors with children", "42.0%", "Anaheim, 2019 (hotel leisure groups 62.6%)", S_CIC],
-                        ["Anaheim travel party", "3.0 people", "Anaheim, 2019 (hotel leisure groups 3.6)", S_CIC],
+                  rows=[["Anaheim visitors with children", "42.0%", "Anaheim, latest survey (2019); hotel leisure groups 62.6%", S_CIC],
+                        ["Anaheim travel party", "3.0 people", "Anaheim, latest survey (2019); hotel leisure groups 3.6", S_CIC],
                         ["Average length of stay, domestic", "1.28-1.46 days", "Anaheim and Garden Grove, by month, Jan.-Aug. 2026", S_AZ],
                         ["Average length of stay, international", "4.99 days", "Anaheim and Garden Grove, Jan. 2023-Aug. 2026", S_AZ],
                         ["Visitor median household income", "$92.5K", "Anaheim and Garden Grove domestic visitors, Jan. 2023-Aug. 2026", S_AZ],
@@ -395,19 +394,19 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     T.append(dict(title="Compare and contrast: how the visitor sources differ", hi=-1,
                   sub="Why figures differ by source, and which to use",
                   cols=[["Source", 0], ["Measures", 0], ["Years", 0], ["Geography", 0], ["Method", 0], ["Use it for", 0]],
-                  rows=[["CIC Research", "Visitors, profile, spending", "2009-2019", "Orange County; Anaheim", "Intercept survey, household panel, hotel data", "2019 baseline and visitor profile"],
+                  rows=[["CIC Research", "Visitors, profile, spending", "2009-2019", "Orange County; Anaheim", "Intercept survey, household panel, hotel data", "2019 baseline for comparisons; latest county visitor profile"],
                         ["Tourism Economics", "Visitors, spending, jobs, taxes", "2021-2025 (county); 2019-2028 (Anaheim)", "Orange County; Anaheim; Garden Grove", "Economic model from spending, lodging and survey data", "Current visitor volume"],
                         ["Dean Runyan Associates", "Spending, jobs, taxes", "2015-2025p", "California counties", "Economic model for Visit California", "2019-2025 trend including 2020"],
                         ["Azira (Symphony)", "Trips, origins, length of stay", "Jan. 2023-Aug. 2026", "Anaheim and Garden Grove", "Mobile location data", "Origins and recent behavior"],
                         ["CoStar", "Hotel rooms, occupancy, ADR", "1987-Sept. 2026", "Orange County market", "Hotel census and sample", "Hotel capacity and seasonality"]],
                   src=f"{S_CIC}; {S_TEOC}; {S_DR}; {S_AZ}; {S_CS}", wide=True))
-    REQ = dict(title="OC Vibe's requests and where each is answered", hi=-1,
-               sub="OC Vibe follow-up (Oct. 9, 2026) and Entertainment + Culture Advisors for OCVIBE (Oct. 19, 2026) · status as of Oct. 19, 2026",
+    REQ = dict(title="OCVIBE's requests and where each is answered", hi=-1,
+               sub="OCVIBE follow-up (Oct. 9, 2026) and Entertainment + Culture Advisors for OCVIBE (Oct. 19, 2026) · status as of Oct. 19, 2026",
                cols=[["Request", 0], ["Asked", 0], ["Status", 0], ["Answer in brief", 0], ["Where in this app", 0]],
                rows=[["Q2 2026 Tourism Economics report", "Oct. 9", "Answered", "Anaheim Q2 2026: 6.74M visitors (+2.8%), $1.76B spending (+7.8%); Garden Grove 831,000 visitors, $200.4M.", "Visitor spending; Questions answered; library (Travel Forecast, Sept. 2026)"],
                      ["Anaheim, Garden Grove and Orange County reports with food and beverage job share", "Oct. 9", "Answered", "Food and beverage share of visitor-supported jobs: Anaheim 16.8%, Garden Grove 40.6%, Orange County 29.1% (2025).", "Jobs and economy; library (six Tourism Economics 2025 reports)"],
                      ["One more night study", "Oct. 9", "Answered", "One more night of Anaheim lodging spending: about $794M; each 1% of visitors adding a day: about $31.5M.", "One more night; library (study and workbook)"],
-                     ["Orange County arrivals, origins, seasonality, visitor profile and hotels (five questions)", "Oct. 19", "Answered, with named gaps", f"{v25[2]}M visitors (2025); 55.4% from Southern California (2019); July peak; 37.0% with children (2019); {H26[2]:,} rooms at {H26[3]}% (2026 YTD).", "Orange County tourism; library (CIC 2019 and 11 new files)"]],
+                     ["Orange County arrivals, origins, seasonality, visitor profile and hotels (five questions)", "Oct. 19", "Answered, with named gaps", f"{v25[2]}M visitors (2025); 55.4% from Southern California (latest county survey, 2019); July peak; 37.0% with children (latest county survey, 2019); {H26[2]:,} rooms at {H26[3]}% (2026 YTD).", "Orange County tourism; library (CIC 2019 and 11 new files)"]],
                src=f"{S_TEFC}; Tourism Economics, Economic Impact of Visitors 2025 (pub. Apr.-May 2026); Visit Anaheim BI, Extra Night study; {S_CIC}; {S_CS}", wide=True)
     T.insert(1, REQ)
     sec["tables"] = T
@@ -417,10 +416,10 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     sec["kind"] = "News report"
     sec["dateline"] = f"ANAHEIM, Calif. ({ASOF}):"
     sec["nut"] = (f"Entertainment + Culture Advisors asked five questions for OCVIBE's market study. The answers come from five sources with different methods: "
-                  f"Tourism Economics for current visitor volume ({v25[2]}M in 2025), CIC Research for the 2019 baseline and visitor profile, Azira for origins, "
+                  f"Tourism Economics for current visitor volume ({v25[2]}M in 2025), CIC Research for the 2019 baseline used in comparisons and the latest county visitor profile, Azira for origins, "
                   f"and CoStar for hotel rooms and seasonality. Gaps are named with their solutions.")
-    figs = [(f"{v25[2]}M", "Orange County visitors, 2025", S_TEOC), ("55.4%", "of 2019 visitors from Southern California", S_CIC),
-            (f"{AVG3[6]}%", "July hotel occupancy, 2023-2025 average", S_CS), ("37.0%", "of 2019 visitors traveled with children", S_CIC),
+    figs = [(f"{v25[2]}M", "Orange County visitors, 2025", S_TEOC), ("55.4%", "of visitors from Southern California (latest county survey, 2019)", S_CIC),
+            (f"{AVG3[6]}%", "July hotel occupancy, 2023-2025 average", S_CS), ("37.0%", "of visitors traveled with children (latest county survey, 2019)", S_CIC),
             (f"{H26[2]:,}", "Orange County hotel rooms, Sept. 2026", S_CS), (f"{H26[3]}%", "hotel occupancy, Jan.-Aug. 2026", S_CS)]
     sec["details"] = [dict(k=k.capitalize(), text=sec["w5h"][k], fig=f, fig_l=fl, src=s) for k, (f, fl, s) in zip(("who", "what", "when", "where", "why", "how"), figs)]
     ov_pct = round(v25[1] / v25[2] * 100, 1)
@@ -450,7 +449,7 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
     SECTIONS.insert(i + 1, sec)
     nx = SECTIONS[i + 2]
     SECTIONS[i]["next"] = dict(id="p-octour", tab=sec["tab"], bridge="Anaheim sits inside a larger county market. The next section sizes Orange County: arrivals, origins, seasonality, visitor profile and hotels.")
-    sec["next"] = dict(id=nx["id"], tab=nx["tab"], bridge="With the county market sized, the next question is who visits the OC Vibe area itself.")
+    sec["next"] = dict(id=nx["id"], tab=nx["tab"], bridge="With the county market sized, the next question is who visits the OCVIBE area itself.")
     # appendix: formulas, glossary, methods, who-what-when table
     ap = next((s for s in SECTIONS if s["id"] == "p-appx"), None)
     if ap:
@@ -469,7 +468,7 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
             ["Year to date (YTD)", "From Jan. 1 to the latest month with data."],
             ["Travel party", "The people traveling together on one trip, counted per group."]] if r[0] not in have]
         gl["rows"].sort(key=lambda r: r[0].lower())
-        me["rows"] += [["Orange County visitor profile (2019)", "CIC Research: 2,686 intercept interviews at 36 Orange County locations plus an internet panel of 2,087 households; 4,040 visitor groups.", S_CIC],
+        me["rows"] += [["Orange County visitor profile (latest county survey, 2019)", "CIC Research: 2,686 intercept interviews at 36 Orange County locations plus an internet panel of 2,087 households; 4,040 visitor groups.", S_CIC],
                        ["Orange County visitor volume", "Tourism Economics model (2021-2025) and CIC estimates (2009-2019) are separate series; not combined.", f"{S_TEOC}; {S_CIC}"],
                        ["Seasonality", "CoStar monthly hotel occupancy and ADR used as the monthly measure; 2023-2025 average by month.", S_CS]]
         for c in ap["cards"]:
@@ -494,4 +493,4 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS, DATA_EXTRA):
         "Azira files cover Anaheim and Garden Grove, not Orange County, and carry no ZIP codes; 2026 length of stay and distance shares reflect a likely method change.",
         "The latest Orange County visitor profile (trip purpose, party size, children) is CIC Research's 2019 study.",
     ])
-    TAKEAWAYS.insert(1, f"Orange County market: {v25[2]}M visitors in 2025 ({v25[1]}M overnight; 93.3% domestic); 55.4% from Southern California and 37.0% traveling with children (2019); {H26[2]:,} hotel rooms at {H26[3]}% occupancy and ${H26[4]:.2f} ADR in Jan.-Aug. 2026, with July the peak month. (Source: {S_TEOC}; {S_CIC}; {S_CS})")
+    TAKEAWAYS.insert(1, f"Orange County market: {v25[2]}M visitors in 2025 ({v25[1]}M overnight; 93.3% domestic); 55.4% from Southern California and 37.0% traveling with children (latest county survey, 2019); {H26[2]:,} hotel rooms at {H26[3]}% occupancy and ${H26[4]:.2f} ADR in Jan.-Aug. 2026, with July the peak month. (Source: {S_TEOC}; {S_CIC}; {S_CS})")

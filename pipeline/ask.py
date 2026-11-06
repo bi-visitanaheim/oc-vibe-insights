@@ -1,6 +1,6 @@
 """Questions answered and the Reports and data library (Oct. 14, 2026).
 
-General questions anyone may ask about Anaheim's visitor economy and the OC Vibe area, each answered for Anaheim,
+General questions anyone may ask about Anaheim's visitor economy and the OCVIBE area, each answered for Anaheim,
 Orange County and the U.S. (California where that is the closest published level), with a short answer, a visual,
 the method, sources with dates, and links to the files in the library. Facts only: every value is published by the
 named source or is arithmetic on published values (shown). No individuals are named.
@@ -191,7 +191,7 @@ q(id="night-1pct", topic="One more night", q="What is each 1% of visitors stayin
       dict(l="Sunday", v=70.6, t="70.6%", hi=True), dict(l="Monday", v=70.5, t="70.5%", hi=True), dict(l="Tuesday", v=74.3, t="74.3%"),
       dict(l="Wednesday", v=76.8, t="76.8%"), dict(l="Thursday", v=80.2, t="80.2%"), dict(l="Friday", v=85.7, t="85.7%"), dict(l="Saturday", v=86.8, t="86.8%")]),
   how="Value per 1% = visitors × 1% × spending per visitor-day. Value per occupancy point = rooms × 1% × Sunday and Monday nights in a year (104) × average Sunday–Monday rate.",
-  caveat="Arithmetic on 2025 and 2026 source data; it is not a forecast of what OC Vibe will add.", files=["va-night", "str-daily", "te-ei-ana"], go="p-night")
+  caveat="Arithmetic on 2025 and 2026 source data; it is not a forecast of what OCVIBE will add.", files=["va-night", "str-daily", "te-ei-ana"], go="p-night")
 
 # ===== Transportation =====
 ta, tg, to = TE_TR["Anaheim"], TE_TR["Garden Grove"], TE_TR["Orange County"]
@@ -210,10 +210,10 @@ q(id="transport-impact", topic="Transportation", q="What is the economic impact 
   caveat="Shares differ because Visit California counts visitor air fares and statewide ground travel, while Anaheim (no commercial airport) counts spending inside the city. A dedicated Tourism Economics transportation impact analysis has been requested and will be added at the next quarterly update after it arrives.",
   files=["te-ei-ana", "te-ei-gg", "te-ei-oc", "bts-tet"], go="p-transport", links=[0, 4])
 
-q(id="getting-here", topic="Transportation", q="How do people get to the OC Vibe area?",
-  a=f"Mostly by car: 74.0% of domestic trips to Anaheim and Garden Grove start within 50 miles, and SR-57 beside OC Vibe carries about 275,000 vehicles a weekday. ARTIC adds {TRANSIT['wk']} weekday bus trips, Amtrak (191,153 passengers in 2024) and Metrolink.",
-  key="275,000", key_l="vehicles a weekday on SR-57 beside OC Vibe",
-  geo=[["OC Vibe area", "275,000 vehicles", "SR-57, Ball Rd to Katella Ave (Caltrans 2024 count)", "OCTA 2026 Traffic Flow Map (Aug. 2026)"],
+q(id="getting-here", topic="Transportation", q="How do people get to the OCVIBE area?",
+  a=f"Mostly by car: 74.0% of domestic trips to Anaheim and Garden Grove start within 50 miles, and SR-57 beside OCVIBE carries about 275,000 vehicles a weekday. ARTIC adds {TRANSIT['wk']} weekday bus trips, Amtrak (191,153 passengers in 2024) and Metrolink.",
+  key="275,000", key_l="vehicles a weekday on SR-57 beside OCVIBE",
+  geo=[["OCVIBE area", "275,000 vehicles", "SR-57, Ball Rd to Katella Ave (Caltrans 2024 count)", "OCTA 2026 Traffic Flow Map (Aug. 2026)"],
        ["ARTIC", f"{TRANSIT['wk']} weekday bus trips", "Routes 50, 53 and 553; Saturday 182, Sunday 181", "OCTA schedules (Aug. 9–Nov. 7, 2026)"],
        ["Rail at ARTIC", "191,153 Amtrak passengers", "2024; Metrolink Orange County Line 5,116 weekday riders (FY26 Q2)", "Rail Passengers Association; Metrolink"],
        ["Orange County residents", f"{BTS['modes'][0][1]/BTS['workers']*100:.1f}% drive alone", f"{BTS['modes'][0][1]:,} of {BTS['workers']:,} workers; public transportation {BTS['modes'][4][1]/BTS['workers']*100:.1f}%", "U.S. BTS County Transportation Profile"]],
@@ -234,7 +234,7 @@ q(id="travel-cost", topic="Transportation", q="What does it cost to travel here?
   how="Values as published by BTS in current dollars.", caveat="National averages; Orange County fares and prices can differ.", files=["bts-tet"], go="p-transport", links=[4])
 
 # ===== District 5 and who visits =====
-q(id="d5-who", topic="District 5 and who visits", q="Who visits District 5, where OC Vibe is being built?",
+q(id="d5-who", topic="District 5 and who visits", q="Who visits District 5, where OCVIBE is being built?",
   a=f"{D5['overnight']}% of District 5 visitors stay overnight and {D5['new']}% are first-time visitors (Jan.–May 2026). Their median household income is ${D5['hhi']}K, above the ${GEO['hhi']}K for all Anaheim and Garden Grove visitors and the ${CS_ECON['hhi_us']/1000:.1f}K U.S. household median.",
   key=f"{D5['overnight']}%", key_l="of District 5 visitors stay overnight",
   geo=[["District 5", f"{D5['overnight']}% overnight", f"{D5['new']}% new · median income ${D5['hhi']}K · 56.0% from California · sample {D5['sample']:,} devices", "Azira via Symphony (Jan. 1–May 31, 2026)"],
@@ -249,14 +249,14 @@ q(id="d5-who", topic="District 5 and who visits", q="Who visits District 5, wher
   caveat="Location samples describe visitor mix; they are not visitor counts. Compare within Azira, not with Datafy or Visa.",
   files=["az-d5", "az-geo", "cs-mkt"], go="p-d5")
 
-q(id="d5-share", topic="District 5 and who visits", q="How much Anaheim visitor activity already includes the OC Vibe area?",
-  a=f"5.2% of Anaheim visitor days in 2024 included the OC Vibe area, before the new venues open (Datafy). Disneyland was in 74.4% and meeting services in 3.4%.",
-  key="5.2%", key_l="of Anaheim visitor days included the OC Vibe area, 2024",
-  geo=[["OC Vibe area", "5.2%", "Share of Anaheim visitor days (visitors 50+ miles; employees excluded)", "Datafy (calendar 2024)"],
+q(id="d5-share", topic="District 5 and who visits", q="How much Anaheim visitor activity already includes the OCVIBE area?",
+  a=f"5.2% of Anaheim visitor days in 2024 included the OCVIBE area, before the new venues open (Datafy). Disneyland was in 74.4% and meeting services in 3.4%.",
+  key="5.2%", key_l="of Anaheim visitor days included the OCVIBE area, 2024",
+  geo=[["OCVIBE area", "5.2%", "Share of Anaheim visitor days (visitors 50+ miles; employees excluded)", "Datafy (calendar 2024)"],
        ["Disneyland", "74.4%", "Share of Anaheim visitor days", "Datafy (calendar 2024)"],
        ["Anaheim visitors", f"{DATAFY['overnight']}% overnight", f"Repeat {DATAFY['repeat']}% · 6+ day stays {DATAFY['los6']}%", "Datafy (calendar 2024)"]],
   viz=dict(kind="bars", title="Share of Anaheim visitor days that include each cluster, 2024 (%)", unit="%", rows=[
-      dict(l=n, v=v, t=f"{v}%", hi=(n == "OC Vibe")) for n, v in DATAFY['clusters']]),
+      dict(l=n, v=v, t=f"{v}%", hi=(n == "OCVIBE")) for n, v in DATAFY['clusters']]),
   how="Datafy assigns each visitor day to the clusters a device visited; a day can include several clusters, so shares add to more than 100%.",
   caveat="Datafy's calendar 2025 export (in the library) uses a different basis and is not yet used here; it will be reconciled at the next quarterly update.",
   files=["datafy-25", "az-d5"], go="p-d5")

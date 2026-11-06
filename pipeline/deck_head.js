@@ -12,7 +12,7 @@ const H = { dark: '231F20', light: 'F9F9F2', e1: '43A3A3', e2: '77C7C9', e3: '12
 const pres = new pptxgen();
 pres.layout = 'LAYOUT_WIDE';            // 13.333 x 7.5 in
 pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
-pres.title = 'OC Vibe Insights'; pres.author = 'Visit Anaheim Business Intelligence'; pres.company = 'Visit Anaheim';
+pres.title = 'OCVIBE Insights'; pres.author = 'Visit Anaheim Business Intelligence'; pres.company = 'Visit Anaheim';
 const C = pres.SchemeColor;
 const W = 13.333, M = 0.6;
 const LOGO = D.logo.replace(/^data:/, '');   // "image/png;base64,..."

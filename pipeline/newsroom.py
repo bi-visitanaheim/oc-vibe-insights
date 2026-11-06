@@ -4,7 +4,7 @@ followed by analysis. Facts only: no editorial or opinion pieces (John's decisio
 News report (objective, inverted pyramid): headline, dateline + lede (the key insight), nut graph ("Why it matters"),
 then "The details": six announcement-style data cards (who, what, when, where, why, how), each with a figure, the
 figure's label (and its calculation when the figure is calculated), the plain-language detail and the source with its date.
-Analysis (feature): featured charts, main table, what it means for OC Vibe, compare and contrast.
+Analysis (feature): featured charts, main table, what it means for OCVIBE, compare and contrast.
 
 Every figure on a card is copied from the section's existing text, tables or cards (number-trace check H in
 checks/validate_ocvibe.py). AP style: abbreviated months with dates (Jan., Feb., Aug., Sept., Oct., Nov., Dec.),
@@ -37,15 +37,15 @@ D = lambda *rows: [dict(zip(("fig", "fig_l", "src"), r)) for r in rows]
 
 NEWS = {
  "p-ocv": dict(
-   nut="These are City of Anaheim totals, measured before OC Vibe's first venues open in 2027, so they set the baseline that OC Vibe's own results can be compared with later. Tourism Economics does not measure OC Vibe; the OC Vibe area's 5.2% share of Anaheim visitor days comes from Datafy (calendar 2024).",
+   nut="These are City of Anaheim totals, measured before OCVIBE's first venues open in 2027, so they set the baseline that OCVIBE's own results can be compared with later. Tourism Economics does not measure OCVIBE; the OCVIBE area's 5.2% share of Anaheim visitor days comes from Datafy (calendar 2024).",
    details=D(("26.5M", "Anaheim visitors, 2025", TE_EI),
              ("$6.83B", "visitor spending, 2025", TE_EI),
              ("2025 · 2026", "measured year · forecast year", TE_EI + "; " + TE_FC),
-             ("District 5", "OC Vibe area, beside Honda Center and ARTIC", AZ_D5 + "; " + PUB),
-             ("2027", "first OC Vibe venues open", PUB),
+             ("District 5", "OCVIBE area, beside Honda Center and ARTIC", AZ_D5 + "; " + PUB),
+             ("2027", "first OCVIBE venues open", PUB),
              ("3 sources", "Tourism Economics, Datafy and Azira", TE_EI + "; " + DATAFY + "; " + AZ_D5))),
  "p-spend": dict(
-   nut="Spending per visitor sets the value of each visitor OC Vibe draws. Tourism Economics reports $258 per visitor in 2025 ($6.832B ÷ 26.5M) and forecasts $279 by 2028, and Visa shows visitor card spending up 8.1% in August 2026.",
+   nut="Spending per visitor sets the value of each visitor OCVIBE draws. Tourism Economics reports $258 per visitor in 2025 ($6.832B ÷ 26.5M) and forecasts $279 by 2028, and Visa shows visitor card spending up 8.1% in August 2026.",
    details=D(("26.5M", "Anaheim visitors, 2025", TE_EI),
              ("$1.76B", "visitor spending, Q2 2026 (+7.8% vs. Q2 2025)", TE_FC),
              ("Q2 2026", "latest measured quarter; forecasts to 2028", TE_FC),
@@ -69,23 +69,23 @@ NEWS = {
              ("$31.5M", "each 1% adding a day: 26.5M × 1% × $118.71", XN),
              ("2.17 days", "weighted average stay, 2025", XN))),
  "p-transport": dict(
-   nut="Access decides how many visitors OC Vibe can host on peak nights. Most visitors arrive by car, and SR-57 beside OC Vibe carries about 275,000 vehicles a day; ARTIC adds bus and rail service, though only 11 weekday buses leave after 10 p.m.",
+   nut="Access decides how many visitors OCVIBE can host on peak nights. Most visitors arrive by car, and SR-57 beside OCVIBE carries about 275,000 vehicles a day; ARTIC adds bus and rail service, though only 11 weekday buses leave after 10 p.m.",
    details=D(("74.0%", "of domestic trips start within 50 miles; most arrive by car", AZ_DOM),
-             ("275,000", "vehicles a day on SR-57 beside OC Vibe", OCTA_MAP),
+             ("275,000", "vehicles a day on SR-57 beside OCVIBE", OCTA_MAP),
              ("Aug. 9–Nov. 7, 2026", "current OCTA bus schedule", OCTA_BUS),
-             ("ARTIC", "2626 E. Katella Ave., beside OC Vibe", OCTA_BUS),
+             ("ARTIC", "2626 E. Katella Ave., beside OCVIBE", OCTA_BUS),
              ("11", "weekday buses leave ARTIC after 10 p.m.", OCTA_BUS),
              ("277", "weekday bus trips at ARTIC: 100 + 102 + 75 (routes 50, 53 and 553)", OCTA_BUS))),
  "p-d5": dict(
-   nut="Knowing who already visits shows OC Vibe where its audience comes from. Most District 5 visitors stay overnight and many are first-time visitors, and the OC Vibe area already appears in 5.2% of Anaheim visitor days.",
+   nut="Knowing who already visits shows OCVIBE where its audience comes from. Most District 5 visitors stay overnight and many are first-time visitors, and the OCVIBE area already appears in 5.2% of Anaheim visitor days.",
    details=D(("85.8%", "of District 5 visitors stay overnight", AZ_D5),
              ("43.8%", "are first-time visitors", AZ_D5),
              ("Jan.–May 2026", "Azira observation period", AZ_D5),
              ("44%", "of domestic visitors come from outside California", AZ_DOM),
-             ("5.2%", "of Anaheim visitor days include the OC Vibe area", DATAFY),
+             ("5.2%", "of Anaheim visitor days include the OCVIBE area", DATAFY),
              ("3 sources", "Azira, Datafy and Visa", AZ_D5 + "; " + DATAFY + "; " + VISA))),
  "p-media": dict(
-   nut="Paid media already moves people to travel to Anaheim, which gives OC Vibe a proven channel. Azira matched 368,416 visits to 31.0 million measurable impressions, or 11.9 visits per 1,000, from Jan. 1 to Aug. 31, 2026.",
+   nut="Paid media already moves people to travel to Anaheim, which gives OCVIBE a proven channel. Azira matched 368,416 visits to 31.0 million measurable impressions, or 11.9 visits per 1,000, from Jan. 1 to Aug. 31, 2026.",
    details=D(("31.0M", "measurable impressions", AZ_MEDIA),
              ("368,416", "observed visits after ad exposure", AZ_MEDIA),
              ("39 days", "average time from ad to visit", AZ_MEDIA),
@@ -93,15 +93,15 @@ NEWS = {
              ("34.4", "visits per 1,000 impressions, luxury placements", AZ_MEDIA),
              ("11.9", "visits per 1,000 impressions: 368,416 ÷ 31.0M × 1,000", AZ_MEDIA))),
  "p-hotel": dict(
-   nut="OC Vibe plans 550 hotel rooms in a market with strong demand and little new supply. CoStar reports 78.4% occupancy in the Disneyland submarket and only 668 rooms under construction countywide, and STR shows the most open rooms on Sunday and Monday nights.",
+   nut="OCVIBE plans 550 hotel rooms in a market with strong demand and little new supply. CoStar reports 78.4% occupancy in the Disneyland submarket and only 668 rooms under construction countywide, and STR shows the most open rooms on Sunday and Monday nights.",
    details=D(("668", "hotel rooms under construction countywide", COSTAR),
              ("78.4%", "Disneyland submarket occupancy, at $255 a night", COSTAR),
              ("Jan. 1–Oct. 3, 2026", "STR daily data period", STR),
              ("Anaheim+", "Visit Anaheim hotel set; CoStar Orange County submarkets", STR + "; " + COSTAR),
-             ("550", "hotel rooms planned at OC Vibe", PUB),
+             ("550", "hotel rooms planned at OCVIBE", PUB),
              ("15.7 points", "Fri.–Sat. vs. Sun.–Mon. occupancy: 86.24% − 70.59%", STR))),
  "p-larc": dict(
-   nut="OC Vibe opens into a market with rising hotel revenue and strong convention pace, along with rising costs. LARC reports Anaheim revenue per available room up 11.4% in Q2 2026 and convention room nights pacing 17% ahead for 2027, with inflation about 3.2% a year.",
+   nut="OCVIBE opens into a market with rising hotel revenue and strong convention pace, along with rising costs. LARC reports Anaheim revenue per available room up 11.4% in Q2 2026 and convention room nights pacing 17% ahead for 2027, with inflation about 3.2% a year.",
    details=D(("+12%", "Convention Center room nights on the books, 2026", LARC),
              ("+11.4%", "Anaheim hotel revenue per room, Q2 2026 (U.S. +5.7%)", LARC),
              ("Jan.–Sept. 2026", "LARC report editions; forecasts to 2030", LARC),
@@ -113,7 +113,7 @@ NEWS = {
 # Newsroom terms and method, added to the appendix glossary and methods (AP and journalism usage).
 GLOSSARY_ADD = [
     ["News report", "An objective, factual account of the five Ws (who, what, when, where, why) plus how, written in an inverted pyramid. Each section opens with one."],
-    ["Analysis", "The feature part of each section: charts, tables, what the data means for OC Vibe, and compare and contrast. Built only on the facts reported above it."],
+    ["Analysis", "The feature part of each section: charts, tables, what the data means for OCVIBE, and compare and contrast. Built only on the facts reported above it."],
     ["Inverted pyramid", "Most important facts first, then supporting details in descending order of importance."],
     ["Lede", "The opening sentence or paragraph that gives the core of the story; here, the key insight after the dateline."],
     ["Nut graph", "The paragraph that explains the context and why the story matters (\"Why it matters\")."],
@@ -126,14 +126,14 @@ METHOD_ADD = [["Newsroom structure", "Each section is written as a broadsheet ne
 # Reading order (Oct. 13, 2026, per John Picou): each section answers the question the previous one raises.
 ORDER = ["p-ocv", "p-octour", "p-d5", "p-spend", "p-impact", "p-hotel", "p-night", "p-transport", "p-media", "p-larc", "p-appx"]
 BRIDGE = {
- "p-ocv": "The baseline counts visitors; the next question is who they are. Origin, overnight share and first-time share show which audiences the OC Vibe area already reaches.",
+ "p-ocv": "The baseline counts visitors; the next question is who they are. Origin, overnight share and first-time share show which audiences the OCVIBE area already reaches.",
  "p-d5": "Knowing who visits leads to what each visitor is worth. Spending per visitor converts audience size into economic value.",
  "p-spend": "Spending is the input; jobs and tax revenue are the outcome. The next section traces how visitor dollars move through the Anaheim and Orange County economy.",
  "p-impact": "Lodging is one of the largest categories of visitor spending ($1.724B in 2025), so hotel capacity comes next: how full Anaheim hotels are, at what rate, and on which nights rooms are open.",
  "p-hotel": "Open rooms on Sunday and Monday nights point to the most direct lever, longer stays. The next section measures what one more night per visitor is worth.",
- "p-night": "Longer stays depend on how easily visitors arrive and leave, especially after evening events. The next section examines road, bus and rail access to the OC Vibe area.",
+ "p-night": "Longer stays depend on how easily visitors arrive and leave, especially after evening events. The next section examines road, bus and rail access to the OCVIBE area.",
  "p-transport": "Access determines who can come; marketing influences who chooses to. The next section shows how paid media converts into measured visits.",
- "p-media": "With audience, value, capacity, access and reach measured, the last section looks at the market conditions OC Vibe will open into.",
+ "p-media": "With audience, value, capacity, access and reach measured, the last section looks at the market conditions OCVIBE will open into.",
  "p-larc": "The appendix defines every term, method and formula used above, so each figure can be traced, repeated and defended.",
  "p-appx": "The Sources page lists every source with its period, publication date and how Visit Anaheim BI checked it.",
 }

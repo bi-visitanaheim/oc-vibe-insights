@@ -1,5 +1,5 @@
 
-/* ===== OC Vibe edition ===== */
+/* ===== OCVIBE edition ===== */
 const sp = sec('p-spend'), im = sec('p-impact'), nt = sec('p-night'), tr = sec('p-transport'), wv = sec('p-d5'), md = sec('p-media'), ht = sec('p-hotel'), lo = sec('p-larc');
 const n0 = v => Math.round(v).toLocaleString('en-US');
 const tbl = (s, t, x, y, w, o = {}) => {
@@ -11,16 +11,16 @@ const tbl = (s, t, x, y, w, o = {}) => {
   return table(s, t.cols, t.rows, x, y, w, Object.assign({ hi: t.hi }, o));
 };
 const htCal = ht.tables.find(t => t.title.startsWith('When Anaheim hotels have room')); ht.tables = ht.tables.filter(t => t !== htCal);
-const loFacts = lo.tables.find(t => t.title === 'OC Vibe in recent public sources');
-/* What it means for OC Vibe: one slide per section (OC Vibe as a whole; enhancements and needs) */
+const loFacts = lo.tables.find(t => t.title === 'OCVIBE in recent public sources');
+/* What it means for OCVIBE: one slide per section (OCVIBE as a whole; enhancements and needs) */
 function ocvSlide(id) {
   const x = sec(id); if (!x || !x.for_ocv) return;
-  const t = content(x.tab, 'What it means for OC Vibe: ' + x.tab, 'What this insight enhances for OC Vibe, and what OC Vibe needs to act on it', '');
+  const t = content(x.tab, 'What it means for OCVIBE: ' + x.tab, 'What this insight enhances for OCVIBE, and what OCVIBE needs to act on it', '');
   t.addShape(pres.shapes.RECTANGLE, { x: M, y: 1.55, w: W - 2 * M, h: 1.0, fill: { color: H.e4 }, line: { color: H.e4 } });
   t.addText('KEY INSIGHT', ft({ x: M + 0.15, y: 1.6, w: 2, h: 0.22, fontSize: 9, bold: true, color: H.e3, charSpacing: 1 }));
   rich(t, x.ans, { x: M + 0.15, y: 1.82, w: W - 2 * M - 0.3, h: 0.7, fontSize: 11 });
   const cw = (W - 2 * M - 0.3) / 2;
-  [['WHAT IT ENHANCES', x.for_ocv.enhance], ['WHAT OC VIBE NEEDS', x.for_ocv.need]].forEach(([h, items], j) => {
+  [['WHAT IT ENHANCES', x.for_ocv.enhance], ['WHAT OCVIBE NEEDS', x.for_ocv.need]].forEach(([h, items], j) => {
     const bx = M + j * (cw + 0.3);
     t.addShape(pres.shapes.RECTANGLE, { x: bx, y: 2.7, w: cw, h: 0.05, fill: { color: j ? H.e3 : H.e1 }, line: { color: j ? H.e3 : H.e1 } });
     t.addText(h, ft({ x: bx, y: 2.8, w: cw, h: 0.28, fontSize: 10, bold: true, color: H.e3, charSpacing: 1 }));
@@ -262,7 +262,7 @@ function calcSlide(id, title) {
 }
 function wfSlide() {
   const x = sec('p-ocv'), wf = (x.feature || []).find(c => c.kind === 'wf'), rg = (x.feature || []).find(c => c.kind === 'range'); if (!wf) return;
-  const t = content('OC Vibe impact', wf.title, wf.sub, '');
+  const t = content('OCVIBE impact', wf.title, wf.sub, '');
   let run = 0; const base = [], val = [];
   wf.steps.forEach(st => { if (st.total) { base.push(0); val.push(st.v); } else { base.push(run); val.push(st.v); run += st.v; } });
   t.addChart(pres.charts.BAR, [{ name: 'Base', labels: wf.steps.map(st => st.l + '\n' + st.t + '\n' + (st.note || '')), values: base }, { name: 'Value', labels: wf.steps.map(st => st.l + '\n' + st.t + '\n' + (st.note || '')), values: val }],
@@ -292,10 +292,10 @@ pres.addSection({ title: 'Introduction' });
 let s = pres.addSlide({ masterName: 'VA Title', sectionTitle: 'Introduction' });
 s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 0.7, w: 3.0, h: 3.0 / LOGO_AR + 0.3, fill: { color: H.light }, line: { color: H.light }, rectRadius: 0.1, objectName: 'logo-plate' });
 s.addImage({ data: LOGO, x: M + 0.15, y: 0.85, w: 2.7, h: 2.7 / LOGO_AR, altText: 'Visit Anaheim' });
-s.addText('Visitor insights for OC Vibe', { placeholder: 'title' });
-s.addText('How Anaheim visitors spend, stay, travel and choose where to go, and what the market outlook means for OC Vibe. Anaheim, Orange County and U.S. data through September 2026.', { placeholder: 'sub' });
+s.addText('Visitor insights for OCVIBE', { placeholder: 'title' });
+s.addText('How Anaheim visitors spend, stay, travel and choose where to go, and what the market outlook means for OCVIBE. Anaheim, Orange County and U.S. data through September 2026.', { placeholder: 'sub' });
 s.addText('Prepared by Visit Anaheim Business Intelligence · October 2026 · Updated quarterly; next update ' + D.schedule.next, ft({ x: M, y: 6.6, w: 11, h: 0.4, fontSize: 12, color: H.white }));
-s.addNotes('Prepared by Visit Anaheim Business Intelligence for OC Vibe (BIREPORTS-966).');
+s.addNotes('Prepared by Visit Anaheim Business Intelligence for OCVIBE (BIREPORTS-966).');
 
 /* Main announcement (mirrors the dashboard overview) and summary of findings */
 s = content('Introduction', D.main.head, 'Main announcement · Visit Anaheim Business Intelligence · data through Sept. 2026', D.main.srcs.join('; '));
@@ -336,14 +336,14 @@ qaCoreSlide('Questions answered');
 AQ.core.forEach(id => { qaSlide('Questions answered', QS[id]); qaDetailSlide('Questions answered', QS[id]); });
 qaIndexSlide('Questions answered');
 
-/* 0. Anaheim and OC Vibe today (measured data only; no estimates) */
-pres.addSection({ title: 'Anaheim and OC Vibe today' });
+/* 0. Anaheim and OCVIBE today (measured data only; no estimates) */
+pres.addSection({ title: 'Anaheim and OCVIBE today' });
 newsSlides('p-ocv');
 const oi = sec('p-ocv'), ot = oi.tables, otT = t => ot.find(x => x.title.startsWith(t));
-s = content('Anaheim and OC Vibe today', "Anaheim's visitor economy: 2025 results and 2026 forecast", 'City of Anaheim only · 2025 measured (Tourism Economics, published 2026) · 2026 = Tourism Economics forecast (Sept. 2026)', oi.notes.join('\n'));
+s = content('Anaheim and OCVIBE today', "Anaheim's visitor economy: 2025 results and 2026 forecast", 'City of Anaheim only · 2025 measured (Tourism Economics, published 2026) · 2026 = Tourism Economics forecast (Sept. 2026)', oi.notes.join('\n'));
 kpis(s, oi.cards.map(c => c.slice(0, 4)), M, 1.55, W - 2 * M, 1.6, 22);
 tbl(s, otT("Anaheim's visitor economy"), M, 3.3, W - 2 * M, { colW: [2.3, 1.55, 1.55, 1.0, 5.73], rowH: 0.36, fs: 10 });
-source(s, 'Tourism Economics, Economic Impact of Visitors (calendar 2025; published 2026); Tourism Economics, Anaheim Travel Forecast (Sept. 2026); Datafy (calendar 2024). City of Anaheim totals; not allocated to OC Vibe.');
+source(s, 'Tourism Economics, Economic Impact of Visitors (calendar 2025; published 2026); Tourism Economics, Anaheim Travel Forecast (Sept. 2026); Datafy (calendar 2024). City of Anaheim totals; not allocated to OCVIBE.');
 
 function w5hSlide(section, sc, title) {
   const w = sc.w5h; if (!w) return;
@@ -358,30 +358,30 @@ function w5hSlide(section, sc, title) {
   source(t, w.src);
 }
 
-s = content('Anaheim and OC Vibe today', 'The OC Vibe area today, before the new venues open', 'Measured or published figures only · each with its period and source', '');
-tbl(s, otT('The OC Vibe area today'), M, 1.55, W - 2 * M, { colW: [4.3, 2.8, 2.1, 2.93], rowH: 0.37, fs: 10 });
-source(s, otT('The OC Vibe area today').src + '.');
+s = content('Anaheim and OCVIBE today', 'The OCVIBE area today, before the new venues open', 'Measured or published figures only · each with its period and source', '');
+tbl(s, otT('The OCVIBE area today'), M, 1.55, W - 2 * M, { colW: [4.3, 2.8, 2.1, 2.93], rowH: 0.37, fs: 10 });
+source(s, otT('The OCVIBE area today').src + '.');
 
 const mix = otT('Where Anaheim visitor spending goes');
-s = content('Anaheim and OC Vibe today', 'Where Anaheim visitor spending goes, by category', 'City of Anaheim, calendar 2025 · Tourism Economics (published 2026) · each share with its calculation', '');
+s = content('Anaheim and OCVIBE today', 'Where Anaheim visitor spending goes, by category', 'City of Anaheim, calendar 2025 · Tourism Economics (published 2026) · each share with its calculation', '');
 tbl(s, mix, M, 1.6, 7.6, { colW: [2.2, 1.1, 0.9, 3.4], rowH: 0.5, fs: 10 });
 hbar(s, 'Share of visitor spending, 2025', mix.rows.slice(0, 5).map(r => r[0]), mix.rows.slice(0, 5).map(r => parseFloat(r[2])), 8.5, 1.6, W - M - 8.5, 4.4, '0.0"%"', 0);
 source(s, mix.src + '.');
 
-const kT = otT('Measures OC Vibe can build on');
-s = content('Anaheim and OC Vibe today', 'Measures OC Vibe can build on, with today\'s baselines', 'Measured baselines; OC Vibe adds its own results once its venues open', '');
+const kT = otT('Measures OCVIBE can build on');
+s = content('Anaheim and OCVIBE today', 'Measures OCVIBE can build on, with today\'s baselines', 'Measured baselines; OCVIBE adds its own results once its venues open', '');
 tbl(s, { ...kT, rows: kT.rows.slice(0, 8) }, M, 1.6, W - 2 * M, { colW: [1.3, 3.6, 2.9, 2.6, 1.73], rowH: 0.42, fs: 9.5 });
 source(s, kT.src + ' Continued on next slide.');
-s = content('Anaheim and OC Vibe today', 'Measures OC Vibe can build on (continued)', 'New markets, spending and access', '');
+s = content('Anaheim and OCVIBE today', 'Measures OCVIBE can build on (continued)', 'New markets, spending and access', '');
 tbl(s, { ...kT, rows: kT.rows.slice(8) }, M, 1.6, W - 2 * M, { colW: [1.3, 3.6, 2.9, 2.6, 1.73], rowH: 0.42, fs: 9.5 });
 source(s, kT.src + '.');
 
-s = content('Anaheim and OC Vibe today', "Figures OC Vibe's developers and others have published", 'Shown as published; not produced or checked by Visit Anaheim BI', '');
-tbl(s, otT('Figures OC Vibe'), M, 1.6, W - 2 * M, { colW: [3.2, 5.4, 3.53], rowH: 0.6, fs: 10.5 });
-source(s, otT('Figures OC Vibe').src + '.');
+s = content('Anaheim and OCVIBE today', "Figures OCVIBE's developers and others have published", 'Shown as published; not produced or checked by Visit Anaheim BI', '');
+tbl(s, otT('Figures OCVIBE'), M, 1.6, W - 2 * M, { colW: [3.2, 5.4, 3.53], rowH: 0.6, fs: 10.5 });
+source(s, otT('Figures OCVIBE').src + '.');
 
 /* 1. Visitor spending */
-calcSlide('p-ocv', 'How the numbers are calculated: Anaheim and OC Vibe today');
+calcSlide('p-ocv', 'How the numbers are calculated: Anaheim and OCVIBE today');
 ocvSlide('p-ocv');
 
 /* Orange County tourism statistics (Oct. 19, 2026): the five questions from Entertainment + Culture Advisors */
@@ -389,8 +389,8 @@ pres.addSection({ title: 'Orange County tourism' });
 newsSlides('p-octour');
 {
   const oc = sec('p-octour'), oT = t => oc.tables.find(x => x.title.startsWith(t)), TAB = 'Orange County tourism';
-  const rq = oT("OC Vibe's requests");
-  s = content(TAB, "OC Vibe's requests and where each is answered", 'OC Vibe follow-up (Oct. 9, 2026) and ECA for OCVIBE (Oct. 19, 2026) · status as of Oct. 19, 2026', '');
+  const rq = oT("OCVIBE's requests");
+  s = content(TAB, "OCVIBE's requests and where each is answered", 'OCVIBE follow-up (Oct. 9, 2026) and ECA for OCVIBE (Oct. 19, 2026) · status as of Oct. 19, 2026', '');
   table(s, rq.cols, rq.rows, M, 1.55, W - 2 * M, { colW: [2.6, 0.8, 1.3, 4.6, 2.833], rowH: 0.8, fs: 9, hi: -1 });
   source(s, rq.src);
   const fq = oT('The five questions');
@@ -398,7 +398,7 @@ newsSlides('p-octour');
   table(s, fq.cols, fq.rows, M, 1.55, W - 2 * M, { colW: [1.4, 3.0, 3.8, 1.7, 2.233], rowH: 0.78, fs: 8, hi: -1 });
   source(s, fq.src);
   const v = oT('1. Visitor arrivals');
-  s = content(TAB, 'Question 1. Visitor arrivals to Orange County, 2009–2026', 'Millions · CIC Research 2009–2019 and Tourism Economics 2021–2025 are separate methods', '');
+  s = content(TAB, 'Question 1. Visitor arrivals to Orange County, 2009–2026', 'Millions · 2025 (latest, Tourism Economics) compared with the 2019 baseline (CIC Research) · separate methods', '');
   const keep = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026 YTD'];
   const vr = v.rows.filter(r => keep.includes(r[0]));
   table(s, v.cols, vr, M, 1.55, W - 2 * M, { colW: [1.0, 1.3, 1.1, 1.1, 1.5, 6.133], rowH: 0.36, fs: 9.5, hi: vr.findIndex(r => r[0] === '2025') });
@@ -406,10 +406,10 @@ newsSlides('p-octour');
   const sp = oT('1b.');
   s = content(TAB, 'Question 1. Orange County visitor spending, including 2020', 'Dean Runyan Associates for Visit California · $ millions · spending, not visitor counts', '');
   table(s, sp.cols, sp.rows, M, 1.55, 8.0, { colW: [1.2, 1.8, 1.6, 1.6, 1.8], rowH: 0.42, fs: 11, hi: 6 });
-  rich(s, 'Orange County visitor spending in 2020 fell to 46.7% of its 2019 level and passed 2019 in 2022. In 2025p it was 21.5% above 2019. Tourism Economics and CIC do not publish 2020 county visitor counts; this series fills the year.', { x: M + 8.3, y: 1.55, w: W - 2 * M - 8.3, h: 3.5, fontSize: 12 });
+  rich(s, 'Orange County visitor spending in 2025p was 21.5% above the 2019 baseline ($15.39B vs. $12.67B). Compared with the 2019 baseline, spending fell to 46.7% in 2020 and passed it in 2022. Tourism Economics and CIC do not publish 2020 county visitor counts; this series fills the year.', { x: M + 8.3, y: 1.55, w: W - 2 * M - 8.3, h: 3.5, fontSize: 12 });
   source(s, sp.src);
   const o1 = oT('2. Where'), o2 = oT('2b.');
-  s = content(TAB, 'Question 2. Where visitors come from', 'Orange County 2019 (CIC) · Anaheim and Garden Grove 2023–2026 (Azira) · LA metro includes Orange County', '');
+  s = content(TAB, 'Question 2. Where visitors come from', 'Orange County, latest county survey (2019, CIC) · Anaheim and Garden Grove, Jan. 2023–Aug. 2026 (Azira) · LA metro includes Orange County', '');
   table(s, o1.cols, o1.rows, M, 1.55, 7.4, { colW: [2.1, 1.3, 3.0, 1.0], rowH: 0.36, fs: 9, hi: 0 });
   table(s, o2.cols, o2.rows, M + 7.6, 1.55, W - 2 * M - 7.6, { colW: [1.2, 0.9, 1.3, 1.133], rowH: 0.42, fs: 8.5, hi: 0 });
   rich(s, 'No ZIP codes in Azira: the metro area cannot be split into Anaheim and outside Anaheim. Solution: a custom Symphony pull or a new visitor survey.', { x: M + 7.6, y: 4.6, w: W - 2 * M - 7.6, h: 1.6, fontSize: 10.5 });
@@ -420,7 +420,7 @@ newsSlides('p-octour');
   table(s, ad.cols, ad.rows.filter(r => ['2019', '2025', '2026', '2023-25 avg.'].includes(r[0])), M, 4.45, W - 2 * M, { colW: [1.333].concat(Array(12).fill(0.9)), rowH: 0.34, fs: 9.5, hi: 3 });
   source(s, se.src + '. Lower table: average daily rate. 2020–2021 in the dashboard.');
   const pf = oT('4. Visitor profile'), pr = oT('4b.');
-  s = content(TAB, 'Question 4. Visitor profile: purpose, party size, children and stay', 'CIC Research, Orange County visitors by type of stay, 2019 · the latest county visitor profile', '');
+  s = content(TAB, 'Question 4. Visitor profile: purpose, party size, children and stay', 'CIC Research, Orange County visitors by type of stay · latest county survey (2019); no newer survey published', '');
   table(s, pf.cols, pf.rows, M, 1.55, W - 2 * M, { colW: [4.133, 1.6, 1.6, 1.6, 1.6, 1.6], rowH: 0.32, fs: 9.5, hi: -1 });
   source(s, pf.src);
   s = content(TAB, 'Question 4. More recent visitor indicators', 'Each row names its geography and period · none is a full Orange County profile', '');
@@ -446,13 +446,13 @@ tbl(s, wv.tables[0], M, 3.6, 6.2, { colW: [4.4, 1.8], rowH: 0.26, fs: 9.5 });
 hbar(s, 'Also visited (share of District 5 visitors)', D.d5_poi.slice(0, 8).map(p => p[0]), D.d5_poi.slice(0, 8).map(p => p[1] / 100), 7.1, 1.6, 5.6, 4.8, '0.0%');
 source(s, 'Symphony | Tourism Economics, Azira POI Analysis (District 5); U.S. Census Bureau (income)');
 
-s = content('Who visits', 'OC Vibe already appears in 5.2% of Anaheim visitor days', 'Datafy Anaheim visitor report · calendar 2024 · visitors traveling 50+ miles', '');
+s = content('Who visits', 'OCVIBE already appears in 5.2% of Anaheim visitor days', 'Datafy Anaheim visitor report · calendar 2024 · visitors traveling 50+ miles', '');
 hbar(s, 'Share of Anaheim visitor days including each cluster', D.datafy.clusters.map(c => c[0]), D.datafy.clusters.map(c => c[1] / 100), M, 1.6, 6.4, 4.8, '0.0%', 5);
 tbl(s, wv.tables[2], 7.4, 1.6, 5.3, { colW: [3.6, 1.7], rowH: 0.4 });
 s.addText('A visitor day can include several clusters, so shares do not sum to 100%.', ft({ x: 7.4, y: 5.0, w: 5.3, h: 0.5, fontSize: 10.5, color: H.dark }));
 source(s, 'Datafy, Anaheim visitor report (Jan. 1–Dec. 31, 2024)');
 
-s = content('Who visits', 'Visitor card spending rose 8.1% in August 2026, with growing fly-in markets', 'Visa Destination Insights via Symphony · August 2026 vs. August 2025', wv.ocv.slice(-2).join('\n'));
+s = content('Who visits', 'Visitor card spending rose 8.1% in August 2026 vs. August 2025, with growing fly-in markets', 'Visa Destination Insights via Symphony · August 2026 vs. August 2025', wv.ocv.slice(-2).join('\n'));
 const wvn = wv.tables.length, spn = sp.tables.length;
 tbl(s, sp.tables[spn - 1], M, 1.6, 6.0, { colW: [2.1, 1.3, 1.3, 1.3], rowH: 0.34, fs: 10 });
 tbl(s, wv.tables[wvn - 2], 6.9, 1.6, W - M - 6.9, { colW: [3.3, 1.2, 1.33], rowH: 0.27, fs: 9 });
@@ -464,7 +464,7 @@ ocvSlide('p-d5');
 
 pres.addSection({ title: 'Visitor spending' });
 newsSlides('p-spend');
-s = content('Visitor spending', `Each Anaheim visitor is forecast to spend $${D.ana_pv[9]} by 2028, up from $${D.ana_pv[0]} in 2019`, 'Average visitor spending · Tourism Economics Anaheim and Garden Grove Travel Forecast, Sept. 2026', sp.notes.join('\n'));
+s = content('Visitor spending', `Each Anaheim visitor is forecast to spend $${D.ana_pv[9]} by 2028, compared with $${D.ana_pv[6]} in 2025 and the 2019 baseline of $${D.ana_pv[0]}`, 'Average visitor spending · Tourism Economics Anaheim and Garden Grove Travel Forecast, Sept. 2026', sp.notes.join('\n'));
 kpis(s, sp.cards.map(c => c.slice(0, 4)), M, 1.6, W - 2 * M, 1.6);
 s.addText('Spending per visitor, Anaheim (2026–2028 forecast)', ft({ x: M, y: 3.4, w: 7.2, h: 0.35, fontSize: 13, bold: true, color: H.e3 }));
 s.addChart(pres.charts.BAR, [{ name: 'Actual', labels: D.years.map(String), values: D.ana_pv.map((v, i) => D.years[i] <= 2025 ? v : 0) },
@@ -476,11 +476,11 @@ tbl(s, sp.tables[2], 8.1, 3.45, 4.6, { colW: [1.2, 0.8, 0.85, 0.85, 0.9], fs: 9.
 bullets(s, ['Spending is forecast to grow 3.9% a year to 2028, three times faster than visits (1.3%).', 'Overnight visits are growing fastest (+4.5% in Q2 2026).'], 8.1, 5.3, 4.6, 1.2, 11);
 source(s, 'Tourism Economics, Travel Forecast (Sept. 2026) and Economic Impact of Visitors 2025. Per-visitor values are BI calculations from rounded totals (approximate).');
 
-s = content('Visitor spending', 'Q2 2026: visitors spent $1.76 billion in Anaheim, up 7.8%', 'Quarterly results · Tourism Economics Q2 2026 measurement', '');
+s = content('Visitor spending', 'Q2 2026: visitors spent $1.76 billion in Anaheim, up 7.8% vs. Q2 2025', 'Quarterly results · Q2 2026 vs. Q2 2025 · Tourism Economics', '');
 tbl(s, sp.tables[1], M, 1.6, 5.6, { colW: [1.4, 1.3, 1.5, 1.4], rowH: 0.4 });
 tbl(s, sp.tables[0], 6.5, 1.6, 6.2, { colW: [0.85, 0.85, 1.35, 1.1, 0.95, 1.1], rowH: 0.36, fs: 10 });
-bullets(s, ['Visits rose 2.8% to 6.74 million; overnight visits +4.5%, day visits +2.1%.', 'Hotel rates were nearly 9% above Q2 2025.', 'First half 2026: 13.1 million visitors spent $3.5 billion (+3.1% and +7.5%).',
-            'Garden Grove Q2: 831,000 visitors (+3.4%) spent $200.4 million (+7.1%).'], M, 4.75, 5.6, 1.8, 11.5);
+bullets(s, ['Compared with Q2 2025: visits rose 2.8% to 6.74 million; overnight visits +4.5%, day visits +2.1%.', 'Hotel rates were nearly 9% above Q2 2025.', 'First half 2026: 13.1 million visitors spent $3.5 billion (+3.1% and +7.5% vs. the first half of 2025).',
+            'Garden Grove Q2 2026 vs. Q2 2025: 831,000 visitors (+3.4%) spent $200.4 million (+7.1%).'], M, 4.75, 5.6, 1.8, 11.5);
 source(s, 'Tourism Economics, Anaheim and Garden Grove Travel Forecast (published Sept. 2026; data through Aug. 31, 2026)');
 
 /* 2. Jobs and economy */
@@ -506,18 +506,18 @@ tbl(s, ht.tables[0], M, 3.45, 7.6, { colW: [2.4, 0.9, 1.0, 1.1, 1.1, 1.1], rowH:
 hbar(s, 'Revenue per available room, past 12 months', ht.charts[0].rows.map(r => r.l), ht.charts[0].rows.map(r => r.v), 8.45, 3.4, 4.25, 3.1, '$0', ht.charts[0].rows.findIndex(r => r.hi));
 source(s, 'CoStar Group, Orange County Hospitality Market and Disneyland Hospitality Submarket reports (pulled Oct. 12, 2026). © 2026 CoStar Group, licensed to Visit Anaheim.');
 
-s = content('Hotel market', `Only ${D.sections.find(x => x.id === 'p-hotel').tables[2].rows.reduce((a, r) => a + Number(r[2]), 0)} hotel rooms are under construction countywide, which leaves room for OC Vibe's hotels`, 'CoStar construction, hotel investment and Orange County economy', '');
+s = content('Hotel market', `Only ${D.sections.find(x => x.id === 'p-hotel').tables[2].rows.reduce((a, r) => a + Number(r[2]), 0)} hotel rooms are under construction countywide, which leaves room for OCVIBE's hotels`, 'CoStar construction, hotel investment and Orange County economy', '');
 s.addText('Disneyland submarket by year', ft({ x: M, y: 1.6, w: 6.2, h: 0.3, fontSize: 12, bold: true, color: H.e3 }));
 tbl(s, ht.tables[1], M, 1.95, 6.2, { colW: [1.9, 1.0, 1.15, 1.15, 1.0], rowH: 0.3, fs: 9.5 });
 s.addText('Under construction in Orange County', ft({ x: M, y: 4.25, w: 6.2, h: 0.3, fontSize: 12, bold: true, color: H.e3 }));
 tbl(s, { ...ht.tables[2], rows: ht.tables[2].rows.map(r => [r[0].replace(' (mixed-use, with dining and retail)', ' (mixed-use)'), ...r.slice(1)]) }, M, 4.6, 6.2, { colW: [2.7, 1.5, 0.7, 1.3], rowH: 0.3, fs: 9.5 });
 s.addText('Orange County economy', ft({ x: 7.1, y: 1.6, w: 5.6, h: 0.3, fontSize: 12, bold: true, color: H.e3 }));
 tbl(s, { ...ht.tables[4], rows: ht.tables[4].rows.map(r => [r[0].replace('Leisure and hospitality', 'Leisure & hospitality').replace(' concentration (U.S. = 1.0)', ' concentration').replace(', 5-year forecast (a year)', ' forecast, per year'), ...r.slice(1)]) }, 7.1, 1.95, 5.6, { colW: [3.2, 1.3, 1.1], rowH: 0.3, fs: 9.5 });
-s.addText([{ text: 'Investment: ', options: { bold: true, color: H.e3 } }, { text: `hotel sales slowed with higher borrowing costs ($${D.costar_sales} in the past 12 months vs. a $311M three-year average). Market cap rate 7.2% in the Disneyland submarket. CoStar notes the OC Vibe district could create opportunities for future hotel investment.`, options: { color: H.dark } }],
+s.addText([{ text: 'Investment: ', options: { bold: true, color: H.e3 } }, { text: `hotel sales slowed with higher borrowing costs ($${D.costar_sales} in the past 12 months vs. a $311M three-year average). Market cap rate 7.2% in the Disneyland submarket. CoStar notes the OCVIBE district could create opportunities for future hotel investment.`, options: { color: H.dark } }],
   ft({ x: 7.1, y: 5.2, w: 5.6, h: 1.2, fontSize: 10.5, valign: 'top' }));
 source(s, 'CoStar Group, Orange County Hospitality Market, Disneyland Submarket and Capital Markets reports (Oct. 12, 2026); Oxford Economics via CoStar. © 2026 CoStar Group.');
 
-s = content('Hotel market', 'Sunday and Monday nights are where OC Vibe can add the most hotel stays', 'STR, Visit Anaheim hotels, Jan. 1–Oct. 3, 2026 · CoStar submarkets by month, 2026', ht.ocv.slice(-2).join('\n'));
+s = content('Hotel market', 'Sunday and Monday nights are where OCVIBE can add the most hotel stays', 'STR, Visit Anaheim hotels, Jan. 1–Oct. 3, 2026 · CoStar submarkets by month, 2026', ht.ocv.slice(-2).join('\n'));
 const hn = ht.tables.length, hc = ht.charts[ht.charts.length - 1];
 hbar(s, hc.title, hc.rows.map(r => r.l), hc.rows.map(r => r.v / 100), M, 1.55, 5.6, 3.1, '0.0%', 0);
 tbl(s, ht.tables[hn - 2], M, 4.75, 5.6, { colW: [2.3, 1.1, 1.1, 1.1], rowH: 0.26, fs: 9 });
@@ -525,7 +525,7 @@ tbl(s, ht.tables[hn - 1], 6.5, 1.6, W - M - 6.5, { colW: [0.8, 1.15, 0.95, 1.1, 
 rich(s, ht.ocv[ht.ocv.length - 2], { x: 6.5, y: 4.85, w: W - M - 6.5, h: 1.5, fontSize: 10.5 });
 source(s, 'STR daily data, Visit Anaheim hotel sets (Jan. 1–Oct. 3, 2026; provided Oct. 12, 2026); CoStar submarket export (Jan.–Aug. 2026).');
 
-/* 8. OC Vibe outlook */
+/* 8. OCVIBE outlook */
 if (htCal) {
   s = content('Hotel market', 'When Anaheim hotels have room: a 2026 calendar for events and programming', 'Visit Anaheim hotel set (Anaheim+), Jan.–Sept. 2026 · weeknights = Sunday–Thursday nights', '');
   tbl(s, htCal, M, 1.6, W - 2 * M, { colW: [1.3, 1.5, 1.6, 2.0, 2.2, 1.6, 1.93], rowH: 0.42, fs: 10.5 });
@@ -540,7 +540,7 @@ s = content('One more night', 'One more night by scenario: lodging and total vis
 hbar(s, 'Added spending by scenario ($ billions, estimates)', nt.charts[0].rows.map(r => r.l), nt.charts[0].rows.map(r => r.v), M, 1.6, 5.9, 3.0, '$0.00"B"');
 tbl(s, nt.tables[0], 6.8, 1.6, 5.9, { colW: [2.6, 1.15, 2.15], rowH: 0.33, fs: 9.5 });
 s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 4.85, w: 5.9, h: 1.55, fill: { color: H.light }, line: { color: H.e3, width: 1 }, rectRadius: 0.06, objectName: 'callout' });
-s.addText([{ text: 'Why it matters for OC Vibe: ', options: { bold: true, color: H.e3 } },
+s.addText([{ text: 'Why it matters for OCVIBE: ', options: { bold: true, color: H.e3 } },
            { text: 'evening events at Honda Center and the new concert hall, plus 550 planned hotel rooms, are the draws that turn day trips into overnight stays.', options: { color: H.dark } }],
   ft({ x: M + 0.2, y: 5.0, w: 5.5, h: 1.3, fontSize: 12, valign: 'top' }));
 source(s, 'Visit Anaheim BI, Extra Night study (Tourism Economics 2025 spending; Azira length of stay). Estimates hold spending per day constant.');
@@ -556,10 +556,10 @@ ocvSlide('p-night');
 
 pres.addSection({ title: 'Getting here' });
 newsSlides('p-transport');
-s = content('Getting here', 'OC Vibe sits beside one of the busiest corridors in Orange County', 'Weekday average daily traffic · OCTA 2026 Traffic Flow Map (published Aug. 2026)', tr.notes.join('\n'));
+s = content('Getting here', 'OCVIBE sits beside one of the busiest corridors in Orange County', 'Weekday average daily traffic · OCTA 2026 Traffic Flow Map (published Aug. 2026)', tr.notes.join('\n'));
 tbl(s, tr.tables[0], M, 1.6, 6.6, { colW: [3.9, 1.3, 1.4], rowH: 0.36, fs: 10.5 });
 s.addImage({ data: D.adtimg, x: 7.5, y: 1.55, w: 5.2, h: 5.2 * 910 / 1050, altText: 'Excerpt of the OCTA 2026 Traffic Flow Map around SR-57, Katella Ave and ARTIC' });
-s.addText('Freeway volumes are Caltrans 2024 counts; Katella Ave beside OC Vibe was last counted in 2021. New counts before the 2027 openings would set a baseline.', ft({ x: M, y: 5.6, w: 6.6, h: 0.8, fontSize: 10.5, color: H.dark }));
+s.addText('Freeway volumes are Caltrans 2024 counts; Katella Ave beside OCVIBE was last counted in 2021. New counts before the 2027 openings would set a baseline.', ft({ x: M, y: 5.6, w: 6.6, h: 0.8, fontSize: 10.5, color: H.dark }));
 source(s, 'Orange County Transportation Authority, 2026 Traffic Flow Map (thousands of vehicles per weekday; Roman numerals = years before 2026 the count was taken)');
 
 s = content('Getting here', 'ARTIC sees 277 weekday bus trips and a 14-minute one-seat ride to the resort', 'OCTA bus service at ARTIC · schedules Aug. 9–Nov. 7, 2026', '');
@@ -569,14 +569,14 @@ tbl(s, tr.tables[1], M, 3.45, 6.0, { colW: [0.8, 2.8, 0.8, 0.8, 0.8], rowH: 0.36
 tbl(s, tr.tables[2], 6.8, 3.45, 5.9, { colW: [2.0, 2.2, 1.7], rowH: 0.5, fs: 8.5 });
 source(s, 'OCTA bus schedules (GTFS), Visit Anaheim BI analysis; LARC Market Intelligence Report (Sept. 2026). Bus data excludes Metrolink and Amtrak, which also serve ARTIC.');
 
-s = content('Getting here', 'Most visitors drive, and driving costs are up a third since 2019', 'Commute patterns and transportation cost trends · U.S. Bureau of Transportation Statistics; Azira', '');
+s = content('Getting here', 'Most visitors drive, and driving costs in 2024 are up a third vs. the 2019 baseline', 'Commute patterns and transportation cost trends · U.S. Bureau of Transportation Statistics; Azira', '');
 kpis(s, [['Visitor origin', 'Domestic trips from within 50 miles', tr.cards[2][2], 'Anaheim and Garden Grove, Aug. 2026'], ['Orange County workers', 'Drive alone to work', `${(D.bts.modes[0][1] / D.bts.workers * 100).toFixed(1)}%`, `Public transportation ${(D.bts.modes[4][1] / D.bts.workers * 100).toFixed(1)}%`],
-         ['U.S. car cost per mile', '2024 average', `$${D.auto['2024'].toFixed(2)}`, `▲ +${((D.auto['2024'] / D.auto['2019'] - 1) * 100).toFixed(0)}% vs. 2019`]], M, 1.6, W - 2 * M, 1.6);
+         ['U.S. car cost per mile', '2024 average', `$${D.auto['2024'].toFixed(2)}`, `▲ +${((D.auto['2024'] / D.auto['2019'] - 1) * 100).toFixed(0)}% vs. 2019 baseline`]], M, 1.6, W - 2 * M, 1.6);
 tbl(s, tr.tables[3], M, 3.45, 5.4, { colW: [2.6, 1.5, 1.3], rowH: 0.36 });
 tbl(s, tr.tables[4], 6.2, 3.45, 6.5, { colW: [0.8, 1.6, 1.4, 1.3, 1.4], rowH: 0.34, fs: 10 });
 source(s, 'U.S. BTS County Transportation Profile (Orange County) and Transportation Economic Trends; Azira via Symphony. Shares are BI calculations.');
 
-s = content('Getting here', 'Rail already brings visitors to OC Vibe\'s front door at ARTIC', 'Amtrak at Anaheim (ANA), 2018–2024 · Metrolink lines serving Anaheim, Oct.–Dec. 2025', tr.ocv.slice(-2).join('\n'));
+s = content('Getting here', 'Rail already brings visitors to OCVIBE\'s front door at ARTIC', 'Amtrak at Anaheim (ANA), 2018–2024 · Metrolink lines serving Anaheim, Oct.–Dec. 2025', tr.ocv.slice(-2).join('\n'));
 const trR = tr.tables.findIndex(t => t.title === 'Rail service into ARTIC') + 1;
 tbl(s, tr.tables[trR - 2], M, 1.6, 4.4, { colW: [1.2, 1.9, 1.3], rowH: 0.36, fs: 10.5 });
 tbl(s, tr.tables[trR - 1], 5.2, 1.6, W - M - 5.2, { colW: [2.6, 1.25, 3.68], rowH: 0.46, fs: 9.5 });
@@ -611,7 +611,7 @@ s = content('Marketing reach', 'Which placements turn impressions into visits', 
 kpis(s, md.cards.map(c => c.slice(0, 4)), M, 1.6, W - 2 * M, 1.6);
 tbl(s, { ...md.tables[0], rows: md.tables[0].rows.map(r => [r[0].replace('Fall/Winter 2025–26 Domestic', 'Fall/Winter 25–26'), ...r.slice(1)]) }, M, 3.4, 7.4, { colW: [1.9, 1.9, 1.3, 1.1, 1.2], rowH: 0.27, fs: 10 });
 s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 8.3, y: 3.4, w: 4.4, h: 2.4, fill: { color: H.light }, line: { color: H.e3, width: 1 }, rectRadius: 0.06, objectName: 'callout' });
-s.addText([{ text: 'Opportunity for OC Vibe: ', options: { bold: true, color: H.e3 } }, { text: 'luxury and travel-planning placements convert best (up to 34.4 visits per 1,000 impressions). OC Vibe events and dining can be featured in this content.', options: { color: H.dark } }],
+s.addText([{ text: 'Opportunity for OCVIBE: ', options: { bold: true, color: H.e3 } }, { text: 'luxury and travel-planning placements convert best (up to 34.4 visits per 1,000 impressions). OCVIBE events and dining can be featured in this content.', options: { color: H.dark } }],
   ft({ x: 8.5, y: 3.55, w: 4.0, h: 2.1, fontSize: 12, valign: 'top' }));
 source(s, 'Symphony | Tourism Economics, Azira Media Attribution (first visit at least three days after exposure)');
 
@@ -621,13 +621,13 @@ ocvSlide('p-media');
 
 pres.addSection({ title: 'Market outlook' });
 newsSlides('p-larc');
-s = content('Market outlook', 'OC Vibe: first buildings are up; market hall and plaza open in 2027', 'OC Vibe and nearby developments as reported in LARC market reports, June–Sept. 2026', lo.notes.join('\n'));
+s = content('Market outlook', 'OCVIBE: first buildings are up; market hall and plaza open in 2027', 'OCVIBE and nearby developments as reported in LARC market reports, June–Sept. 2026', lo.notes.join('\n'));
 tbl(s, lo.tables[0], M, 1.6, 7.3, { colW: [1.7, 5.6], rowH: 0.48, fs: 10 });
 tbl(s, lo.tables[2], 8.2, 1.6, 4.5, { colW: [2.5, 0.6, 1.4], rowH: 0.42, fs: 9 });
 source(s, 'Lodging Analytics Research & Consulting (LARC), Anaheim Market Intelligence Reports (June, July and Sept. 2026)');
 
 s = content('Market outlook', 'Hotel demand and conventions are strong; costs are the main headwind', 'LARC market outlook · Anaheim vs. U.S. · forecasts to 2030', '');
-hbar(s, 'Revenue per available room, change vs. last year', lo.charts[0].rows.map(r => r.l), lo.charts[0].rows.map(r => r.v / 100), M, 1.6, 5.4, 2.9, '+0.0%');
+hbar(s, 'Revenue per available room, change vs. the same period a year earlier', lo.charts[0].rows.map(r => r.l), lo.charts[0].rows.map(r => r.v / 100), M, 1.6, 5.4, 2.9, '+0.0%');
 tbl(s, lo.tables[1], 6.3, 1.6, 6.4, { colW: [1.1, 1.2, 1.5, 1.5, 1.1], rowH: 0.34, fs: 10 });
 bullets(s, ['Conventions: room nights on the books +12% for 2026 and +17% for 2027 (Sept. 2026).', 'Events: 2028 Olympics cycling and volleyball in Anaheim; the 2026 World Cup boost turns into a tough comparison in Q2–Q3 2027.',
             `Inflation: Anaheim prices forecast +${D.cpi.cagr3}% a year (3 yrs), above the U.S.; hotel labor costs about +6% a year.`, 'Risks: gas prices and airfares (Iran conflict), possible federal shutdown, slower U.S. job growth.'], M, 4.75, W - 2 * M, 1.75, 11.5);
@@ -635,7 +635,7 @@ source(s, 'LARC, Anaheim Market Intelligence Report, Sept. 2026 (Moody\'s Analyt
 
 /* Checks and confidence */
 if (loFacts) {
-  s = content('Market outlook', 'OC Vibe in recent public sources', 'Phasing, venues and events as reported · figures differ by source', '');
+  s = content('Market outlook', 'OCVIBE in recent public sources', 'Phasing, venues and events as reported · figures differ by source', '');
   tbl(s, loFacts, M, 1.6, W - 2 * M, { colW: [2.0, 6.6, 3.53], rowH: 0.55, fs: 10.5 });
   source(s, 'Orange County Business Journal (June 1, 2026); OCVIBE concert hall release, PR Newswire (Mar. 12, 2026); BizBash (Sept. 16, 2026); LARC (Sept. 2026).');
 }
@@ -662,9 +662,9 @@ pres.addSection({ title: 'Reports and data library' });
 libSlides('Reports and data library');
 
 pres.addSection({ title: 'Next steps' });
-s = content('Next steps', 'How Visit Anaheim data can help OC Vibe succeed', 'Recommendations from Visit Anaheim BI · for discussion', '');
+s = content('Next steps', 'How Visit Anaheim data can help OCVIBE succeed', 'Recommendations from Visit Anaheim BI · for discussion', '');
 table(s, [['What to do', 0], ['Who', 0], ['When', 0], ['Why', 0], ['How we\'ll measure it', 0]], D.recs_t, M, 1.5, W - 2 * M, { colW: [2.9, 2.2, 1.8, 3.0, 2.23], rowH: 0.58, fs: 9, hi: -1, rich: true });
-s.addText('Visit Anaheim can refresh these measures quarterly and add OC Vibe-specific tracking (visitation, spending, length of stay) as venues open.', ft({ x: M, y: 6.1, w: W - 2 * M, h: 0.4, fontSize: 11.5, bold: true, color: H.e3 }));
+s.addText('Visit Anaheim can refresh these measures quarterly and add OCVIBE-specific tracking (visitation, spending, length of stay) as venues open.', ft({ x: M, y: 6.1, w: W - 2 * M, h: 0.4, fontSize: 11.5, bold: true, color: H.e3 }));
 source(s, 'Visit Anaheim Business Intelligence');
 
 /* Sources */
@@ -684,7 +684,7 @@ bullets(s, D.dq.slice(8), M, 1.6, W - 2 * M, 4.9, 11.5);
   s = content('Next steps', U.table.title, U.line, '');
   table(s, U.table.cols, U.table.rows, M, 1.5, W - 2 * M, { colW: [3.4, 2.6, 2.75, 3.38], rowH: 0.48, fs: 9, hi: -1 });
   source(s, U.table.src + '.');
-  s = content('Next steps', U.planned.title, 'Planned for a more complete view of OC Vibe visitors · not in this edition', '');
+  s = content('Next steps', U.planned.title, 'Planned for a more complete view of OCVIBE visitors · not in this edition', '');
   table(s, U.planned.cols, U.planned.rows, M, 1.6, W - 2 * M, { colW: [2.7, 2.9, 3.83, 2.7], rowH: 0.85, fs: 10.5, hi: -1 });
   rich(s, 'No figures from these sources appear until the data is received, checked and cleared for sharing. Each is added at the next quarterly update after it arrives. Ticketing and foot-traffic data are licensed or partner data: the report would show summaries only.', { x: M, y: 4.5, w: W - 2 * M, h: 0.9, fontSize: 12 });
   source(s, U.planned.src + '.'); }

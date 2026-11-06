@@ -1,4 +1,4 @@
-/* PowerPoint export (Oct. 13, 2026): build a deck holding only the chosen sections from the full OC Vibe Insights deck.
+/* PowerPoint export (Oct. 13, 2026): build a deck holding only the chosen sections from the full OCVIBE Insights deck.
    Works in the browser and in Node. Takes a JSZip class, the full .pptx bytes and the deck section names to keep.
    Removed slides take their notes and charts with them; section list, relationships, content types and slide counts are
    rewritten so PowerPoint opens the file without a repair prompt. The title slide is always kept. */

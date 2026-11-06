@@ -1,4 +1,4 @@
-"""Single source of truth for the OC Vibe dashboard + deck. Every figure traces to a source below."""
+"""Single source of truth for the OCVIBE dashboard + deck. Every figure traces to a source below."""
 import json
 
 def pct(a, b): return (a / b - 1) * 100
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     for c in MED_CAMP: print(c[0], c[1], round(c[3]/c[2]*1000, 1), c[4])
     for v in MED_VEND: print(v[0], round(v[2]/v[1]*1000, 1), v[3])
 
-# ---------------- Additions for OC Vibe edition ----------------
+# ---------------- Additions for OCVIBE edition ----------------
 ANA_Q = [("Q1 2025",6.12,1.61),("Q2 2025",6.55,1.63),("Q3 2025",6.85,1.71),("Q4 2025",7.01,1.87),("Q1 2026",6.32,1.72),("Q2 2026",6.74,1.76)]
 _ANA_SP_PRECISE = {2021: 4.472, 2022: 6.024, 2023: 6.479, 2024: 6.626, 2025: 6.832}   # TE EI 2025 report ($B)
 ANA_PV = [round(_ANA_SP_PRECISE.get(y, sp)*1000/v, 0) for y, v, sp in zip(YEARS, ANA_VIS, ANA_SP)]   # $ per visit
@@ -140,11 +140,11 @@ TRANSIT = dict(wk=277, sat=182, sun=181, routes={"50": ("Long Beach–Orange via
               "553": ("Rapid Anaheim–Costa Mesa via Katella/Main", 75, 0, 0)}, resort_trips_wk=87, resort_trips_sat=29, resort_min_50=14, resort_min_553=15,
               late_wk=16, last_wk="1:38 a.m.", peak_2h=35, fare=2.00)
 # Datafy 2024 (visitors 50+ miles, employees excluded)
-DATAFY = dict(clusters=[("Attractions and activities",75.8),("Disneyland",74.4),("Accommodations",65.8),("Shopping",51.1),("Dining",28.7),("OC Vibe",5.2),("Meeting services",3.4)],
+DATAFY = dict(clusters=[("Attractions and activities",75.8),("Disneyland",74.4),("Accommodations",65.8),("Shopping",51.1),("Dining",28.7),("OCVIBE",5.2),("Meeting services",3.4)],
               overnight=79.2, day=20.8, repeat=49.6, los6=27.6, states=[("California",51.2),("Arizona",11.9),("Nevada",5.62),("Texas",4.57),("Washington",4.49),("Utah",4.44)],
               dmas=[("Los Angeles",15.5),("San Diego",10.8),("Phoenix–Prescott",10.6),("San Francisco–Oakland–San Jose",8.07),("Sacramento–Stockton–Modesto",7.1),("Las Vegas",4.98)],
               age45_64=35.8, age25_44=29.8, inc100=38.9)
-# LARC: OC Vibe area
+# LARC: OCVIBE area
 CONV_PACE = [("Jan. 2026", 22, 2), ("Apr. 2026", 16, 16), ("June 2026", 16, 16), ("July 2026", 12, 17), ("Sept. 2026", 12, 17)]
 CPI = dict(cagr3=3.2, cagr5=3.0, y26=3.3, y27=3.5, y28=2.9, us5=2.3)
 # BTS U.S. County Transportation Profile, Orange County (Bureau of Transportation Statistics)

@@ -1,4 +1,4 @@
-"""Assemble the OC Vibe dashboard from the BI Pulse template's CSS/logo and the content module."""
+"""Assemble the OCVIBE dashboard from the BI Pulse template's CSS/logo and the content module."""
 import os as _os
 BASE = _os.path.dirname(_os.path.abspath(__file__))  # pipeline folder
 import json, re, base64, os
@@ -155,7 +155,7 @@ b.kv{font-weight:750;color:var(--heading);white-space:nowrap}
 
 .page-h .badge{white-space:normal;max-width:100%;overflow-wrap:anywhere}
 
-/* OC Vibe staff calculator */
+/* OCVIBE staff calculator */
 .calc-box{margin:14px 0 0;border:2px solid var(--heading);border-radius:var(--r-lg);background:var(--surface-card);padding:18px 20px}
 .calc-box h3{margin:0 0 4px;color:var(--heading);font-size:19px}
 .calc-sub{margin:0 0 14px;font-size:14px;line-height:1.45}
@@ -174,7 +174,7 @@ b.kv{font-weight:750;color:var(--heading);white-space:nowrap}
 .calc-out h4{margin:12px 0 6px;font-size:14px;color:var(--heading)}
 .calc-hl{margin:0;padding-left:18px;font-size:13px;display:grid;gap:4px}
 
-/* What this means for OC Vibe */
+/* What this means for OCVIBE */
 .ocv-box{margin:14px 0 0;border:1px solid var(--border);border-left:6px solid #43A3A3;border-radius:var(--r-md);background:var(--surface-card);padding:14px 18px}
 .ocv-box h3{margin:0 0 8px;font-size:17px;color:var(--heading)}
 .ocv-box ul{margin:0;padding-left:20px;display:grid;gap:6px}
@@ -206,7 +206,7 @@ b.kv{font-weight:750;color:var(--heading);white-space:nowrap}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tab[aria-current="true"]{background:#43A3A3;color:#231F20!important}}
 :root[data-theme="dark"] .tab[aria-current="true"]{background:#43A3A3;color:#231F20!important}
 
-/* ---- OC Vibe additions (VA Branded tokens only) ---- */
+/* ---- OCVIBE additions (VA Branded tokens only) ---- */
 .ann-bar{grid-template-columns:minmax(96px,150px) minmax(0,1fr) 64px}
 .ann-bar .l{white-space:normal;overflow:visible;line-height:1.2}
 .sec-more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:24px;align-items:start}
@@ -728,7 +728,7 @@ for _n in _ICONS:
 assert len(MDI) == len(_ICONS), set(_ICONS) - set(MDI)
 
 BODY = f"""<meta charset="utf-8">
-<title>OC Vibe Insights</title>
+<title>OCVIBE Insights</title>
 <meta name="robots" content="noindex, nofollow">
 <style>
 {css}
@@ -742,8 +742,8 @@ BODY = f"""<meta charset="utf-8">
     <div class="brand">
       <div class="logo-chip">{logo_img}</div>
       <div class="titles">
-        <h1>OC Vibe Insights</h1>
-        <p id="periodLine">Prepared by Visit Anaheim for OC Vibe · Orange County tourism, visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly; next update {SC.NEXT_S}</p>
+        <h1>OCVIBE Insights</h1>
+        <p id="periodLine">Prepared by Visit Anaheim for OCVIBE · Orange County tourism, visitor spending, jobs, one more night, getting here, who visits, marketing reach and market outlook · Anaheim, Orange County and U.S. · Data through Sept. 2026 · Updated quarterly; next update {SC.NEXT_S}</p>
       </div>
     </div>
     <div class="hdr-ctl" id="hdrCtl">
@@ -772,7 +772,7 @@ BODY = f"""<meta charset="utf-8">
       <div id="pages" class="single">
         <section class="page" id="p-summary" data-title="Overview">
           <div class="page-h"><h2>Overview</h2><span class="badge">Mixed periods · data through Sept. 2026</span></div>
-          <div class="seg-h ov-seg" id="ovPulse" style="margin-top:20px"><span class="seg-n" aria-hidden="true">1</span><div><h3>BI Pulse Summary</h3><p>The main announcement: where Anaheim's visitor market stands as OC Vibe opens, with a source and date for every figure.</p></div></div>
+          <div class="seg-h ov-seg" id="ovPulse" style="margin-top:20px"><span class="seg-n" aria-hidden="true">1</span><div><h3>BI Pulse Summary</h3><p>The main announcement: where Anaheim's visitor market stands as OCVIBE opens, with a source and date for every figure.</p></div></div>
           <article class="ann" id="ann" aria-labelledby="annHead">
             <div class="ann-tools">
               <span class="sp"></span>
@@ -791,7 +791,7 @@ BODY = f"""<meta charset="utf-8">
         </section>
         <section class="page" id="p-ask" data-title="Questions answered">
           <div class="page-h"><h2>Questions answered</h2><span class="badge">Anaheim · Orange County · California · U.S. · data through Sept. 2026</span></div>
-          <p class="ask-lede">General questions about Anaheim's visitor economy and the OC Vibe area. Each answer gives a short summary, the figures for Anaheim, Orange County and the U.S. (California where that is the closest published level), a visual, how the number is calculated, what to keep in mind, and the reports and data files to read more.</p>
+          <p class="ask-lede">General questions about Anaheim's visitor economy and the OCVIBE area. Each answer gives a short summary, the figures for Anaheim, Orange County and the U.S. (California where that is the closest published level), a visual, how the number is calculated, what to keep in mind, and the reports and data files to read more.</p>
           <div class="seg-h" id="askCore"><span class="seg-n" aria-hidden="true">1</span><div><h3>The four core questions</h3><p>Select a card to open its full answer.</p></div></div>
           <div class="ask-core" id="askCoreGrid"></div>
           <div class="seg-h" id="askAll"><span class="seg-n" aria-hidden="true">2</span><div><h3>All questions</h3><p>Grouped by topic. Each opens to the figures, a visual, the method and the files.</p></div></div>
@@ -825,7 +825,7 @@ BODY = f"""<meta charset="utf-8">
           <div class="seg-h" id="srcTk"><span class="seg-n" aria-hidden="true">2</span><div><h3>Takeaways and recommendations</h3><p>The headline findings, then Visit Anaheim BI recommendations for discussion.</p></div></div>
           <div class="takeaways"><h3>Key takeaways</h3><ul class="bul" id="takeaways"></ul></div>
           <div class="stack" style="margin-top:12px">
-            <div class="box"><h3>Recommendations for OC Vibe</h3>
+            <div class="box"><h3>Recommendations for OCVIBE</h3>
               <p class="csub" style="font-weight:350;margin:0 0 12px">Visit Anaheim BI recommendations based on the findings in this dashboard. These are suggestions for discussion, not findings.</p>
               <div id="recList"></div>
             </div>

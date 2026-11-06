@@ -46,8 +46,8 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS):
         hi=6, src=SRC_CSM))
     h["charts"].append(dict(kind="bars", title=f"Sunday and Monday nights run {gap:.0f} points below Friday and Saturday", sub="Anaheim+ hotel occupancy by night, Jan. 1–Oct. 3, 2026 (STR)",
         rows=[dict(l=DOWL[d], v=A['dow'][d][0], t=f"{A['dow'][d][0]:.1f}%", hi=d in ("Sun", "Mon")) for d in DOW], src=SRC_STR))
-    h["ocv"].append(f"Sunday and Monday are the open nights: Visit Anaheim hotels ran {ND.SUNMON_OCC:.1f}% occupancy on those nights in 2026 vs. {ND.FRISAT_OCC:.1f}% on Fridays and Saturdays (STR). Each point OC Vibe adds on Sunday and Monday nights is about {round(ND.PT_SUNMON_RN, -2):,.0f} room nights and ${ND.PT_SUNMON_REV/1e6:.1f}M in room revenue a year.")
-    h["ocv"].append(f"The rest of Anaheim (CoStar's Anaheim submarket) averages ${an['adr12']:.0f} a night vs. ${dl['adr12']:.0f} in the resort area. Where OC Vibe's hotels price between those two will drive their revenue more than occupancy.")
+    h["ocv"].append(f"Sunday and Monday are the open nights: Visit Anaheim hotels ran {ND.SUNMON_OCC:.1f}% occupancy on those nights in 2026 vs. {ND.FRISAT_OCC:.1f}% on Fridays and Saturdays (STR). Each point OCVIBE adds on Sunday and Monday nights is about {round(ND.PT_SUNMON_RN, -2):,.0f} room nights and ${ND.PT_SUNMON_REV/1e6:.1f}M in room revenue a year.")
+    h["ocv"].append(f"The rest of Anaheim (CoStar's Anaheim submarket) averages ${an['adr12']:.0f} a night vs. ${dl['adr12']:.0f} in the resort area. Where OCVIBE's hotels price between those two will drive their revenue more than occupancy.")
     h["notes"].append(f"STR hotel sets: groups filled {A['group_share']:.1f}% of rooms sold at Anaheim+ hotels in 2026 at ${A['group_adr']:.0f} a night; leisure and other transient guests filled {A['trans_share']:.1f}% at ${A['trans_adr']:.0f}.")
 
     # ---------- Visitor spending: Visa ----------
@@ -69,8 +69,8 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS):
         cols=[["Category or country", 0], ["Spending", 1], ["Change", 1]], full=True,
         rows=[[n, f"${x:.1f}M" if x >= 1 else f"${x*1000:,.0f}K", D(c, sp(c))] for n, x, c in ND.VISA_INTL_CAT] +
              [[f"Country: {n}", f"${x:.1f}M" if x >= 1 else f"${x*1000:,.0f}K", ""] for n, x in ND.VISA_INTL_CTRY[:6]], hi=1, src=SRC_VISA))
-    d5["ocv"].append(f"New markets: beyond Southern California, the largest visitor spending comes from San Francisco, Seattle, Phoenix, Las Vegas, San Jose, Sacramento, Orlando, New York and Detroit, and internationally from Mexico (${ND.VISA_INTL_CTRY[0][1]}M), Canada and Japan (Visa, Aug. 2026). These are fly-in markets where OC Vibe events can justify a longer trip.")
-    d5["ocv"].append("International visitors spent $5.4M on restaurants and dining in August 2026, but that was down 19.1% from a year earlier, while retail rose 9.3% (Visa). Dining is OC Vibe's biggest category and the one to watch with international guests.")
+    d5["ocv"].append(f"New markets: beyond Southern California, the largest visitor spending comes from San Francisco, Seattle, Phoenix, Las Vegas, San Jose, Sacramento, Orlando, New York and Detroit, and internationally from Mexico (${ND.VISA_INTL_CTRY[0][1]}M), Canada and Japan (Visa, Aug. 2026). These are fly-in markets where OCVIBE events can justify a longer trip.")
+    d5["ocv"].append("International visitors spent $5.4M on restaurants and dining in August 2026, but that was down 19.1% from a year earlier, while retail rose 9.3% (Visa). Dining is OCVIBE's biggest category and the one to watch with international guests.")
 
     # ---------- Getting here: rail ----------
     a, m = ND.AMTRAK, ND.METRO
@@ -87,16 +87,16 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS):
               ["Metrolink Inland Empire–Orange County Line, weekday riders", f"{m['ieoc_wk']:,}", f"{sp(m['ieoc_wk_chg'], 0)}; {m['ieoc_we']:,} weekend riders ({sp(m['ieoc_we_chg'], 0)})"],
               ["Metrolink trips that are not commutes", f"{m['noncommute']}%", f"Rider median household income ${m['hhi']:,}; average trip {m['trip']} miles"]],
         hi=0, src=SRC_AMTRAK + "; " + SRC_METRO))
-    t["ocv"].append(f"Rail already brings visitors to OC Vibe's front door: {a['pax24']:,} Amtrak passengers used the Anaheim station at ARTIC in 2024 (79% of the 2018 level), mostly on trips under 100 miles from San Diego and Los Angeles. {a['pop50']/1e6:.1f} million people live within 50 miles of the station.")
+    t["ocv"].append(f"Rail already brings visitors to OCVIBE's front door: {a['pax24']:,} Amtrak passengers used the Anaheim station at ARTIC in 2024 (79% of the 2018 level), mostly on trips under 100 miles from San Diego and Los Angeles. {a['pop50']/1e6:.1f} million people live within 50 miles of the station.")
     t["ocv"].append(f"Metrolink's Orange County Line carries {m['oc_wk']:,} weekday riders and is growing ({sp(m['oc_wk_chg'], 0)}), and {m['noncommute']}% of Metrolink trips are not commutes. Weekend ridership is down, so event-night rail service is a gap to raise with Metrolink and OCTA.")
     t["notes"].append("Rail data are station totals (Amtrak) and line totals (Metrolink); ARTIC station-level Metrolink boardings were not available.")
 
-    # ---------- OC Vibe impact: levers and KPIs ----------
+    # ---------- OCVIBE impact: levers and KPIs ----------
     o = sec["p-ocv"]
     o["tables"][1]["rows"].append(["Each point of Sunday–Monday hotel occupancy citywide", f"About {round(ND.PT_SUNMON_RN, -2):,.0f} room nights", f"About ${ND.PT_SUNMON_REV/1e6:.1f}M room revenue a year (STR Anaheim+, 2026)"])
     kpi = o["tables"][8]["rows"]
     kpi.insert(6, ["Hotel stays", "Sunday–Monday occupancy, Visit Anaheim hotels", f"{ND.SUNMON_OCC:.1f}% (STR, 2026 YTD)", "Narrow the gap to Friday–Saturday (86.2%)", "Visit Anaheim BI (STR)", "Monthly"])
-    kpi.insert(10, ["Spending", "Visitor card spending, Anaheim and the OC Vibe area", f"${v['total']}M in Aug. 2026 (citywide view)", "Track the OC Vibe area once mapped", "Visit Anaheim BI (Visa via Symphony)", "Monthly"])
+    kpi.insert(10, ["Spending", "Visitor card spending, Anaheim and the OCVIBE area", f"${v['total']}M in Aug. 2026 (citywide view)", "Track the OCVIBE area once mapped", "Visit Anaheim BI (Visa via Symphony)", "Monthly"])
     kpi.insert(11, ["New markets", "Visitor spending from fly-in markets (outside Southern California)", "Seattle, Phoenix, Las Vegas, Orlando, New York, Mexico, Canada", "Grow share year over year", "Visit Anaheim BI (Visa)", "Monthly"])
     kpi.append(["Access", "Rail passengers at ARTIC", f"{a['pax24']:,} Amtrak (2024); Metrolink line totals", "Back to 2018's 256,600", "Amtrak; Metrolink; OCTA", "Annual"])
 
@@ -110,4 +110,4 @@ def attach(SECTIONS, SOURCES, DQ, REGISTER, TAKEAWAYS):
       "Amtrak's 2023 count at Anaheim (70,700) is unusually low compared with 2022 and 2024; check it before using it in a trend.",
       "STR and CoStar measure different hotel sets (Visit Anaheim sets vs. CoStar submarkets) and should not be compared directly.",
     ])
-    TAKEAWAYS.append(f"Hotels near OC Vibe have room on Sunday and Monday nights ({ND.SUNMON_OCC:.1f}% occupancy vs. {ND.FRISAT_OCC:.1f}% Friday–Saturday, STR 2026), and visitor card spending rose {v['total_chg']}% in August 2026 (Visa); rail at ARTIC carried {a['pax24']:,} Amtrak passengers in 2024.")
+    TAKEAWAYS.append(f"Hotels near OCVIBE have room on Sunday and Monday nights ({ND.SUNMON_OCC:.1f}% occupancy vs. {ND.FRISAT_OCC:.1f}% Friday–Saturday, STR 2026), and visitor card spending rose {v['total_chg']}% in August 2026 (Visa); rail at ARTIC carried {a['pax24']:,} Amtrak passengers in 2024.")

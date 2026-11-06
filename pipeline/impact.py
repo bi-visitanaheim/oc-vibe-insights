@@ -1,4 +1,4 @@
-"""OC Vibe visitor-impact scenarios (Visit Anaheim BI estimate).
+"""OCVIBE visitor-impact scenarios (Visit Anaheim BI estimate).
 
 Scope: visitor activity only (people traveling 50+ miles or staying overnight), at full operation,
 in 2025 dollars. Excludes construction, office, resident and local-patron activity.
@@ -22,9 +22,9 @@ CA = dict(spend=158.9e9, jobs=1.2e6, tax=13.6e9)   # Visit California 2025 econo
 JOBS_CA = CA["jobs"] / (CA["spend"] / 1e6)
 TAX_CA = CA["tax"] / CA["spend"]
 OUT_OF_STATE = 1 - D5_STATE[0][1] / 100        # District 5 domestic visitors from outside California (Azira)
-HALL_CAP = 5613                                 # concert hall capacity (City of Anaheim OCVibe page, 2026)
+HALL_CAP = 5613                                 # concert hall capacity (City of Anaheim OCVIBE page, 2026)
 SMALL_CAP = 2000 + 300                          # theater + club (OCVIBE fact sheet, Apr. 2024)
-ROOMS = 320 + 230                               # Arena Hotel + Meadow Hotel (City of Anaheim OCVibe page)
+ROOMS = 320 + 230                               # Arena Hotel + Meadow Hotel (City of Anaheim OCVIBE page)
 TOT = 0.15                                      # Anaheim transient occupancy tax (City of Anaheim)
 DL = CS_SUB[0]                                  # CoStar Disneyland submarket (occ 78.4%, ADR $254.88)
 
@@ -36,7 +36,7 @@ ASSUME = dict(
     small_events=(100, 150, 200),      # theater + club events a year
     small_fill=(0.60, 0.70, 0.80),
     net_new=(0.15, 0.25, 0.35),        # share of attendees who are net-new visitors to Anaheim (not locals, not already in town)
-    add_day=(0.005, 0.01, 0.02),       # share of all Anaheim visitors who add a day because of OC Vibe
+    add_day=(0.005, 0.01, 0.02),       # share of all Anaheim visitors who add a day because of OCVIBE
     hotel_occ=(0.70, CS_OC["occ"] / 100, DL[2] / 100),
     hotel_adr=(float(CS_OC["adr"]), float(CS_OC["adr"]), DL[4]),
 )
@@ -52,7 +52,7 @@ def run():
         sp_stay = extra_days * PER_DAY                          # lever 2: longer stays
         lodge_stay = extra_days * LODGE_PER_VDAY
         spend = sp_new + sp_stay
-        rn = ROOMS * 365 * g("hotel_occ")                       # lever 3: OC Vibe hotels (output, not added)
+        rn = ROOMS * 365 * g("hotel_occ")                       # lever 3: OCVIBE hotels (output, not added)
         room_rev = rn * g("hotel_adr")
         out.append(dict(name=name, attend=attend, new_vis=new_vis, sp_new=sp_new, extra_days=extra_days, sp_stay=sp_stay,
                         lodge_stay=lodge_stay, spend=spend, rn=rn, room_rev=room_rev, tot=room_rev * TOT,
@@ -63,7 +63,7 @@ def run():
                         share_ca=spend * OUT_OF_STATE / CA["spend"] * 100))
     return out
 
-# Per-1% sensitivities (for "what one more night means for OC Vibe")
+# Per-1% sensitivities (for "what one more night means for OCVIBE")
 PER_1PCT_DAY = A["vis25"] * 1e6 * 0.01 * PER_DAY             # every 1% of visitors adding a day
 PER_1PCT_LODGE = A["vis25"] * 1e6 * 0.01 * LODGE_PER_VDAY      # lodging part of that
 PER_1K_NEW = 1000 * PV                                         # every 1,000 net-new visitors
@@ -115,15 +115,15 @@ TEN = ten_year()
 if __name__ == "__main__":
     print(TR); print([(n, round(s*100,1), round(v/1e6,2)) for n,s,v in CAT], round(FB_JOBS)); print({k:(round(v/1e6,1) if isinstance(v,float) else v) for k,v in TEN.items()})
 
-# Constants for the in-page calculator (OC Vibe staff inputs)
+# Constants for the in-page calculator (OCVIBE staff inputs)
 JS_MODEL = dict(pv=PV, per_day=PER_DAY, visitors=A["vis25"] * 1e6, mult_ana=MULT_ANA, jobs_ana=JOBS_ANA, tax_ana=TAX_ANA, mult_oc=MULT_OC,
                 out_of_state=OUT_OF_STATE, hall_cap=HALL_CAP, small_cap=SMALL_CAP, tot=TOT, ana_today_sp=A['sp25'] * 1e6, ocv_today_sp=0.052 * A['sp25'] * 1e6,
                 base=dict(hall_events=150, hall_fill=80, small_events=150, small_fill=70, net_new=25, add_day=1.0, rooms=550, occ=round(CS_OC["occ"]), adr=CS_OC["adr"]))
 
 # ---------- Three views of impact (holistic) ----------
 # 1) Anaheim today: all visitors (Tourism Economics 2025).
-# 2) Anaheim with OC Vibe live: today + OC Vibe's net-new visitor activity (base case and range).
-# 3) OC Vibe's own impact: visitor activity associated with the OC Vibe area today (Datafy: 5.2% of Anaheim visitor days, 2024),
+# 2) Anaheim with OCVIBE live: today + OCVIBE's net-new visitor activity (base case and range).
+# 3) OCVIBE's own impact: visitor activity associated with the OCVIBE area today (Datafy: 5.2% of Anaheim visitor days, 2024),
 #    and when live (today + net-new). "Associated" = all spending on visitor days that include the area, wherever it is spent.
 DATAFY_SHARE = 0.052
 VDAYS = A["vis25"] * 1e6 * N["los"]

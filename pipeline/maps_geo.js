@@ -1,4 +1,4 @@
-/* Map geometry for OC Vibe Insights (Oct. 13, 2026). Run: node maps_geo.js > maps_geo.json
+/* Map geometry for OCVIBE Insights (Oct. 13, 2026). Run: node maps_geo.js > maps_geo.json
    U.S. states: us-atlas 3.0.1 (U.S. Census Bureau cartographic boundaries), Albers USA projection.
    World countries: world-atlas 2.0.2 (Natural Earth 1:110m), Natural Earth projection.
    Points: metro areas at their principal city and countries at their geographic center (positioning only; values come from the report tables). */

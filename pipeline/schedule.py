@@ -1,4 +1,4 @@
-"""Update schedule for OC Vibe Insights (added Oct. 14, 2026, per John Picou).
+"""Update schedule for OCVIBE Insights (added Oct. 14, 2026, per John Picou).
 
 The report is refreshed quarterly because Tourism Economics delivers its Anaheim Travel Forecast each quarter
 (docs/quarterly-refresh.md). LAST_UPDATE is the date of the latest data update; the quarterly refresh sets it.
@@ -6,7 +6,7 @@ The next scheduled update is computed: the first 15th of January, April, July or
 import datetime as _dt
 
 LAST_UPDATE = _dt.date(2026, 10, 19)       # data last updated (prepared date of this edition)
-RUN_MONTHS, RUN_DAY = (1, 4, 7, 10), 15    # scheduled task "OC Vibe Insights quarterly refresh", about 9 a.m. Pacific
+RUN_MONTHS, RUN_DAY = (1, 4, 7, 10), 15    # scheduled task "OCVIBE Insights quarterly refresh", about 9 a.m. Pacific
 SCHED_SRC = "Visit Anaheim BI, quarterly refresh runbook (Oct. 13, 2026; cadence confirmed Oct. 14, 2026)"
 CONTACT = "bi@visitanaheim.org"
 _MON = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
@@ -29,7 +29,7 @@ NEXT = next_update()
 LAST_S, NEXT_S = ap(LAST_UPDATE), ap(NEXT)
 LINE = f"Updated quarterly · Data last updated {LAST_S} · Next scheduled update {NEXT_S}"
 
-LEDE = (f"Visit Anaheim Business Intelligence updates OC Vibe Insights each quarter, on the 15th of January, April, July and "
+LEDE = (f"Visit Anaheim Business Intelligence updates OCVIBE Insights each quarter, on the 15th of January, April, July and "
         f"October, after Tourism Economics delivers its quarterly Anaheim Travel Forecast. The data was last updated {LAST_S}; "
         f"the next scheduled update is {NEXT_S}.")
 
@@ -68,7 +68,7 @@ TABLE = dict(
         ["Azira via Symphony", "Monthly", "Jan. to Aug. 2026", "New period pulled"],
         ["Visa Destination Insights via Symphony", "Weekly or monthly", "Aug. 2026", "Latest month pulled"],
         ["OCTA, Amtrak, Metrolink", "When a new schedule or fact sheet is published", "Aug. to Nov. 2026; 2018 to 2024; FY26 Q2", "Updated only if a new one is out"],
-        ["Datafy, U.S. BTS, California transit snapshots, City and OC Vibe public sources", "As released", "See the source register", "Kept at their dated values until a new release is received"],
+        ["Datafy, U.S. BTS, California transit snapshots, City and OCVIBE public sources", "As released", "See the source register", "Kept at their dated values until a new release is received"],
     ],
     src=SCHED_SRC + "; Visit Anaheim BI source register (Oct. 12, 2026)",
 )
@@ -79,13 +79,13 @@ PLANNED = dict(
     title="Planned data sources (not in this edition)",
     cols=[["Source", 0], ["What it would add", 0], ["How it would tie in", 0], ["Status", 0]],
     rows=[
-        ["Ticketmaster ticketing data, Honda Center (from OC Vibe)",
+        ["Ticketmaster ticketing data, Honda Center (from OCVIBE)",
          "Tickets sold by event and ticket-buyer home ZIP code",
          "Shows how far event audiences travel; matched to STR nights and Visa spending on event dates; feeds Who visits and Hotel market",
-         "To request from OC Vibe through a data-sharing agreement; summaries only"],
+         "To request from OCVIBE through a data-sharing agreement; summaries only"],
         ["Placer.ai foot-traffic data",
-         "Visits, visitor home areas, dwell time and repeat visits at OC Vibe venues and the OC Vibe area",
-         "Compared with Azira for District 5; tracks the OC Vibe area as venues open; feeds Who visits and Getting here",
+         "Visits, visitor home areas, dwell time and repeat visits at OCVIBE venues and the OCVIBE area",
+         "Compared with Azira for District 5; tracks the OCVIBE area as venues open; feeds Who visits and Getting here",
          "To source; license holder to be confirmed; summaries only"],
     ],
     src="Visit Anaheim BI, data plan (Oct. 14, 2026)",

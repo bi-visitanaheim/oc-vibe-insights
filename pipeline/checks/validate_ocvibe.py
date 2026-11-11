@@ -430,9 +430,9 @@ check("L. Name style", "Every chart mark, table cell, key figure and bold number
 
 # ---------------- M. Page by page (Oct. 15, 2026) ----------------
 _pj = open(os.path.join(_bd2, "pages_app.js")).read(); _pc = open(os.path.join(_bd2, "pages.css")).read()
-_seg_ids = ["ovPulse", "ovTk", "ovFind", "askCore", "askAll", "libFilesH", "libLinksH", "srcUpd", "srcTk", "srcReg", "srcList-h", "srcMeth"]
+_seg_ids = ["ovMotionH", "ovPulse", "ovTk", "ovFind", "askCore", "askAll", "libFilesH", "libLinksH", "srcUpd", "srcTk", "srcReg", "srcList-h", "srcMeth"]
 _seg_missing = [i for i in _seg_ids if f'id="{i}"' not in _html]
-check("M. Page by page", "Every page is split into separate pages, one segment each (Overview 3, Questions answered 2, each section 4 to 5, library 2, Sources 5), with a sticky page bar, Scroll all option and print showing every page",
+check("M. Page by page", "Every page is split into separate pages, one segment each (Overview 4, Questions answered 2, each section 4 to 5, library 2, Sources 5), with a sticky page bar, Scroll all option and print showing every page",
       not _seg_missing and _pj in _html and _pc in _html and "subpage" in _pj and "#spBar" in _pc and "Scroll all" in _pj and "@media print" in _pc and "segH('1', 'The story'" in open(os.path.join(_bd2, "app.js")).read(),
       f"fixed segment headings {len(_seg_ids) - len(_seg_missing)}/{len(_seg_ids)}; page script and styles inlined; missing {_seg_missing or 'none'}")
 check("M. Page by page", "Page-by-page code adds no outside requests and no em dashes; deep links (#section/pN), arrow keys and data-card jumps open the right page",

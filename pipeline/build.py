@@ -628,11 +628,9 @@ details.fold .fd-body>.calc-steps,details.fold .fd-body>.cc-box{margin-top:8px;b
 .side-quick button{font:inherit;font-size:14px;font-weight:700;text-align:left;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-card);color:var(--heading);padding:7px 10px;cursor:pointer}
 .ov-seg{margin-top:36px}
 /* Overview motion clip (Nov. 11, 2026) */
-.ov-motion{margin:0 0 22px;border:1px solid var(--border);border-radius:var(--r-sm,6px);background:var(--surface-card);overflow:hidden}
+.ov-motion{margin:0 auto 22px;max-width:1100px;border:1px solid var(--border);border-radius:var(--r-sm,6px);background:var(--surface-card);overflow:hidden}
 .ov-motion video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#E6F0EA}
-.ov-motion figcaption{padding:12px 16px;font-size:13.5px;line-height:1.5;border-top:1px solid var(--border-subtle)}
-@media (min-width:900px){.ov-motion{display:grid;grid-template-columns:minmax(0,640px) minmax(0,1fr);align-items:center}.ov-motion figcaption{border-top:0;border-left:1px solid var(--border-subtle);padding:16px 20px;font-size:14px}}
-.ov-motion figcaption b{color:var(--heading)}
+.ov-motion figcaption{padding:14px 18px;font-size:14px;line-height:1.55;border-top:1px solid var(--border-subtle)}
 @media print{.ov-motion{display:none}}
 
 /* Questions answered and Reports and data library (Oct. 14, 2026) */
@@ -786,11 +784,12 @@ BODY = f"""<meta charset="utf-8">
       <div id="pages" class="single">
         <section class="page" id="p-summary" data-title="Overview">
           <div class="page-h"><h2>Overview</h2><span class="badge">Mixed periods · data through Sept. 2026</span></div>
-          <div class="seg-h ov-seg" id="ovPulse" style="margin-top:20px"><span class="seg-n" aria-hidden="true">1</span><div><h3>BI Pulse Summary</h3><p>The main announcement: where Anaheim's visitor market stands as OCVIBE opens, with a source and date for every figure.</p></div></div>
+          <div class="seg-h ov-seg" id="ovMotionH" style="margin-top:20px"><span class="seg-n" aria-hidden="true">1</span><div><h3>The edition in 20 seconds</h3><p>A short, silent clip of this edition's headline figures: the economy, who visits and hotels. The caption gives every figure with its source and period.</p></div></div>
           <figure class="ov-motion" id="ovMotion">
             <video id="ovMotionVid" controls muted playsinline loop preload="metadata" poster="{MOTION_POSTER}" aria-label="OCVIBE Insights, the edition in 20 seconds (silent video)" aria-describedby="ovMotionCap"><source src="{MOTION_SRC}" type="video/mp4"></video>
-            <figcaption id="ovMotionCap"><b>The edition in 20 seconds.</b> The economy: 26.5M visitors, $6.83B in visitor spending, $10.42B in total economic impact and 67,817 jobs ($6.832B ÷ 26.5M visitors = $258 per visitor; Tourism Economics, calendar 2025, published 2026). Who visits: 44% of District 5 visitors come from out of state and 85.8% stay overnight (Azira, 2026); 191,153 Amtrak passengers at ARTIC (2024). Hotels: 77.9% occupancy and a $241 average daily rate (STR, Visit Anaheim hotel set, Jan. 1 to Oct. 3, 2026). The clip is silent; this caption is its full transcript. <span class="conf-b">Confidential</span></figcaption>
+            <figcaption id="ovMotionCap">The economy: 26.5M visitors, $6.83B in visitor spending, $10.42B in total economic impact and 67,817 jobs ($6.832B ÷ 26.5M visitors = $258 per visitor; Tourism Economics, calendar 2025, published 2026). Who visits: 44% of District 5 visitors come from out of state and 85.8% stay overnight (Azira, 2026); 191,153 Amtrak passengers at ARTIC (2024). Hotels: 77.9% occupancy and a $241 average daily rate (STR, Visit Anaheim hotel set, Jan. 1 to Oct. 3, 2026). The clip is silent; this caption is its full transcript. <span class="conf-b">Confidential</span></figcaption>
           </figure>
+          <div class="seg-h ov-seg" id="ovPulse"><span class="seg-n" aria-hidden="true">2</span><div><h3>BI Pulse Summary</h3><p>The main announcement: where Anaheim's visitor market stands as OCVIBE opens, with a source and date for every figure.</p></div></div>
           <article class="ann" id="ann" aria-labelledby="annHead">
             <div class="ann-tools">
               <span class="sp"></span>
@@ -798,9 +797,9 @@ BODY = f"""<meta charset="utf-8">
             </div>
             <div class="ann-paper" id="annPaper"></div>
           </article>
-          <div class="seg-h ov-seg" id="ovTk"><span class="seg-n" aria-hidden="true">2</span><div><h3>Key takeaways</h3><p>The headline number from each section, with its period. Select one to read the full story.</p></div></div>
+          <div class="seg-h ov-seg" id="ovTk"><span class="seg-n" aria-hidden="true">3</span><div><h3>Key takeaways</h3><p>The headline number from each section, with its period. Select one to read the full story.</p></div></div>
           <div class="kts" id="keyTk"></div>
-          <div class="seg-h ov-seg" id="ovFind"><span class="seg-n" aria-hidden="true">3</span><div><h3>Find an answer</h3><p>Questions answered for Anaheim, Orange County and the U.S., and every report and data file behind them.</p></div></div>
+          <div class="seg-h ov-seg" id="ovFind"><span class="seg-n" aria-hidden="true">4</span><div><h3>Find an answer</h3><p>Questions answered for Anaheim, Orange County and the U.S., and every report and data file behind them.</p></div></div>
           <div class="find-row">
             <button type="button" class="find-link" data-go="p-ask"><b>Questions answered</b><span>Average spend, one more night, transportation, District 5 and 17 more</span><span class="go" aria-hidden="true">→</span></button>
             <button type="button" class="find-link" data-go="p-library"><b>Reports and data library</b><span>Open or download the source files</span><span class="go" aria-hidden="true">→</span></button>

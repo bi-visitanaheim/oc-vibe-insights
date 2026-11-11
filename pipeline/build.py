@@ -631,7 +631,9 @@ details.fold .fd-body>.calc-steps,details.fold .fd-body>.cc-box{margin-top:8px;b
 .ov-motion{margin:0 auto 22px;max-width:1100px;border:1px solid var(--border);border-radius:var(--r-sm,6px);background:var(--surface-card);overflow:hidden}
 .ov-motion video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#E6F0EA}
 .ov-motion figcaption{padding:14px 18px;font-size:14px;line-height:1.55;border-top:1px solid var(--border-subtle)}
-@media print{.ov-motion{display:none}}
+.ov-motion-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;max-width:1100px;margin:0 auto 10px}
+.ov-motion[hidden]{display:none}
+@media print{.ov-motion,.ov-motion-tools{display:none}}
 
 /* Questions answered and Reports and data library (Oct. 14, 2026) */
 .find-band{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 22px}
@@ -785,6 +787,7 @@ BODY = f"""<meta charset="utf-8">
         <section class="page" id="p-summary" data-title="Overview">
           <div class="page-h"><h2>Overview</h2><span class="badge">Mixed periods · data through Sept. 2026</span></div>
           <div class="seg-h ov-seg" id="ovMotionH" style="margin-top:20px"><span class="seg-n" aria-hidden="true">1</span><div><h3>The edition in 20 seconds</h3><p>A short, silent clip of this edition's headline figures: the economy, who visits and hotels. The caption gives every figure with its source and period.</p></div></div>
+          <div class="ov-motion-tools" id="ovMotionTools"><span class="sr" id="ovMotionState" aria-live="polite"></span><button type="button" class="ctl" id="ovMotionHide" aria-expanded="true" aria-controls="ovMotion">Hide clip</button><button type="button" class="ctl accent" id="ovMotionGif" title="Saves the 20-second clip as an animated GIF (640 × 360, silent, about 4.6 MB)">Download GIF</button></div>
           <figure class="ov-motion" id="ovMotion">
             <video id="ovMotionVid" controls muted playsinline loop preload="metadata" poster="{MOTION_POSTER}" aria-label="OCVIBE Insights, the edition in 20 seconds (silent video)" aria-describedby="ovMotionCap"><source src="{MOTION_SRC}" type="video/mp4"></video>
             <figcaption id="ovMotionCap">The economy: 26.5M visitors, $6.83B in visitor spending, $10.42B in total economic impact and 67,817 jobs ($6.832B ÷ 26.5M visitors = $258 per visitor; Tourism Economics, calendar 2025, published 2026). Who visits: 44% of District 5 visitors come from out of state and 85.8% stay overnight (Azira, 2026); 191,153 Amtrak passengers at ARTIC (2024). Hotels: 77.9% occupancy and a $241 average daily rate (STR, Visit Anaheim hotel set, Jan. 1 to Oct. 3, 2026). The clip is silent; this caption is its full transcript. <span class="conf-b">Confidential</span></figcaption>

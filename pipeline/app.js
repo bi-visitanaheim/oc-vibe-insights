@@ -540,3 +540,27 @@ window.addEventListener('afterprint', () => { _closed.forEach(d => d.open = fals
     else if (!e.isIntersecting && !v.paused) { v.dataset.auto = '1'; v.pause(); }
   }), {threshold: 0.5}).observe(v);
 })();
+
+/* ---------- overview motion clip: hide/show (remembered per viewer) and Download GIF (Nov. 11, 2026) ---------- */
+(function () {
+  const fig = document.getElementById('ovMotion'), hideB = document.getElementById('ovMotionHide'), gifB = document.getElementById('ovMotionGif'), st = document.getElementById('ovMotionState');
+  if (!fig || !hideB) return;
+  const KEY = 'ocv.motionHidden', v = document.getElementById('ovMotionVid');
+  const set = (h, say) => {
+    fig.hidden = h; hideB.textContent = h ? 'Show clip' : 'Hide clip'; hideB.setAttribute('aria-expanded', String(!h));
+    if (h && v && !v.paused) { v.dataset.auto = '1'; v.pause(); }
+    if (say && st) st.textContent = h ? 'Clip hidden.' : 'Clip shown.';
+    try { localStorage.setItem(KEY, h ? '1' : '0'); } catch (e) {}
+  };
+  let h0 = false; try { h0 = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (h0) set(true, false);
+  hideB.addEventListener('click', () => set(!fig.hidden, true));
+  if (gifB) gifB.addEventListener('click', async () => {
+    gifB.disabled = true;
+    try {
+      const r = await fetch('ocv_motion.gif'); if (!r.ok) throw new Error('fetch ' + r.status);
+      await saveBlob(await r.blob(), 'OCVIBE_Insights_20_seconds.gif'); toast('GIF download ready.');
+    } catch (err) { dlError(err, 'GIF download'); }
+    finally { gifB.disabled = false; }
+  });
+})();

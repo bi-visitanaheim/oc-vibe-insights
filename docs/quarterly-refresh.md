@@ -43,7 +43,7 @@ Rules:
 The Overview opens with a 20-second silent clip (`pipeline/assets/ocv_motion.mp4`, poster `ocv_motion_poster.jpg`) and a caption in `pipeline/build.py` (`#ovMotionCap`) that carries its figures. It does not update itself. On every data pull:
 
 1. Compare the clip's figures with the new edition: Tourism Economics (visitors, spending, impact, jobs, spend per visitor), Azira District 5 (out-of-state share, overnight share), Amtrak ARTIC, STR (occupancy, ADR, period).
-2. If any changed, update the Motion clip (claude.ai artifact 7c4aef05-7fd1-45b7-9ca6-e9a66a06c3aa), export a new MP4 and poster, and replace both files in `pipeline/assets/`.
+2. If any changed, update the Motion clip (claude.ai artifact 7c4aef05-7fd1-45b7-9ca6-e9a66a06c3aa), export a new MP4 and poster, and replace both files in `pipeline/assets/`. `npm run page` rebuilds `ocv_motion.gif` (the Overview's Download GIF button) from the new MP4 with ffmpeg; without ffmpeg it prints a warning and the GIF must be re-exported by hand.
 3. Update the caption figures, periods and sources in `build.py` to match, then rebuild.
 4. If nothing changed, say so in the refresh summary ("Overview clip: no change").
 5. List the clip in the summary sent to John either way. Do not publish an edition whose clip shows older figures than the page.

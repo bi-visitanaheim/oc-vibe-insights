@@ -27,13 +27,17 @@ const apDate = d => `${AP_MON[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
 const S = DATA.sections;
 
 /* ---------- section pages ---------- */
+/* Confidential data (Nov. 6, 2026, per John Picou): data Visit Anaheim pays for or owns is tagged wherever it appears */
+const CONF_RE = /Tourism Economics|Azira|Symphony|\bSTR\b|CoStar|LARC|Lodging Analytics|Datafy|Visa\b|Extra Night|One more night|CIC Research/;
+const isConf = s => CONF_RE.test(String(s || '').replace(/Tourism Economics for Visit California[^;]*/g, '').replace(/U\.S\. Travel Association and Tourism Economics/g, ''));
+const cB = (s, f) => (f || isConf(s)) ? ' <span class="conf-b" title="Data Visit Anaheim pays for or owns: share the summary, not the figures">Confidential</span>' : '';
 function tableHtml(t, key) {
   const th = t.cols.map(([l,n]) => `<th scope="col" class="${n?'n':''}">${esc(l)}</th>`).join('');
   const LIM = 8, many = !t.full && t.rows.length > LIM + 2, open = FULL.has(key);
   const rows = many && !open ? t.rows.slice(0, LIM) : t.rows;
   const tb = rows.map((r,i) => `<tr class="${i===t.hi?'hirow':''}">` + r.map((c,j) => j===0 ? `<th scope="row">${dcell(c)}</th>` : `<td class="${t.cols[j][1]?'n':''}">${dcell(c)}</td>`).join('') + '</tr>').join('');
   const btn = many ? `<div class="more"><button type="button" class="nbtn more-b" data-key="${key}" aria-expanded="${open}">${open?'Show fewer':`Show full list (${t.rows.length})`}</button></div>` : '';
-  return `<div class="tbl-cap"><b>${esc(t.title)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:''}</div>
+  return `<div class="tbl-cap"><b>${esc(t.title)}${cB(t.src, t.conf)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:''}</div>
     <div class="scroll" tabindex="0" aria-label="${esc(t.title)}"><table><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table></div>${btn}
     <p class="src">Source: ${esc(t.src)}</p>`;
 }
@@ -93,11 +97,11 @@ function chartHtml(c) {
     if (c.kind === 'line') body = g2wrap(c, body, g2h(c));
     if (c.kind === 'heat') body = g2wrap(c, '', g2h(c)) + `<details class="fold g2-data"><summary><span class="fd-ic" aria-hidden="true">+</span><span class="fd-t"><b>Data table and notes</b><span>Every value in the chart, with peak nights and group share by month.</span></span><span class="fd-btn"><span class="fd-open">Show</span><span class="fd-close">Hide</span></span></summary><div class="fd-body">${body}</div></details>`;
     const leg = c.kind === 'line' && c.series.length > 1 && false ? `<div class="legend">${c.series.map(sr => `<span><i class="${sr.focal ? 'lf' : 'lo'}"></i>${esc(sr.name)}</span>`).join('')}</div>` : '';
-    return `<figure class="chartf"${c.kind === 'heat' ? '' : ` role="img" aria-label="${esc(aria)}"`}><h3>${esc(c.title)}</h3><p class="csub2">${esc(c.sub)}</p>${body}${leg}<p class="src">Source: ${esc(c.src)}</p></figure>`;
+    return `<figure class="chartf"${c.kind === 'heat' ? '' : ` role="img" aria-label="${esc(aria)}"`}><h3>${esc(c.title)}${cB(c.src, c.conf)}</h3><p class="csub2">${esc(c.sub)}</p>${body}${leg}<p class="src">Source: ${esc(c.src)}</p></figure>`;
   }
   const aria = c.rows ? `${c.title}: ` + c.rows.map(r => `${r.l} ${r.t}`).join(', ') : c.title;
   if (c.kind === 'img') {
-    return `<figure class="chartf"><h3>${esc(c.title)}</h3><p class="csub2">${esc(c.sub)}</p><img src="${IMGS[c.img]}" alt="${esc(c.title)}" style="width:100%;height:auto;border-radius:4px;border:1px solid var(--border-subtle)"><p class="src">Source: ${esc(c.src)}</p></figure>`;
+    return `<figure class="chartf"><h3>${esc(c.title)}${cB(c.src, c.conf)}</h3><p class="csub2">${esc(c.sub)}</p><img src="${IMGS[c.img]}" alt="${esc(c.title)}" style="width:100%;height:auto;border-radius:4px;border:1px solid var(--border-subtle)"><p class="src">Source: ${esc(c.src)}</p></figure>`;
   }
   if (c.kind === 'cols') {
     const max = Math.max(...c.rows.map(r => r.v));
@@ -109,7 +113,7 @@ function chartHtml(c) {
     body = `<div class="hbars">${c.rows.map(r => `<span class="l">${esc(r.l)}</span><span class="t" data-tip="${esc(r.l)}: ${esc(r.t)}" tabindex="0" role="img" aria-label="${esc(r.l)}: ${esc(r.t)}"><span class="f${r.hi?' hi':''}" style="width:${Math.max(1.5, Math.abs(r.v)/max*100).toFixed(1)}%"></span></span><span class="v">${esc(r.t)}</span>`).join('')}</div>`;
   }
   body = g2wrap(c, body, g2h(c));
-  return `<figure class="chartf" role="img" aria-label="${esc(aria)}"><h3>${esc(c.title)}</h3><p class="csub2">${esc(c.sub)}</p>${body}<p class="src">Source: ${esc(c.src)}</p></figure>`;
+  return `<figure class="chartf" role="img" aria-label="${esc(aria)}"><h3>${esc(c.title)}${cB(c.src, c.conf)}</h3><p class="csub2">${esc(c.sub)}</p>${body}<p class="src">Source: ${esc(c.src)}</p></figure>`;
 }
 
 /* ---------- data infographics (Oct. 13, 2026): count-up numbers, growing bars, filling waffles; final values in markup ---------- */
@@ -118,7 +122,7 @@ function cnt(o, txt) {   // number that counts up on entrance; markup holds the 
   return `<span class="cu" data-n="${o.n}" data-pre="${esc(o.pre||'')}" data-suf="${esc(o.suf||'')}" data-dec="${o.dec != null ? o.dec : (String(o.n).includes('.') ? String(o.n).split('.')[1].length : 0)}">${esc(txt)}</span>`;
 }
 function infoHtml(g, sid, i) {
-  const head = `<header class="ig-h"><h4>${esc(g.title)}</h4>${g.sub ? `<p>${esc(g.sub)}</p>` : ''}</header>`;
+  const head = `<header class="ig-h"><h4>${esc(g.title)}${cB(g.src, g.conf)}</h4>${g.sub ? `<p>${esc(g.sub)}</p>` : ''}</header>`;
   const foot = `<p class="ig-src">Source: ${esc(g.src)}</p>`;
   let body = '', label = g.title;
   if (g.kind === 'chain') {
@@ -170,7 +174,7 @@ function renderSection(s) {
   const nNarrow = more.filter(h => !h.startsWith('<div class="tbl wide"')).length;
   if (more.length && nNarrow % 2 === 1 && !more[more.length-1].startsWith('<div class="tbl wide"')) more[more.length-1] = more[more.length-1].replace(/^<div( class="tbl")?/, m => m.includes('class') ? '<div class="tbl wide"' : '<div class="wide"');
   const calcLine = t => t ? `<span class="calc-line"><b>Calculation:</b> ${esc(t)}</span>` : '';
-  const stats = s.cards.map(([k,l,v,sub,src], i) => `<div class="art-stat reveal"><span class="as-k">${esc(k)}</span><b class="as-v">${esc(v)}</b><span class="as-l">${esc(l)}</span><span class="as-p">${emph(sub)}</span>${calcLine((s.card_calc||[])[i])}<span class="src-inline">Source: ${esc(src)}</span></div>`).join('');
+  const stats = s.cards.map(([k,l,v,sub,src], i) => `<div class="art-stat reveal"><span class="as-k">${esc(k)}${cB(src, s.conf && s.conf.all)}</span><b class="as-v">${esc(v)}</b><span class="as-l">${esc(l)}</span><span class="as-p">${emph(sub)}</span>${calcLine((s.card_calc||[])[i])}<span class="src-inline">Source: ${esc(src)}</span></div>`).join('');
   const steps = s.calc_steps ? `<div class="calc-steps reveal" id="${s.id}-calc"><h3>How the key insight is calculated</h3><div class="scroll" tabindex="0" aria-label="How the key insight is calculated"><table><thead><tr><th scope="col">Step</th><th scope="col">Calculation</th><th scope="col" class="n">Result</th><th scope="col">Source</th></tr></thead><tbody>${s.calc_steps.map(([a,b,c2,d]) => `<tr${/^\d+\. New visitor spending|^7\./.test(a) ? ' class="hi"' : ''}><th scope="row">${esc(a)}</th><td>${b === 'Reported' ? '<span class="muted">Reported by source</span>' : esc(b)}</td><td class="n"><b>${esc(c2)}</b></td><td class="src-cell">${esc(d)}</td></tr>`).join('')}</tbody></table></div></div>` : '';
   const feat = (s.feature || []).length ? `<div class="feat${s.feature.length === 1 ? ' one' : ''}" id="${s.id}-charts">${s.feature.map(c => `<div class="reveal">${chartHtml(c)}</div>`).join('')}</div>` : '';
   const W = (s.details || []).length ? `<div class="dgrid">${s.details.map(d => `<article class="dcard reveal"><span class="dk">${esc(d.k)}</span><b class="dfig">${esc(d.fig)}</b><span class="dfl">${esc(d.fig_l)}</span><p>${emph(d.text)}</p><span class="src-inline">Source: ${esc(d.src)}</span></article>`).join('')}</div>`
@@ -197,7 +201,7 @@ function renderSection(s) {
       <span class="art-kick">${isNews ? '<span class="kind">News report</span> · ' : (s.kind ? `<span class="kind">${esc(s.kind)}</span> · ` : '')}${esc(s.tab)}</span>
       <h2 class="art-head">${esc(s.head || s.q)}</h2>
       ${s.dek ? `<p class="art-dek">${esc(s.dek)}</p>` : ''}
-      <p class="art-by">By Visit Anaheim Business Intelligence · ${esc(DATA.prepared)} · <span class="badge">${esc(s.period)}</span></p>
+      <p class="art-by">By Visit Anaheim Business Intelligence · ${esc(DATA.prepared)} · <span class="badge">${esc(s.period)}</span>${s.conf ? ` <span class="conf-b">${s.conf.all ? 'Confidential section' : 'Contains confidential data'}</span>` : ''}</p>
       ${segNav}
     </header>
     ${segH('1', 'The story', 'The question and its short answer, why it matters and the headline numbers.')}
@@ -209,7 +213,7 @@ function renderSection(s) {
     <button type="button" class="data-jump seg-chip" data-seg="${s.id}-s${hasGlance ? '3' : '2'}">See the data: ${nData} charts and tables <span aria-hidden="true">↓</span></button>
     ${hasGlance ? segH('2', 'At a glance', 'The same figures as pictures and maps.') : ''}
     ${(s.info || []).length ? `<div class="ig-wrap${s.info.length > 1 ? ' two' : ''}" id="${s.id}-ig">${s.info.map((g, i) => infoHtml(g, s.id, i)).join('')}</div>` : ''}
-    ${(s.maps || []).length ? `<div class="mp-wrapall" id="${s.id}-maps">${s.maps.map((m, i) => `<figure class="mp reveal" id="${s.id}-map${i}"><header class="ig-h"><h4>${esc(m.title)}</h4><p>${esc(m.sub)}</p></header><div class="mp-grid"><div class="mp-canvas">${mapSvg(MAPGEO, m)}</div>${mapLegend(m)}</div><p class="ig-src">Source: ${esc(m.src)}. Map: ${esc(MAPGEO.src)}; circles placed at each metro's principal city or each country's center.</p></figure>`).join('')}</div>` : ''}
+    ${(s.maps || []).length ? `<div class="mp-wrapall" id="${s.id}-maps">${s.maps.map((m, i) => `<figure class="mp reveal" id="${s.id}-map${i}"><header class="ig-h"><h4>${esc(m.title)}${cB(m.src)}</h4><p>${esc(m.sub)}</p></header><div class="mp-grid"><div class="mp-canvas">${mapSvg(MAPGEO, m)}</div>${mapLegend(m)}</div><p class="ig-src">Source: ${esc(m.src)}. Map: ${esc(MAPGEO.src)}; circles placed at each metro's principal city or each country's center.</p></figure>`).join('')}</div>` : ''}
     ${segH(hasGlance ? '3' : '2', 'The data', 'The charts and tables behind the short answer, each with its source.')}
     <div id="${s.id}-analysis"></div>
     ${feat}

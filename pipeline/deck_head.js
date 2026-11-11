@@ -42,7 +42,9 @@ function content(section, title, kicker, notes) {
   if (notes) s.addNotes(notes);
   return s;
 }
-function source(s, txt) { s.addText('Source: ' + txt, ft({ x: M, y: 6.55, w: W - 2 * M, h: 0.4, fontSize: 9, color: H.dark, valign: 'bottom', objectName: 'source' })); }
+const CONF_RE = /Tourism Economics|Azira|Symphony|\bSTR\b|CoStar|LARC|Lodging Analytics|Datafy|Visa\b|Extra Night|One more night|CIC Research/;
+const isConf = s => CONF_RE.test(String(s || '').replace(/Tourism Economics for Visit California[^;]*/g, '').replace(/U\.S\. Travel Association and Tourism Economics/g, ''));
+function source(s, txt) { if (isConf(txt) && !/^Visit Anaheim Business Intelligence \(Nov/.test(txt)) txt = '(Confidential) ' + txt; s.addText('Source: ' + txt, ft({ x: M, y: 6.55, w: W - 2 * M, h: 0.4, fontSize: 9, color: H.dark, valign: 'bottom', objectName: 'source' })); }
 function kpis(s, cards, x, y, w, h, vfs = 28) {
   const gap = 0.18, cw = (w - gap * (cards.length - 1)) / cards.length;
   cards.forEach(([k, l, v, sub], i) => {

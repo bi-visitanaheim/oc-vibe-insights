@@ -7,12 +7,13 @@ figures, so OCVIBE can brief outside representatives without passing on Visit An
 Confidential sources (John Picou, Nov. 5, 2026):
   Visit Anaheim-owned studies: One more night study and workbook, paid-media attribution, CIC Research visitor profile.
   Licensed data: STR, CoStar, Symphony | Tourism Economics (Azira, Visa), Datafy, LARC.
-Public and published sources (Tourism Economics reports, Visit California, U.S. Travel, OCTA, BTS, City, OCVIBE) are not
+  Added Nov. 6, 2026: Tourism Economics reports prepared for Visit Anaheim (economic impact and travel forecasts).
+Public and published sources (Visit California, U.S. Travel, OCTA, BTS, City, OCVIBE) are not
 marked and can be quoted with their source and date. Library files stay downloadable, labeled Confidential.
 Runs last in content.py, after clarity.py.
 """
 
-CONF_PUB = ("Visit Anaheim Business Intelligence", "Symphony", "Visa Destination Insights", "Datafy", "CoStar", "STR (", "Lodging Analytics", "CIC Research")
+CONF_PUB = ("Tourism Economics for Visit Anaheim", "Visit Anaheim Business Intelligence", "Symphony", "Visa Destination Insights", "Datafy", "CoStar", "STR (", "Lodging Analytics", "CIC Research")
 CONF_NOT = {"ocv-report", "ocv-deck", "ocv-qa", "vca-lodging-fc"}   # this report itself; Visit California's published forecast
 LABEL = "Confidential"
 NOTE = ("Confidential: Visit Anaheim proprietary or licensed data. Use the figures inside OCVIBE; when sharing with outside "
@@ -28,8 +29,17 @@ Q_SHARE = {
     "d5-markets": "Southern California is the largest source of District 5 visitors. The leading fly-in markets by visitor card spending are Seattle, Phoenix, Las Vegas, Orlando and New York; internationally, Mexico, Canada and Japan.",
     "media": "Visit Anaheim's paid media is measurably linked to later visits to Anaheim, and luxury and travel-planning placements perform best.",
     "hotels": "Hotels in the Disneyland resort area run among the highest occupancy and rates in Orange County, and Anaheim's hotel revenue growth is outpacing the U.S.",
-    "outlook": "Visit Anaheim's licensed hotel forecast points to continued growth in Anaheim hotel revenue in 2026. Tourism Economics' published visitor and spending forecast can be quoted with its source and date.",
-    "oc-arrivals": "Orange County's 2025 visitor count from Tourism Economics can be quoted with its source and date. Compared with the pre-pandemic 2019 baseline from Visit Anaheim's commissioned visitor survey, 2025 volume is at a similar level.",
+    "outlook": "Forecasts prepared for Visit Anaheim point to continued growth in Anaheim visitors, visitor spending and hotel revenue through 2028.",
+    "oc-arrivals": "Orange County draws tens of millions of visitors a year, most of them day visitors and nearly all from within the U.S., at a level similar to the pre-pandemic 2019 baseline.",
+    "avg-spend": "Most Anaheim visitors come for the day, so spending per visitor is below the Orange County average; overnight visitors spend many times more than day visitors.",
+    "spend-growth": "Anaheim visitor spending grew in 2025 and again in the second quarter of 2026, faster than California and the U.S.",
+    "q2-report": "Anaheim's second quarter of 2026 brought more visitors and higher spending than a year earlier, led by overnight visits and higher hotel rates; Garden Grove also grew.",
+    "spend-mix": "Recreation is the largest share of Anaheim visitor spending, followed by lodging, retail, and food and beverage; countywide, food and beverage leads.",
+    "jobs": "Visitors support a large share of Anaheim's jobs, a larger share than in Garden Grove or Orange County as a whole.",
+    "fb-jobs": "Food and beverage holds a larger share of visitor-supported jobs in Garden Grove and Orange County than in Anaheim.",
+    "impact": "Visitor spending ripples through the local economy: each visitor dollar generates more supplier and worker spending in Anaheim, Garden Grove and Orange County.",
+    "taxes": "Visitors generate substantial state and local tax revenue in Anaheim and Orange County.",
+    "transport-impact": "Transportation is a small share of visitor spending in Anaheim and Orange County, yet it supports local jobs in transportation and gas stations.",
     "oc-origins": "More than half of Orange County visitors come from Southern California. The Los Angeles and Inland Empire metros are the largest domestic markets, and Mexico and Canada lead international markets.",
     "oc-season": "Orange County hotels are fullest in summer, peaking in July, and have the most open rooms in January, December and February.",
     "oc-profile": "Most Orange County visitors travel for leisure or to see friends and family, usually in small groups, and more than a third bring children. Overnight visitors stay several nights.",
@@ -38,15 +48,20 @@ Q_SHARE = {
 
 # Section-level summaries: which figures are confidential, and the summary to share instead.
 S_SHARE = {
-    "p-ocv": ("The OCVIBE area's share of Anaheim visitor days (Datafy).", ["d5-share"]),
-    "p-octour": ("The 2019 visitor survey figures (CIC Research), hotel occupancy, rates and seasonality (CoStar) and Anaheim and Garden Grove origins and length of stay (Azira).", ["oc-arrivals", "oc-origins", "oc-season", "oc-profile", "oc-hotels"]),
+    "p-ocv": ("Anaheim visitors, spending, jobs and forecasts (Tourism Economics) and the OCVIBE area's share of visitor days (Datafy).", ["spend-growth", "d5-share"]),
+    "p-spend": ("Visitor spending, spending per visitor and the Q2 2026 results (Tourism Economics) and card spending (Visa).", ["avg-spend", "spend-growth", "q2-report", "spend-mix"]),
+    "p-impact": ("Jobs, total economic impact and taxes (Tourism Economics).", ["jobs", "fb-jobs", "impact", "taxes"]),
+    "p-octour": ("Orange County visitor volume (Tourism Economics), the 2019 visitor survey figures (CIC Research), hotel occupancy, rates and seasonality (CoStar) and Anaheim and Garden Grove origins and length of stay (Azira).", ["oc-arrivals", "oc-origins", "oc-season", "oc-profile", "oc-hotels"]),
     "p-d5": ("District 5 visitor profile and markets (Azira, Visa) and the OCVIBE area share (Datafy).", ["d5-who", "d5-markets", "d5-share"]),
     "p-hotel": ("Hotel occupancy, rates and pipeline (CoStar, STR, LARC).", ["hotels", "night-1pct"]),
-    "p-night": ("The One more night study and its workbook (Visit Anaheim) and the hotel-night figures (STR).", ["night-value", "night-1pct"]),
-    "p-transport": ("Visitor origin by distance (Azira). Traffic, bus, rail and cost figures are public and can be quoted.", ["getting-here"]),
+    "p-night": ("The entire section: the One more night study and its workbook (Visit Anaheim), visitor and spending inputs (Tourism Economics) and hotel-night figures (STR).", ["night-value", "night-1pct"]),
+    "p-transport": ("Visitor origin by distance (Azira) and visitor transportation spending and jobs (Tourism Economics). Traffic, bus, rail and cost figures are public and can be quoted.", ["getting-here", "transport-impact"]),
     "p-media": ("Paid-media impressions, visits and visit rates (Azira attribution).", ["media"]),
-    "p-larc": ("LARC hotel and convention figures (licensed).", ["outlook", "hotels"]),
+    "p-larc": ("LARC hotel and convention figures and Tourism Economics forecasts (licensed).", ["outlook", "hotels"]),
 }
+
+
+ALL_CONF = {"p-night"}   # whole section is Visit Anaheim proprietary (Nov. 6, 2026)
 
 
 def _is_conf(f):
@@ -77,14 +92,18 @@ def attach(SECTIONS, DATA_EXTRA):
             key=str(len(rec)), key_l="shareable summaries of confidential findings",
             geo=[[r[0], "Shareable summary", r[1], "Visit Anaheim (confidential source: " + (r[2] or "Visit Anaheim") + ")"] for r in rec],
             viz=None,
-            how="Confidential sources: Visit Anaheim-owned studies (One more night, paid-media attribution, CIC Research visitor profile) and licensed data (STR, CoStar, Azira and Visa via Symphony, Datafy, LARC). Each summary states the finding without the underlying figures.",
-            caveat="Published sources (Tourism Economics reports, Visit California, U.S. Travel, OCTA, BTS, City of Anaheim, OCVIBE) are not confidential and can be quoted with their source and date. Questions about sharing: bi@visitanaheim.org.",
+            how="Confidential sources: data Visit Anaheim owns or pays for: Tourism Economics reports prepared for Visit Anaheim, the One more night study, paid-media attribution, the CIC Research visitor profile, and licensed STR, CoStar, Azira and Visa (Symphony), Datafy and LARC data. Each summary states the finding without the underlying figures.",
+            caveat="Published sources (Visit California, U.S. Travel, OCTA, BTS, City of Anaheim, OCVIBE) are not confidential and can be quoted with their source and date. Questions about sharing: bi@visitanaheim.org.",
             files=[], go="p-library", links=[], conf=True,
             share="\n".join(f"{r[0]} {r[1]}" for r in rec)))
     for s in SECTIONS:
         if s["id"] in S_SHARE:
             what, qids = S_SHARE[s["id"]]
-            s["conf"] = dict(label=LABEL, what=what, share=" ".join(Q_SHARE[q] for q in qids if q in Q_SHARE))
+            s["conf"] = dict(label=LABEL, what=what, share=" ".join(Q_SHARE[q] for q in qids if q in Q_SHARE), all=s["id"] in ALL_CONF)
+            if s["id"] in ALL_CONF:   # every table, chart and graphic in the section is tagged
+                for k in ("tables", "charts", "more_charts", "feature", "info"):
+                    for x in s.get(k) or []:
+                        if isinstance(x, dict): x["conf"] = True
     DATA_EXTRA["conf"] = dict(label=LABEL, note=NOTE, recap=rec)
 
 

@@ -524,3 +524,15 @@ window.addEventListener('afterprint', () => { _closed.forEach(d => d.open = fals
   document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
   window.addEventListener('scroll', () => { if (!hot) return; if (document.activeElement === hot) { const r = hot.getBoundingClientRect(); place(r.left + r.width / 2, r.top); } else hide(); }, {passive: true});
 })();
+
+/* ---------- overview motion clip (Nov. 11, 2026): silent, plays while on screen; never autoplays under reduced motion ---------- */
+(function () {
+  const v = document.getElementById('ovMotionVid'); if (!v) return;
+  let rm = false; try { rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (rm || !('IntersectionObserver' in window)) return;
+  let userPaused = false; v.addEventListener('pause', () => { if (!v.dataset.auto) userPaused = true; delete v.dataset.auto; });
+  new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting && !userPaused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+    else if (!e.isIntersecting && !v.paused) { v.dataset.auto = '1'; v.pause(); }
+  }), {threshold: 0.5}).observe(v);
+})();

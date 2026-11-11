@@ -627,6 +627,13 @@ details.fold .fd-body>.calc-steps,details.fold .fd-body>.cc-box{margin-top:8px;b
 .side-quick span{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .side-quick button{font:inherit;font-size:14px;font-weight:700;text-align:left;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-card);color:var(--heading);padding:7px 10px;cursor:pointer}
 .ov-seg{margin-top:36px}
+/* Overview motion clip (Nov. 11, 2026) */
+.ov-motion{margin:0 0 22px;border:1px solid var(--border);border-radius:var(--r-sm,6px);background:var(--surface-card);overflow:hidden}
+.ov-motion video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#E6F0EA}
+.ov-motion figcaption{padding:12px 16px;font-size:13.5px;line-height:1.5;border-top:1px solid var(--border-subtle)}
+@media (min-width:900px){.ov-motion{display:grid;grid-template-columns:minmax(0,640px) minmax(0,1fr);align-items:center}.ov-motion figcaption{border-top:0;border-left:1px solid var(--border-subtle);padding:16px 20px;font-size:14px}}
+.ov-motion figcaption b{color:var(--heading)}
+@media print{.ov-motion{display:none}}
 
 /* Questions answered and Reports and data library (Oct. 14, 2026) */
 .find-band{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 22px}
@@ -732,6 +739,8 @@ for _n in _ICONS:
     if _m: MDI[_n] = _m.group(1)
 assert len(MDI) == len(_ICONS), set(_ICONS) - set(MDI)
 
+MOTION_SRC = 'data:video/mp4;base64,' + base64.b64encode(open(BASE + '/assets/ocv_motion.mp4','rb').read()).decode()
+MOTION_POSTER = 'data:image/jpeg;base64,' + base64.b64encode(open(BASE + '/assets/ocv_motion_poster.jpg','rb').read()).decode()
 BODY = f"""<meta charset="utf-8">
 <title>OCVIBE Insights</title>
 <meta name="robots" content="noindex, nofollow">
@@ -778,6 +787,10 @@ BODY = f"""<meta charset="utf-8">
         <section class="page" id="p-summary" data-title="Overview">
           <div class="page-h"><h2>Overview</h2><span class="badge">Mixed periods · data through Sept. 2026</span></div>
           <div class="seg-h ov-seg" id="ovPulse" style="margin-top:20px"><span class="seg-n" aria-hidden="true">1</span><div><h3>BI Pulse Summary</h3><p>The main announcement: where Anaheim's visitor market stands as OCVIBE opens, with a source and date for every figure.</p></div></div>
+          <figure class="ov-motion" id="ovMotion">
+            <video id="ovMotionVid" controls muted playsinline loop preload="metadata" poster="{MOTION_POSTER}" aria-label="OCVIBE Insights, the edition in 20 seconds (silent video)" aria-describedby="ovMotionCap"><source src="{MOTION_SRC}" type="video/mp4"></video>
+            <figcaption id="ovMotionCap"><b>The edition in 20 seconds.</b> The economy: 26.5M visitors, $6.83B in visitor spending, $10.42B in total economic impact and 67,817 jobs ($6.832B ÷ 26.5M visitors = $258 per visitor; Tourism Economics, calendar 2025, published 2026). Who visits: 44% of District 5 visitors come from out of state and 85.8% stay overnight (Azira, 2026); 191,153 Amtrak passengers at ARTIC (2024). Hotels: 77.9% occupancy and a $241 average daily rate (STR, Visit Anaheim hotel set, Jan. 1 to Oct. 3, 2026). The clip is silent; this caption is its full transcript. <span class="conf-b">Confidential</span></figcaption>
+          </figure>
           <article class="ann" id="ann" aria-labelledby="annHead">
             <div class="ann-tools">
               <span class="sp"></span>
